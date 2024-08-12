@@ -1,0 +1,53 @@
+{
+  "bricks": {
+    "assets": {
+      "git": {
+        "url": "https://github.com/eng-sayed/mason-updates",
+        "path": "bricks/assets",
+        "ref": "6baf5f99c9b4cc05124cbb450a3a1638641a90a8"
+      }
+    },
+    "auth": {
+      "git": {
+        "url": "https://github.com/eng-sayed/mason-updates",
+        "path": "bricks/auth",
+        "ref": "6baf5f99c9b4cc05124cbb450a3a1638641a90a8"
+      }
+    },
+    "feature": {
+      "git": {
+        "url": "https://github.com/eng-sayed/mason-updates",
+        "path": "bricks/feature",
+        "ref": "6baf5f99c9b4cc05124cbb450a3a1638641a90a8"
+      }
+    },
+    "project_template": {
+      "git": {
+        "url": "https://github.com/eng-sayed/mason-updates",
+        "path": "bricks/project_template",
+        "ref": "6baf5f99c9b4cc05124cbb450a3a1638641a90a8"
+      }
+    },
+    "readme": {
+      "git": {
+        "url": "https://github.com/eng-sayed/mason-updates",
+        "path": "bricks/readme",
+        "ref": "6baf5f99c9b4cc05124cbb450a3a1638641a90a8"
+      }
+    },
+    "static_pages": {
+      "git": {
+        "url": "https://github.com/eng-sayed/mason-updates",
+        "path": "bricks/static_pages",
+        "ref": "6baf5f99c9b4cc05124cbb450a3a1638641a90a8"
+      }
+    },
+    "webview_payment": {
+      "git": {
+        "url": "https://github.com/eng-sayed/mason-updates",
+        "path": "bricks/webview_payment",
+        "ref": "6baf5f99c9b4cc05124cbb450a3a1638641a90a8"
+      }
+    }
+  }
+}
