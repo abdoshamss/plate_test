@@ -12,7 +12,8 @@ import '../../../cubit/auth_cubit.dart';
 import '../../../cubit/auth_states.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key, required this.code, required this.email});
+  const ResetPasswordScreen(
+      {super.key, required this.code, required this.email});
   final String code;
   final String email;
 
@@ -68,7 +69,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         weight: FontWeight.w600,
                       ),
                     ),
-                     Center(
+                    Center(
                       child: CustomText(
                         'قم بإدخال كلمة المرور الجديدة',
                         fontSize: 14,
@@ -84,7 +85,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         // padding: const EdgeInsets.symmetric(horizontal: 18),
                         type: TextInputType.visiblePassword,
                         controller: passwordController,
-                        prefixIcon:"",
+                        prefixIcon: "",
                         hintText: 'كلمة المرور الجديدة',
                         password: true,
                         validator: Utils.valid.passwordValidation,

@@ -9,7 +9,7 @@ class LightThemeColors {
   const LightThemeColors._();
 
   // Primary Colors
-  static const Color primary = Color(0xFF1E2025);
+  static const Color primary = Color(0xFF2E225E);
 
   // Secondary Colors
   static const Color secondary = Color(0xFFA7A7A7);
@@ -19,7 +19,7 @@ class LightThemeColors {
 
 //
   // Background Color
-  static const Color scaffoldBackground = Color(0xffFAFBFD);
+  static const Color scaffoldBackground = Color(0xffFFFFFF);
   static const Color bottomSheetBackground = Colors.white;
   static const Color dialogBackground = Colors.white;
   static const Color background = Colors.white;
@@ -31,7 +31,7 @@ class LightThemeColors {
   static const secondaryText = Color(0xFF616161);
 
   // Surface Colors
-  static const Color surface = Color(0xFF1E251F);
+  static const Color surface = Color(0xFFF8FAFC);
   static Color surfaceSecondary = const Color(0xFF3C3C3C).withOpacity(0.61);
   static Color surfaceSuccess = const Color(0xFF32E444).withOpacity(0.35);
   static Color surfaceError = LightThemeColors.error.withOpacity(0.35);
@@ -80,7 +80,10 @@ class LightThemeColors {
   static const Color borderVariant = Color(0x26A7A7A7);
 
   // gradient
-  static const List<Color> gradientPrimary = [Color(0xFF262A2E), Color(0xFF131313)];
+  static const List<Color> gradientPrimary = [
+    Color(0xFF2E225E),
+    Color(0xFF331E86)
+  ];
   // shadow
   static const Color shadow = Color(0x07FFFFFF);
   static const Color shadowVariant = Color(0x0AFFFFFF);
@@ -142,7 +145,7 @@ class LightTheme {
         errorContainer: Color(0xFFFFDAD6),
         onError: Color(0xFFFFFFFF),
         onErrorContainer: Color(0xFF410002),
-        surface: Color(0xFFFFFFFF),
+        surface: Color(0xFFF8FAFC),
         // surface: Color(0x05FFFFFF),
         onSurface: Color(0xFF001F25),
         surfaceContainerHighest: Color(0xFFF5DDDA),
@@ -178,55 +181,80 @@ class LightTheme {
         scrolledUnderElevation: 0,
         centerTitle: true,
         titleTextStyle: Utils.lang == "en"
-            ? TextStylesManager.aristaBold
-                .copyWith(color: LightThemeColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w500)
-            : TextStylesManager.gessBold
-                .copyWith(color: LightThemeColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w500),
+            ? TextStylesManager.aristaBold.copyWith(
+                color: LightThemeColors.textPrimary,
+                fontSize: 16,
+                fontWeight: FontWeight.w500)
+            : TextStylesManager.gessBold.copyWith(
+                color: LightThemeColors.textPrimary,
+                fontSize: 16,
+                fontWeight: FontWeight.w500),
         iconTheme: const IconThemeData(color: LightThemeColors.textPrimary),
-        actionsIconTheme: const IconThemeData(color: LightThemeColors.textPrimary),
+        actionsIconTheme:
+            const IconThemeData(color: LightThemeColors.textPrimary),
       ),
 
       // //* Text Theme
       textTheme: TextTheme(
         // Display
         displayLarge: Utils.lang == "en"
-            ? TextStylesManager.aristaBold.copyWith(color: LightThemeColors.textPrimary)
-            : TextStylesManager.gessBold.copyWith(color: LightThemeColors.textPrimary),
+            ? TextStylesManager.aristaBold
+                .copyWith(color: LightThemeColors.textPrimary)
+            : TextStylesManager.gessBold
+                .copyWith(color: LightThemeColors.textPrimary),
 
         // Header
         headlineLarge: Utils.lang == "en"
-            ? TextStylesManager.aristaBold.copyWith(color: LightThemeColors.textPrimary)
-            : TextStylesManager.gessBold.copyWith(color: LightThemeColors.textPrimary),
+            ? TextStylesManager.aristaBold
+                .copyWith(color: LightThemeColors.textPrimary)
+            : TextStylesManager.gessBold
+                .copyWith(color: LightThemeColors.textPrimary),
 
         // Title
         titleLarge: Utils.lang == "en"
-            ? TextStylesManager.aristaBold.copyWith(color: LightThemeColors.textPrimary)
-            : TextStylesManager.gessBold.copyWith(color: LightThemeColors.textPrimary),
+            ? TextStylesManager.aristaBold
+                .copyWith(color: LightThemeColors.textPrimary)
+            : TextStylesManager.gessBold
+                .copyWith(color: LightThemeColors.textPrimary),
         titleMedium: Utils.lang == "en"
-            ? TextStylesManager.aristaMedium.copyWith(color: LightThemeColors.textPrimary)
-            : TextStylesManager.gessMedium.copyWith(color: LightThemeColors.textPrimary),
+            ? TextStylesManager.aristaMedium
+                .copyWith(color: LightThemeColors.textPrimary)
+            : TextStylesManager.gessMedium
+                .copyWith(color: LightThemeColors.textPrimary),
         titleSmall: Utils.lang == "en"
-            ? TextStylesManager.aristaRegular.copyWith(color: LightThemeColors.textHint)
-            : TextStylesManager.gessRegular.copyWith(color: LightThemeColors.textHint),
+            ? TextStylesManager.aristaRegular
+                .copyWith(color: LightThemeColors.textHint)
+            : TextStylesManager.gessRegular
+                .copyWith(color: LightThemeColors.textHint),
 
         // Body Text
         bodyLarge: Utils.lang == "en"
-            ? TextStylesManager.aristaBold.copyWith(color: LightThemeColors.textPrimary)
-            : TextStylesManager.gessBold.copyWith(color: LightThemeColors.textPrimary),
+            ? TextStylesManager.aristaBold
+                .copyWith(color: LightThemeColors.textPrimary)
+            : TextStylesManager.gessBold
+                .copyWith(color: LightThemeColors.textPrimary),
         bodyMedium: Utils.lang == "en"
-            ? TextStylesManager.aristaMedium.copyWith(color: LightThemeColors.textPrimary)
-            : TextStylesManager.gessMedium.copyWith(color: LightThemeColors.textPrimary),
+            ? TextStylesManager.aristaMedium
+                .copyWith(color: LightThemeColors.textPrimary)
+            : TextStylesManager.gessMedium
+                .copyWith(color: LightThemeColors.textPrimary),
         bodySmall: Utils.lang == "en"
-            ? TextStylesManager.aristaRegular.copyWith(color: LightThemeColors.textHint)
-            : TextStylesManager.gessRegular.copyWith(color: LightThemeColors.textHint),
+            ? TextStylesManager.aristaRegular
+                .copyWith(color: LightThemeColors.textHint)
+            : TextStylesManager.gessRegular
+                .copyWith(color: LightThemeColors.textHint),
 
         // label
         labelLarge: Utils.lang == "en"
-            ? TextStylesManager.aristaMedium.copyWith(color: LightThemeColors.success)
-            : TextStylesManager.gessMedium.copyWith(color: LightThemeColors.success),
+            ? TextStylesManager.aristaMedium
+                .copyWith(color: LightThemeColors.success)
+            : TextStylesManager.gessMedium
+                .copyWith(color: LightThemeColors.success),
         labelMedium: Utils.lang == "en"
-            ? TextStylesManager.aristaMedium.copyWith(color: LightThemeColors.error)
-            : TextStylesManager.gessMedium.copyWith(color: LightThemeColors.error),
+            ? TextStylesManager.aristaMedium
+                .copyWith(color: LightThemeColors.error)
+            : TextStylesManager.gessMedium
+                .copyWith(color: LightThemeColors.error),
       ),
 
       // //*  bottomNavigationBarTheme        //*  bottomNavigationBarTheme

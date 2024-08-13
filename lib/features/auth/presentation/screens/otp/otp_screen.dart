@@ -119,7 +119,6 @@ class _OtpScreenState extends State<OtpScreen> {
                   child: Directionality(
                     textDirection: TextDirection.ltr,
                     child: Pinput(
-                       
                       // androidSmsAutofillMethod:
                       //     AndroidSmsAutofillMethod.smsUserConsentApi,
                       // smsCodeMatcher: PinputConstants.defaultSmsCodeMatcher,

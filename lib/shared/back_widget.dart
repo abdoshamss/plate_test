@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import '../core/extensions/all_extensions.dart';
 
-
 class BackWidget extends StatelessWidget {
-  const BackWidget({super.key, this.onBack, this.color, this.icon, this.size});
+  const BackWidget({
+    super.key,
+    this.onBack,
+    this.color,
+    this.icon,
+    this.size,
+  });
   final VoidCallback? onBack;
   final Color? color;
+
   final IconData? icon;
   final double? size;
   @override

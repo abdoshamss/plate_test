@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             final cubit = GeneralCubit.get(context);
             return MaterialApp(
-              title: 'Retm',
+              title: 'Plate',
               themeAnimationDuration: const Duration(milliseconds: 700),
               themeAnimationCurve: Curves.easeInOutCubic,
               navigatorKey: Utils.navigatorKey(),
@@ -60,6 +60,7 @@ class MyApp extends StatelessWidget {
               locale: context.locale,
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
+
               builder: (_, child) {
                 final botToastBuilder = BotToastInit();
                 final smartDialog = FlutterSmartDialog.init();

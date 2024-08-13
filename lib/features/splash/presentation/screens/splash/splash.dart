@@ -2,9 +2,10 @@ import 'package:animated_widgets_flutter/widgets/opacity_animated.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 
 import '../../../../../core/Router/Router.dart';
+import '../../../../../core/theme/light_theme.dart';
 import '../../../../../core/utils/extentions.dart';
 import '../../../cubit/splash_cubit.dart';
 import '../../../cubit/splash_states.dart';
@@ -32,13 +33,16 @@ class _SplashScreenState extends State<SplashScreen> {
     return BlocProvider(
         create: (context) => SplashCubit(),
         child: Scaffold(
-          backgroundColor: const Color(0xff4F0000),
+          backgroundColor: LightThemeColors.primary,
           body: BlocConsumer<SplashCubit, SplashStates>(
+            
             listener: (context, state) {
               // TODO: implement listener
             },
             builder: (context, state) {
               return Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Center(
                     child: OpacityAnimatedWidget.tween(
@@ -47,14 +51,14 @@ class _SplashScreenState extends State<SplashScreen> {
                       duration: const Duration(milliseconds: 3000),
                       enabled: true,
                       animationFinished: (finished) async {
-                        Navigator.pushNamed(context,Routes.OnboardingScreen);
+                        
+                        Navigator.pushNamed(context,Routes.LoginScreen);
                         // Navigator.pushNamedAndRemoveUntil(
                         //     context, await cubit.checkLogin(), (route) => false);
                       },
-                      child: SvgPicture.asset(
-                        "app_logo".svg('icons'),
-                        // width: 200,
-                        // height: 250,
+                      child: Image.asset(
+                        "splash".png(),
+                        
                       ),
                     ),
                   ),

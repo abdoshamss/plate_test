@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:plate_test/features/auth/domain/model/auth_model.dart';
 
 import '../../../../../core/Router/Router.dart';
 import '../../../../../core/extensions/all_extensions.dart';
+import '../../../../../core/theme/light_theme.dart';
 import '../../../../../core/utils/extentions.dart';
+import '../../../../../core/utils/utils.dart';
 import '../../../../../shared/back_widget.dart';
 import '../../../../../shared/widgets/button_widget.dart';
 import '../../../../../shared/widgets/customtext.dart';
@@ -22,13 +25,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController email = TextEditingController();
+  TextEditingController phone = TextEditingController();
   TextEditingController password = TextEditingController();
+  UserModel _userModel = UserModel();
+  final List<String> names = ["جوجل", "أبل"];
+  final List<String> icons = ["google", "apple"];
   final formKey = GlobalKey<FormState>();
   AuthRequest authRequest = AuthRequest();
   @override
   void dispose() {
-    email.dispose();
+    phone.dispose();
     password.dispose();
     super.dispose();
   }
@@ -43,196 +49,206 @@ class _LoginScreenState extends State<LoginScreen> {
           final cubit = AuthCubit.get(context);
           return Scaffold(
             appBar: AppBar(
-              centerTitle: true,
               elevation: 0,
               backgroundColor: Colors.transparent,
               leadingWidth: 80,
-              // toolbarHeight: 80,
               leading: const BackWidget(
-                size: 20,
-              ),
-              title: CustomText(
-                'تسجيل الدخول',
-                fontSize: 18,
-                color: context.primaryColor,
-                weight: FontWeight.w700,
+                size: 26,
+                color: Colors.black,
+                icon: Icons.close_outlined,
               ),
             ),
             body: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Form(
                 key: formKey,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const CustomText(
-                        'قم بإدخال بياناتك لتسجيل الدخول',
-                        fontSize: 14,
-                        color: Colors.black,
-                        weight: FontWeight.w300,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    24.ph,
+                    const CustomText(
+                      "قم بتسجيل الدخول إلي بليت",
+                      fontSize: 32,
+                      color: Colors.black,
+                      weight: FontWeight.w700,
+                    ),
+                    8.ph,
+                    const CustomText(
+                      'مرحبا من فضلك أدخل بياناتك',
+                      fontSize: 16,
+                      color: Color(0xff64748B),
+                      weight: FontWeight.w500,
+                    ),
+
+                    24.ph,
+                    TextFormFieldWidget(
+                      onSaved: (value) => _userModel.phone = value,
+                      backgroundColor: const Color(0xffF8FAFC),
+                      type: TextInputType.phone,
+                      contentPadding: const EdgeInsetsDirectional.symmetric(
+                          vertical: 20, horizontal: 10),
+                      prefixWidget: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Transform.rotate(
+                            angle: 3.14 / 2 * 3 - .5,
+                            child: SvgPicture.asset(
+                              "Phone".svg(),
+                            )),
                       ),
-                      40.ph,
-                      SvgPicture.asset(
-                        "login".svg("icons"),
-                        width: 212,
-                        height: 212,
-                      ),
-                      50.ph,
-                      /*  TextFormFieldWidget(
-                        backgroundColor: AppColors.primary.withOpacity(.04),
-                        // padding: const EdgeInsets.symmetric(horizontal: 18),
-                        type: TextInputType.phone,
-                        prefixIcon: Icon(
-                          Icons.phone_outlined,
-                          color: AppColors.primary,
+                      hintText: 'رقم الجوال',
+                      hintColor: const Color(0xff94A3B8),
+                      password: false,
+                      validator: (v) => Utils.valid.defaultValidation(v),
+                      controller: phone,
+                      borderRadius: 16,
+                    ),
+
+                    TextFormFieldWidget(
+                      onSaved: (value) => _userModel.password = value,
+                      contentPadding: const EdgeInsetsDirectional.symmetric(
+                          vertical: 20, horizontal: 10),
+                      prefixWidget: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: SvgPicture.asset(
+                          "lock".svg(),
                         ),
-                        hintText: 'رقم الجوال',
-                        hintColor: Color(0xff001F6E),
-
-                        password: false,
-                        validator: (v) => Utils.valid.defaultValidation(v),
-                        controller: phone,
-                        borderRadius: 33,
-                      ), */
-                      TextFormFieldWidget(
-                        backgroundColor: context.primaryColor.withOpacity(.04),
-                        // padding: const EdgeInsets.symmetric(horizontal: 18),
-                        type: TextInputType.emailAddress,
-                        prefixIcon:"emailiconpath",
-                        hintText: 'البريد الالكتروني',
-                        hintColor: const Color(0xff001F6E),
-
-                        password: false,
-                        // validator: (v) => Utils.valid.emailValidation(v),
-                        controller: email,
-                        borderRadius: 33,
                       ),
-                      20.ph,
-                      TextFormFieldWidget(
-                        hintColor: const Color(0xff001F6E),
-                        backgroundColor: context.primaryColor.withOpacity(.04),
-                        // padding: const EdgeInsets.symmetric(horizontal: 18),
-                        type: TextInputType.visiblePassword,
-                        prefixIcon: "",
-                        hintText: 'كلمة المرور',
-                        password: true,
-                        // validator: (v) => Utils.valid.validatePassword(v),
-                        controller: password,
-                        borderRadius: 33,
-                      ),
-                      30.ph,
+                      hintColor: const Color(0xff94A3B8),
+                      backgroundColor: const Color(0xffF8FAFC),
+                      // padding: const EdgeInsets.symmetric(horizontal: 18),
+                      type: TextInputType.visiblePassword,
 
-                      TextButtonWidget(
-                          text: 'هل نسيت كلمة المرور ؟',
-                          size: 14,
-                          color: context.secondaryColor,
-                          // weight: w300,
-                          function: () {
-                            Navigator.pushNamed(
-                                context, Routes.forget_passScreen);
-                          }),
+                      hintText: 'كلمة المرور',
+                      password: true,
+                      validator: (v) => Utils.valid.passwordValidation(v),
+                      controller: password,
+                      borderRadius: 16,
+                    ),
 
-                      30.ph,
-                      ButtonWidget(
-                        title: 'تسجيل الدخول',
-                        withBorder: true,
-                        buttonColor: context.primaryColor,
-                        textColor: Colors.white,
-                        borderColor: context.primaryColor,
-                        width: double.infinity,
-                        fontSize: 18,
-                        fontweight: FontWeight.bold,
-                        // padding: const EdgeInsets.symmetric(horizontal: 15),
-                        onTap: () async {
-                          AuthRequest registerModel = AuthRequest(
-                            password: password.text,
-                            email: email.text,
-                          );
-                          FocusScope.of(context).unfocus();
-                          if (formKey.currentState!.validate()) {
-                            final response = await cubit.login(
-                                loginRequestModel: registerModel);
-                            if (response == true) {
-                              Navigator.pushNamedAndRemoveUntil(context,
-                                  Routes.LayoutScreen, (route) => false);
-                            } else if (response == false) {
-                              // Alerts.snack(
-                              //     text: 'You have to activate your account'
-                              //         .tr(),
-                              //     state: SnackState.failed);
-                              // Navigator.pushNamed(
-                              //   context,
-                              //   Routes.OtpScreen,
-                              //   arguments: OtpArguments(
-                              //       sendTo: email.text,
-                              //       onSubmit: (s) async {
-                              //         registerModel.code = s;
-                              //         final res = await cubit.activate(
-                              //             registerRequestModel: registerModel);
-
-                              //         if (res == true) {
-                              //           Navigator.pushNamedAndRemoveUntil(
-                              //               context,
-                              //               Routes.LayoutScreen,
-                              //               (route) => false);
-                              //         }
-                              //       },
-                              //       onReSend: () async {
-                              //         await cubit.resenCode(
-                              //             email: registerModel.email ?? '');
-                              //       },
-                              //       init: false),
-                              // );
-                            }
-                          }
-                        },
-                      ),
-                      20.ph,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomText(
-                            "ليس لديك حساب ؟",
-                            fontSize: 14,
-                            color: context.primaryColor,
-                            weight: FontWeight.w400,
-                          ),
-                          8.pw,
-                          TextButtonWidget(
-                              text: "حساب جديد",
-                              // fontSize: 14,
-                              // padding: const EdgeInsets.symmetric(horizontal: 15),
-                              color: context.primaryColor,
-                              // weight: w300,
-                              function: () {
-                                Navigator.pushReplacementNamed(
-                                    context, Routes.RegisterScreen);
-                              }),
-                        ],
-                      ),
-                      20.ph,
-                      ButtonWidget(
-                        title: 'الدخول كزائر',
-                        withBorder: true,
-                        buttonColor: Colors.white,
-                        textColor: context.primaryColor,
-                        borderColor: context.primaryColor,
-                        width: double.infinity,
-
-                        // padding: const EdgeInsets.symmetric(horizontal: 15),
-                        onTap: () async {
+                    TextButtonWidget(
+                        text: 'هل نسيت كلمة المرور ؟',
+                        size: 15,
+                        color: Colors.black,
+                        fontweight: FontWeight.w600,
+                        function: () {
                           Navigator.pushNamed(
-                            context,
-                            Routes.LayoutScreen,
-                          );
-                        },
+                              context, Routes.forget_passScreen);
+                        }),
+
+                    ButtonWidget(
+                      title: 'تسجيل الدخول',
+                      withBorder: true,
+
+                      gradient: const LinearGradient(
+                        colors: LightThemeColors.gradientPrimary,
                       ),
-                      // signupBtn(context),
-                      20.ph,
-                    ],
-                  ),
+                      textColor: Colors.white,
+                      borderColor: context.primaryColor,
+                      width: double.infinity,
+                      fontSize: 18,
+                      fontweight: FontWeight.bold,
+                      // padding: const EdgeInsets.symmetric(horizontal: 15),
+                      onTap: () async {
+                        AuthRequest registerModel = AuthRequest(
+                          password: password.text,
+                          phone: phone.text,
+                        );
+                        FocusScope.of(context).unfocus();
+                        if (formKey.currentState!.validate()) {
+                          final response = await cubit.login(
+                              loginRequestModel: registerModel);
+                          if (response == true) {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, Routes.LayoutScreen, (route) => false);
+                          } else if (response == false) {
+                            // Alerts.snack(
+                            //     text: 'You have to activate your account'
+                            //         .tr(),
+                            //     state: SnackState.failed);
+                            // Navigator.pushNamed(
+                            //   context,
+                            //   Routes.OtpScreen,
+                            //   arguments: OtpArguments(
+                            //       sendTo: email.text,
+                            //       onSubmit: (s) async {
+                            //         registerModel.code = s;
+                            //         final res = await cubit.activate(
+                            //             registerRequestModel: registerModel);
+
+                            //         if (res == true) {
+                            //           Navigator.pushNamedAndRemoveUntil(
+                            //               context,
+                            //               Routes.LayoutScreen,
+                            //               (route) => false);
+                            //         }
+                            //       },
+                            //       onReSend: () async {
+                            //         await cubit.resenCode(
+                            //             email: registerModel.email ?? '');
+                            //       },
+                            //       init: false),
+                            // );
+                          }
+                        }
+                      },
+                    ),
+                    8.ph,
+                    ...List.generate(
+                      2,
+                      (index) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: ButtonWidget(
+                          withBorder: true,
+                          buttonColor: Colors.white,
+                          textColor: Colors.black,
+                          borderColor: const Color(0xffEEF2F6),
+                          width: double.infinity,
+                          onTap: () async {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.LayoutScreen,
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              20.pw,
+                              SvgPicture.asset(icons[index].svg()),
+                              70.pw,
+                              Text("سجل الدحول بواسطة ${names[index]}",
+                                  style: const TextStyle(color: Colors.black)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    // signupBtn(context),
+                  ],
                 ),
+              ),
+            ),
+            bottomNavigationBar: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomText(
+                    "ليس لديك حساب ؟",
+                    fontSize: 16,
+                    color: Colors.black,
+                    weight: FontWeight.w500,
+                  ),
+                  TextButtonWidget(
+                      text: "إنشاء حساب",
+                      size: 16,
+                      // padding: const EdgeInsets.symmetric(horizontal: 15),
+                      color: context.primaryColor,
+                      fontweight: FontWeight.w700,
+                      function: () {
+                        Navigator.pushReplacementNamed(
+                            context, Routes.RegisterScreen);
+                      }),
+                ],
               ),
             ),
           );

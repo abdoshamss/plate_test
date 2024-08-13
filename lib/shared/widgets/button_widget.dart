@@ -31,7 +31,7 @@ class ButtonWidget extends StatelessWidget {
     this.buttonColor,
     this.borderColor,
     this.withBorder = false,
-    this.radius = 10.0,
+    this.radius = 16.0,
   });
 
   @override

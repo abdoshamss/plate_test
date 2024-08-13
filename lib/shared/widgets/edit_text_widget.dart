@@ -79,8 +79,7 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
       children: [
         widget.label.text(
             textTheme: context.titleLarge
-                ?.copyWith(fontWeight: FontWeight.w500, fontSize: 12)),
-        10.height,
+                ?.copyWith(fontWeight: FontWeight.w500, fontSize: 16)),
         TextFormField(
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
           cursorColor: context.colorScheme.primary,
@@ -94,8 +93,8 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
           minLines: widget.minLines,
           textAlign: widget.textalign,
           textDirection: widget.textdirection,
-          style: context.bodySmall
-              ?.copyWith(fontSize: 12, fontWeight: FontWeight.w300),
+          style: context.bodySmall?.copyWith(
+              fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
           decoration: widget.inputDecoration ??
               InputDecoration(
                 contentPadding: widget.contentPadding ??
@@ -115,8 +114,7 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
                               passHidden
                                   ? Icons.remove_red_eye_outlined
                                   : Icons.visibility_off,
-                              color:
-                                  context.colorScheme.primary.withOpacity(.5),
+                              color: widget.hintColor,
                             ),
                           )
                         : null),
@@ -128,7 +126,7 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
                 errorBorder: borderType(),
                 hintStyle: TextStyle(
                     color: widget.hintColor,
-                    fontSize: widget.hintSize ?? 14,
+                    fontSize: widget.hintSize ?? 16,
                     fontWeight: FontWeight.w400),
                 hintText: widget.hintText,
               ),

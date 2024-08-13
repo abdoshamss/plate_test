@@ -6,11 +6,9 @@ import '../../features/auth/presentation/screens/login/login_screen.dart';
 import '../../features/auth/presentation/screens/otp/otp_screen.dart';
 import '../../features/auth/presentation/screens/reset_password/reset_password_screen.dart';
 import '../../features/auth/presentation/screens/sign_up/sign_up_screen.dart';
-import '../../features/splash/presentation/screens/on_boarding/on_boarding_screen.dart';
 import '../../features/splash/presentation/screens/splash/splash.dart';
 class Routes {
   static const String splashScreen = "/splashScreen";
-  static const String OnboardingScreen = "/OnboardingScreen";
   static const String LoginScreen = "LoginScreen";
   static const String RegisterScreen = "RegisterScreen";
   static const String forget_passScreen = "/forgetPassScreen";
@@ -22,7 +20,6 @@ class Routes {
 
 class RouteGenerator {
   static String currentRoute = "";
-
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     currentRoute = routeSettings.name.toString();
     switch (routeSettings.name) {
@@ -32,12 +29,7 @@ class RouteGenerator {
             builder: (_) {
               return const SplashScreen();
             });
-      case Routes.OnboardingScreen:
-        return CupertinoPageRoute(
-            settings: routeSettings,
-            builder: (_) {
-              return const OnboardingScreen();
-            });
+       
          case Routes.LoginScreen:
         return CupertinoPageRoute(
             settings: routeSettings,
