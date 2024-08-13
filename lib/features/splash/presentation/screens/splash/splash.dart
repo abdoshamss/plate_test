@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import '../../../../../core/Router/Router.dart';
 import '../../../../../core/theme/light_theme.dart';
 import '../../../../../core/utils/extentions.dart';
 import '../../../cubit/splash_cubit.dart';
 import '../../../cubit/splash_states.dart';
-
 
 ///// put it in routes
 ///  import '../../modules/splash/presentation/splash.dart';
@@ -35,7 +33,6 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Scaffold(
           backgroundColor: LightThemeColors.primary,
           body: BlocConsumer<SplashCubit, SplashStates>(
-            
             listener: (context, state) {
               // TODO: implement listener
             },
@@ -51,14 +48,12 @@ class _SplashScreenState extends State<SplashScreen> {
                       duration: const Duration(milliseconds: 3000),
                       enabled: true,
                       animationFinished: (finished) async {
-                        
-                        Navigator.pushNamed(context,Routes.LoginScreen);
+                        Navigator.pushNamed(context, Routes.LoginScreen);
                         // Navigator.pushNamedAndRemoveUntil(
                         //     context, await cubit.checkLogin(), (route) => false);
                       },
                       child: Image.asset(
                         "splash".png(),
-                        
                       ),
                     ),
                   ),

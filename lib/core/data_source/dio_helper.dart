@@ -194,7 +194,7 @@ class DioService {
   }
 
   ApiResponse checkForSuccess(Response response) {
-    if ((response.data["status"]) == "Success") {
+    if ((response.data["status"]) == true) {
       return ApiResponse(isError: false, response: response);
     } else {
       Alerts.snack(text: response.data["error"], state: SnackState.failed);

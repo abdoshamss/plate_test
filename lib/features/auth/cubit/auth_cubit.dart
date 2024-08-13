@@ -7,17 +7,16 @@ import '../domain/repository/auth_repository.dart';
 import 'auth_states.dart';
 
 class AuthCubit extends Cubit<AuthStates> {
-  
   AuthCubit() : super(AuthInitial());
   static AuthCubit get(context) => BlocProvider.of(context);
 
   AuthRepository authRepository = AuthRepository(locator<DioService>());
 
+  
 
   login({required AuthRequest loginRequestModel}) async {
     emit(LoginLoadingState());
     final response = await authRepository.loginRequest(loginRequestModel);
-       
 
     if (response != null) {
       if (response['id'] == null) {
@@ -36,8 +35,7 @@ class AuthCubit extends Cubit<AuthStates> {
 
   signUp({required AuthRequest registerRequestModel}) async {
     emit(RegisterLoadingState());
-    final response = await authRepository.registerRequest(
-         registerRequestModel);
+    final response = await authRepository.registerRequest(registerRequestModel);
     if (response != null) {
       emit(RegisterSuccessState());
       return true;

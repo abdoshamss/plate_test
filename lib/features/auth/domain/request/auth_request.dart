@@ -11,6 +11,7 @@ class AuthRequest {
   String? agree;
   String? fcm_token;
   String? password_confirmation;
+  int? areaID;
   AuthRequest({
     this.name,
     this.email,
@@ -22,6 +23,7 @@ class AuthRequest {
     this.password,
     this.agree,
     this.password_confirmation,
+    this.areaID,
   });
 
   Map<String, dynamic> register() {
@@ -34,6 +36,7 @@ class AuthRequest {
       'agree': agree,
       'password_confirmation': password_confirmation,
       'fcm_token': fcm_token,
+      "area_id":areaID
     };
   }
 

@@ -17,6 +17,8 @@ class AppResponsiveWrapper extends StatelessWidget {
         ],
         child: Builder(builder: (context) {
           return ResponsiveScaledBox(
+
+            
               width: ResponsiveValue<double>(context,  defaultValue: 450, conditionalValues: [
                 const Condition.equals(name: MOBILE, value: 450),
                 const Condition.equals(name: TABLET, value: 600),

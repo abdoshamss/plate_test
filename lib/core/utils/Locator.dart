@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:plate_test/core/general/general_repo.dart';
 import '../../core/utils/validations.dart';
 import '../../features/auth/domain/repository/auth_repository.dart';
 import '../../features/splash/domain/repository/splash_repository.dart';
@@ -22,5 +23,8 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton(() => GlobalKey<NavigatorState>());
   locator.registerLazySingleton(() => AuthRepository(locator<DioService>()));
   locator.registerLazySingleton(() => SplashRepository(locator<DioService>()));
+  locator.registerLazySingleton(() => GeneralRepo(locator<DioService>()));
+
+
 
 }

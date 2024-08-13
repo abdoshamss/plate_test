@@ -1,6 +1,10 @@
 abstract class AuthStates {}
 class AuthInitial extends AuthStates {}
 
+class GetAreasLoadingState extends AuthStates {}
+class GetAreasSuccessState extends AuthStates{}
+class GetAreasErrorState extends AuthStates{}
+
 class LoginLoadingState extends AuthStates {}
 class LoginSuccessState extends AuthStates{}
 class LoginErrorState extends AuthStates{}

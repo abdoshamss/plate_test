@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:plate_test/features/auth/domain/model/auth_model.dart';
 
 import '../../../../../core/Router/Router.dart';
 import '../../../../../core/extensions/all_extensions.dart';
@@ -27,7 +26,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController phone = TextEditingController();
   TextEditingController password = TextEditingController();
-  UserModel _userModel = UserModel();
+  late final AuthRequest _authRequest;
   final List<String> names = ["جوجل", "أبل"];
   final List<String> icons = ["google", "apple"];
   final formKey = GlobalKey<FormState>();
@@ -36,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     phone.dispose();
     password.dispose();
+    _authRequest = AuthRequest();
     super.dispose();
   }
 
@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     24.ph,
                     TextFormFieldWidget(
-                      onSaved: (value) => _userModel.phone = value,
+                      onSaved: (value) => _authRequest.phone = value,
                       backgroundColor: const Color(0xffF8FAFC),
                       type: TextInputType.phone,
                       contentPadding: const EdgeInsetsDirectional.symmetric(
@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
 
                     TextFormFieldWidget(
-                      onSaved: (value) => _userModel.password = value,
+                      onSaved: (value) => _authRequest.password = value,
                       contentPadding: const EdgeInsetsDirectional.symmetric(
                           vertical: 20, horizontal: 10),
                       prefixWidget: Padding(
@@ -232,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CustomText(
+                  const CustomText(
                     "ليس لديك حساب ؟",
                     fontSize: 16,
                     color: Colors.black,

@@ -1,7 +1,7 @@
 class ConstKeys {
   static const devEnv = true;
-  static const baseUrlDev = String.fromEnvironment("BASE_URL_DEV");
-  static const baseUrlLive =  String.fromEnvironment("BASE_URL");
+  static const baseUrlDev = "https://plate.almasader.net/api/";
+  static const baseUrlLive = String.fromEnvironment("BASE_URL");
   static const moyaser = "";
   static String paymentKeyLive = '';
   static String paymentKeyTest = '';

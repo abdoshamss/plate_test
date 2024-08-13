@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:plate_test/core/general/general_cubit.dart';
+import 'package:plate_test/core/general/general_repo.dart';
+import 'package:plate_test/core/utils/Locator.dart';
+import 'package:plate_test/shared/widgets/autocomplate.dart';
 import '../../../../../core/Router/Router.dart';
 import '../../../../../core/extensions/all_extensions.dart';
+import '../../../../../core/theme/light_theme.dart';
 import '../../../../../core/utils/extentions.dart';
 import '../../../../../core/utils/utils.dart';
 import '../../../../../shared/back_widget.dart';
@@ -26,12 +31,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController phone = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
+  late final AuthRequest _authRequest;
   final formKey = GlobalKey<FormState>();
-
   @override
   void dispose() {
     phone.dispose();
     password.dispose();
+    _authRequest = AuthRequest();
     super.dispose();
   }
 
@@ -45,45 +51,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
           final cubit = AuthCubit.get(context);
           return Scaffold(
             appBar: AppBar(
-              centerTitle: true,
               elevation: 0,
               backgroundColor: Colors.transparent,
               leadingWidth: 80,
-              // toolbarHeight: 80,
               leading: const BackWidget(
-                size: 20,
-              ),
-              title: CustomText(
-                "إنشاء حساب جديد",
-                fontSize: 18,
-                color: context.primaryColor,
-                weight: FontWeight.w700,
+                size: 26,
+                color: Colors.black,
+                icon: Icons.close_outlined,
               ),
             ),
             body: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
               child: Form(
                 key: formKey,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      24.ph,
                       const CustomText(
-                        "قم بإدخال بياناتك لأنشاء حساب جديد",
-                        fontSize: 14,
+                        "قم بإنشاء حساب في بليت",
+                        fontSize: 32,
                         color: Colors.black,
-                        weight: FontWeight.w300,
+                        weight: FontWeight.w700,
                       ),
-                      40.ph,
-                      SvgPicture.asset(
-                        "register".svg("icons"),
-                        width: 212,
-                        height: 212,
+                      8.ph,
+                      const CustomText(
+                        'مرحبا من فضلك أدخل بياناتك',
+                        fontSize: 16,
+                        color: Color(0xff64748B),
+                        weight: FontWeight.w500,
                       ),
-                      50.ph,
+                      24.ph,
                       TextFormFieldWidget(
                         backgroundColor: context.primaryColor.withOpacity(.04),
-                        // padding: const EdgeInsets.symmetric(horizontal: 18),
+                        contentPadding: const EdgeInsetsDirectional.symmetric(
+                            vertical: 20, horizontal: 10),
                         type: TextInputType.name,
                         prefixIcon: "assets/icons/user.svg",
                         hintText: 'الإسم',
@@ -91,49 +95,82 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onSaved: (e) {},
                         validator: (v) => Utils.valid.defaultValidation(v),
                         controller: name,
-                        borderRadius: 33,
+                        borderRadius: 16,
                       ),
-                      20.ph,
                       TextFormFieldWidget(
                         backgroundColor: context.primaryColor.withOpacity(.04),
-                        // padding: const EdgeInsets.symmetric(horizontal: 18),
+                        contentPadding: const EdgeInsetsDirectional.symmetric(
+                            vertical: 20, horizontal: 10),
                         type: TextInputType.emailAddress,
                         prefixIcon: "assets/icons/user.svg",
                         hintText: 'البريد الإلكترونى',
                         password: false,
                         validator: (v) => Utils.valid.emailValidation(v),
                         controller: email,
-                        borderRadius: 33,
+                        borderRadius: 16,
                       ),
-                      20.ph,
                       TextFormFieldWidget(
-                        backgroundColor: context.primaryColor.withOpacity(.04),
-                        // padding: const EdgeInsets.symmetric(horizontal: 18),
+                        onSaved: (value) => _authRequest.phone = value,
+                        backgroundColor: const Color(0xffF8FAFC),
                         type: TextInputType.phone,
-                        prefixIcon: "assets/icons/user.svg",
+                        contentPadding: const EdgeInsetsDirectional.symmetric(
+                            vertical: 20, horizontal: 10),
+                        prefixWidget: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Transform.rotate(
+                              angle: 3.14 / 2 * 3 - .5,
+                              child: SvgPicture.asset(
+                                "Phone".svg(),
+                              )),
+                        ),
                         hintText: 'رقم الجوال',
+                        hintColor: const Color(0xff94A3B8),
                         password: false,
-                        // validator: (v) => Utils.valid.defaultValidation(v),
+                        validator: (v) => Utils.valid.defaultValidation(v),
                         controller: phone,
-                        borderRadius: 33,
+                        borderRadius: 16,
                       ),
-                      20.ph,
+                      CustomAutoCompleteTextField<AreaModel>(
+                        onChanged: (value) {
+                          _authRequest.areaID = value.id;
+                        },
+                        function: (s) async =>
+                            await locator<GeneralRepo>().getAreas() ?? [],
+                        validator: (v) => Utils.valid.defaultValidation(v),
+                        showSufix: true,
+                        localData: false,
+                        showLabel: false,
+                        hint: "area",
+                        itemAsString: (a) => a.name??'',
+                        // border: InputBorder.none,
+                      ),
                       TextFormFieldWidget(
-                        backgroundColor: context.primaryColor.withOpacity(.04),
+                        onSaved: (value) => _authRequest.password = value,
+                        contentPadding: const EdgeInsetsDirectional.symmetric(
+                            vertical: 20, horizontal: 10),
+                        prefixWidget: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: SvgPicture.asset(
+                            "lock".svg(),
+                          ),
+                        ),
+                        hintColor: const Color(0xff94A3B8),
+                        backgroundColor: const Color(0xffF8FAFC),
                         // padding: const EdgeInsets.symmetric(horizontal: 18),
                         type: TextInputType.visiblePassword,
-                        prefixIcon: "assets/icons/user.svg",
+
                         hintText: 'كلمة المرور',
                         password: true,
-                        validator: Utils.valid.passwordValidation,
+                        validator: (v) => Utils.valid.passwordValidation(v),
                         controller: password,
-                        borderRadius: 33,
+                        borderRadius: 16,
                       ),
-                      20.ph,
                       TextFormFieldWidget(
                         backgroundColor: context.primaryColor.withOpacity(.04),
                         // padding: const EdgeInsets.symmetric(horizontal: 18),
                         type: TextInputType.visiblePassword,
+                        contentPadding: const EdgeInsetsDirectional.symmetric(
+                            vertical: 20, horizontal: 10),
                         prefixIcon: "assets/icons/user.svg",
                         hintText: 'تأكيد كلمة المرور',
                         password: true,
@@ -142,15 +179,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: confirmPassword,
                         borderRadius: 33,
                       ),
-                      30.ph,
-
                       ButtonWidget(
                           title: "إنشاء حساب",
                           withBorder: true,
-                          buttonColor: context.primaryColor,
+                          gradient: const LinearGradient(
+                            colors: LightThemeColors.gradientPrimary,
+                          ),
                           textColor: Colors.white,
                           borderColor: context.primaryColor,
                           width: double.infinity,
+                          fontSize: 18,
+                          fontweight: FontWeight.bold,
                           // padding: const EdgeInsets.symmetric(horizontal: 15),
                           onTap: () async {
                             FocusScope.of(context).unfocus();
@@ -241,7 +280,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             }
                           }),
                       20.ph,
-
                       ButtonWidget(
                         title: 'الدخول كزائر',
                         withBorder: true,
@@ -258,8 +296,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           );
                         },
                       ),
-                      // signupBtn(context),
-                      20.ph,
+                      64.ph,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const CustomText(
+                            "لديك حساب ؟",
+                            fontSize: 16,
+                            color: Colors.black,
+                            weight: FontWeight.w500,
+                          ),
+                          TextButtonWidget(
+                              text: "سجل الدخول",
+                              size: 16,
+                              // padding: const EdgeInsets.symmetric(horizontal: 15),
+                              color: context.primaryColor,
+                              fontweight: FontWeight.w700,
+                              function: () {
+                                Navigator.pushReplacementNamed(
+                                    context, Routes.LoginScreen);
+                              }),
+                        ],
+                      ),
                     ],
                   ),
                 ),
