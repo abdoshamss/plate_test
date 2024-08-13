@@ -15,7 +15,7 @@ class TextFormFieldWidget extends StatefulWidget {
   TextAlign textalign;
   int? maxLengh;
   TextDirection? textdirection;
-  EdgeInsetsDirectional? contentPadding;
+  EdgeInsetsGeometry? contentPadding;
   double borderRadius;
   double? hintSize;
   String? prefixIcon;
