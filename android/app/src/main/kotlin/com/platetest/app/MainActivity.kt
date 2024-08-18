@@ -1,4 +1,4 @@
-package com.example.plate_test
+package com.platetest.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -59,7 +59,9 @@ class _OtpScreenState extends State<OtpScreen> {
     });
   }
 
-  TextEditingController otpController = TextEditingController();
+  TextEditingController otpController = TextEditingController(
+    text: "12345"
+  );
 
   @override
   void dispose() {

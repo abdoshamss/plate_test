@@ -133,7 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         contentPadding: const EdgeInsetsDirectional.symmetric(
                             vertical: 20, horizontal: 10),
                         type: TextInputType.name,
-                        prefixWidget: const Padding(
+                        prefixIconWidget: const Padding(
                           padding: EdgeInsets.only(left: 10),
                           child: Icon(
                             Icons.person_2_outlined,
@@ -159,7 +159,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onSaved: (e) {
                           _authRequest.email = e;
                         },
-                        prefixWidget: const Padding(
+                        prefixIconWidget: const Padding(
                           padding: EdgeInsets.only(left: 10),
                           child: Icon(
                             Icons.email_outlined,
@@ -176,12 +176,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         type: TextInputType.phone,
                         contentPadding: const EdgeInsetsDirectional.symmetric(
                             vertical: 20, horizontal: 10),
-                        prefixWidget: Padding(
+                        prefixIconWidget: Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Transform.rotate(
                               angle: 3.14 / 2 * 3 - .5,
                               child: SvgPicture.asset(
                                 "Phone".svg(),
+                                fit: BoxFit.scaleDown,
+                                height: 24,
                               )),
                         ),
                         hintText: 'رقم الجوال',
@@ -191,7 +193,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         borderRadius: 16,
                       ),
                       CustomAutoCompleteTextField<AreaModel>(
-                        prefixIcon: const Padding(
+                        prefixIconWidget: const Padding(
                           padding: EdgeInsets.only(left: 10),
                           child: Icon(
                             Icons.flag_outlined,
@@ -199,6 +201,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             size: 26,
                           ),
                         ),
+
                         contentPadding: const EdgeInsetsDirectional.symmetric(
                             vertical: 20, horizontal: 10),
 
@@ -220,12 +223,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         onSaved: (value) => _authRequest.password = value,
                         contentPadding: const EdgeInsetsDirectional.symmetric(
                             vertical: 20, horizontal: 10),
-                        prefixWidget: Padding(
+                        prefixIconWidget: Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: SvgPicture.asset(
                             "lock".svg(),
+                            fit: BoxFit.scaleDown,
                           ),
                         ),
+
                         hintColor: const Color(0xff94A3B8),
                         backgroundColor: const Color(0xffF8FAFC),
                         // padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -234,7 +239,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         hintText: 'كلمة المرور',
                         password: true,
                         validator: (v) => Utils.valid.passwordValidation(v),
-
                         borderRadius: 16,
                       ),
                       TextFormFieldWidget(
@@ -243,15 +247,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         type: TextInputType.visiblePassword,
                         contentPadding: const EdgeInsetsDirectional.symmetric(
                             vertical: 20, horizontal: 10),
-
-                        hintText: 'تأكيد كلمة المرور',
-                        password: true,
-                        prefixWidget: Padding(
+                        prefixIconWidget: Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: SvgPicture.asset(
                             "lock".svg(),
+                            fit: BoxFit.scaleDown,
                           ),
                         ),
+                        hintText: 'تأكيد كلمة المرور',
+                        password: true,
+
                         validator: (v) => Utils.valid
                             .confirmPasswordValidation(v, password.text),
                         borderRadius: 33,

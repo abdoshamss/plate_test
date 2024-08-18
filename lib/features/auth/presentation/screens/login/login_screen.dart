@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../../core/Router/Router.dart';
 import '../../../../../core/extensions/all_extensions.dart';
+import '../../../../../core/services/alerts.dart';
 import '../../../../../core/theme/light_theme.dart';
 import '../../../../../core/utils/extentions.dart';
 import '../../../../../core/utils/utils.dart';
@@ -24,8 +26,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController phone = TextEditingController();
-  TextEditingController password = TextEditingController();
+  TextEditingController phone = TextEditingController(text: "0512341234");
+  TextEditingController password = TextEditingController(text: "12345678");
   late final AuthRequest _authRequest;
   final List<String> names = ["جوجل", "أبل"];
   final List<String> icons = ["google", "apple"];
@@ -87,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       type: TextInputType.phone,
                       contentPadding: const EdgeInsetsDirectional.symmetric(
                           vertical: 20, horizontal: 10),
-                      prefixWidget: Padding(
+                      prefixIconWidget: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Transform.rotate(
                             angle: 3.14 / 2 * 3 - .5,
@@ -107,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onSaved: (value) => _authRequest.password = value,
                       contentPadding: const EdgeInsetsDirectional.symmetric(
                           vertical: 20, horizontal: 10),
-                      prefixWidget: Padding(
+                      prefixIconWidget: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: SvgPicture.asset(
                           "lock".svg(),
@@ -161,33 +163,32 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.pushNamedAndRemoveUntil(
                                 context, Routes.LayoutScreen, (route) => false);
                           } else if (response == false) {
-                            // Alerts.snack(
-                            //     text: 'You have to activate your account'
-                            //         .tr(),
-                            //     state: SnackState.failed);
-                            // Navigator.pushNamed(
-                            //   context,
-                            //   Routes.OtpScreen,
-                            //   arguments: OtpArguments(
-                            //       sendTo: email.text,
-                            //       onSubmit: (s) async {
-                            //         registerModel.code = s;
-                            //         final res = await cubit.activate(
-                            //             registerRequestModel: registerModel);
+                            Alerts.snack(
+                                text: 'You have to activate your account'.tr(),
+                                state: SnackState.failed);
+                            Navigator.pushNamed(
+                              context,
+                              Routes.OtpScreen,
+                              arguments: OtpArguments(
+                                  sendTo: phone.text,
+                                  onSubmit: (s) async {
+                                    registerModel.code = s;
+                                    final res = await cubit.activate(
+                                        registerRequestModel: registerModel);
 
-                            //         if (res == true) {
-                            //           Navigator.pushNamedAndRemoveUntil(
-                            //               context,
-                            //               Routes.LayoutScreen,
-                            //               (route) => false);
-                            //         }
-                            //       },
-                            //       onReSend: () async {
-                            //         await cubit.resenCode(
-                            //             email: registerModel.email ?? '');
-                            //       },
-                            //       init: false),
-                            // );
+                                    if (res == true) {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context,
+                                          Routes.LayoutScreen,
+                                          (route) => false);
+                                    }
+                                  },
+                                  onReSend: () async {
+                                    await cubit
+                                        .resendCode(registerModel.phone ?? '');
+                                  },
+                                  init: false),
+                            );
                           }
                         }
                       },

@@ -91,9 +91,9 @@ class LightThemeColors {
 
   // gradient
   static List<Color> gradient = [
-    Colors.white,
+    const Color(0xff2E225E),
+    const Color(0xff331E86),
     // Colors.white.withOpacity(0.5),
-    Colors.white.withOpacity(0),
   ];
   static const onPrimaryValue = 0xFFFFFFFF;
   static MaterialColor onPrimary = MaterialColor(

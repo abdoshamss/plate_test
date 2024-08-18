@@ -50,7 +50,7 @@ class AuthRequest {
       'mobile': phone,
       'uuid': Utils.uuid,
       'password': password,
-      "device_token": "",
+      "device_token": Utils.FCMToken,
       "device_type": Platform.operatingSystem
     };
   }

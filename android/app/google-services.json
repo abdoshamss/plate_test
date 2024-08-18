@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1090828333783",
+    "project_id": "plate-c4826",
+    "storage_bucket": "plate-c4826.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090828333783:android:be4cd6061703084292b692",
+        "android_client_info": {
+          "package_name": "com.platetest.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs--6a0-odKEKRDGNUys5TMxx_DDnq30w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

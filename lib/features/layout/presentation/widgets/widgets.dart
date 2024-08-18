@@ -28,8 +28,8 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          navBarItem(Assets.icons.workspace, LocaleKeys.navBar_workSpace.tr(),
-              0, Assets.icons.workspaceOn),
+          navBarItem(Assets.icons.workspace, LocaleKeys.home.tr(), 0,
+              Assets.icons.workspaceOn),
           navBarItem(Assets.icons.req, LocaleKeys.navBar_approval.tr(), 1,
               Assets.icons.reqOn),
           navBarItem(

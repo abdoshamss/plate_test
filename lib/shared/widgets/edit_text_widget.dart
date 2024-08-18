@@ -6,6 +6,7 @@ class TextFormFieldWidget extends StatefulWidget {
   final TextInputType type;
   bool password = false;
   final bool expanded;
+  final Color? filledColor;
   final Color activeBorderColor, borderColor, backgroundColor, hintColor;
   final bool floatingHint;
   final int? maxLines;
@@ -19,6 +20,8 @@ class TextFormFieldWidget extends StatefulWidget {
   double borderRadius;
   double? hintSize;
   String? prefixIcon;
+  final Widget? prefixIconWidget;
+  final Widget? suffixIconWidget;
   Widget? suffixIcon, suffixWidget, prefixWidget;
   TextEditingController? controller;
   InputDecoration? inputDecoration;
@@ -63,6 +66,9 @@ class TextFormFieldWidget extends StatefulWidget {
     this.contentPadding,
     this.textdirection,
     super.key,
+    this.filledColor,
+    this.prefixIconWidget,
+    this.suffixIconWidget,
   });
 
   @override
@@ -100,12 +106,13 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
                 contentPadding: widget.contentPadding ??
                     const EdgeInsets.symmetric(horizontal: 10),
                 filled: true,
-                fillColor: context.formFieldColor,
-                prefixIcon:
+                fillColor: widget.filledColor ?? context.formFieldColor,
+                prefixIcon: widget.prefixIconWidget ??
                     widget.prefixIcon?.toSvg(color: context.bodySmall?.color),
                 prefix: widget.prefixWidget,
                 suffix: widget.suffixWidget,
-                suffixIcon: widget.suffixIcon ??
+                suffixIcon: widget.suffixIconWidget ??
+                    widget.suffixIcon ??
                     (widget.password
                         ? IconButton(
                             onPressed: () =>

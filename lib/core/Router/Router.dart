@@ -7,6 +7,7 @@ import '../../features/auth/presentation/screens/login/login_screen.dart';
 import '../../features/auth/presentation/screens/otp/otp_screen.dart';
 import '../../features/auth/presentation/screens/reset_password/reset_password_screen.dart';
 import '../../features/auth/presentation/screens/sign_up/sign_up_screen.dart';
+import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/splash/presentation/screens/splash/splash.dart';
 
 class Routes {
@@ -17,6 +18,7 @@ class Routes {
   static const String OtpScreen = "/OtpScreen";
   static const String LayoutScreen = "/LayoutScreen";
   static const String ResetPasswordScreen = "/ResetPasswordScreen";
+   static const String HomeScreen = "HomeScreen";
 }
 
 class RouteGenerator {
@@ -75,13 +77,15 @@ class RouteGenerator {
             builder: (_) {
               return const LayoutScreen();
             });
-      //     case Routes.SplashScreen:
-      // return CupertinoPageRoute(
-      //     settings: routeSettings,
-      //     builder: (_) {
-      //       return const SplashScreen();
-      //     });
+            
+ case Routes.HomeScreen:
+        return CupertinoPageRoute(
+            settings: routeSettings,
+            builder: (_) {
+              return const HomeScreen();
+            });
 
+        
       default:
         return unDefinedRoute();
     }

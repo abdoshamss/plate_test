@@ -27,7 +27,6 @@ class CustomAutoCompleteTextField<T> extends StatefulWidget {
     this.flex = 1,
     this.hideOnLoading = false,
     this.controller,
-      
     this.enabled = true,
     this.hint,
     this.validator,
@@ -46,7 +45,9 @@ class CustomAutoCompleteTextField<T> extends StatefulWidget {
     this.contentPadding,
     this.onSaved,
     this.label,
+    this.prefixIconWidget,
   });
+  final Widget? prefixIconWidget;
   final String? label;
   final void Function(String?)? onSaved;
   final Function(T) onChanged;
@@ -76,7 +77,7 @@ class CustomAutoCompleteTextField<T> extends StatefulWidget {
   final bool showAboveField;
   final Widget? emptyWidget;
   final EdgeInsetsGeometry? contentPadding;
-   
+
   final Widget Function(BuildContext, T)? itemBuilder;
   final bool searchInApi;
   final bool refreshOnTap;
@@ -209,12 +210,14 @@ class _CutomAutoCompleteTextFeildState<T>
                                       //     color: LightThemeColors.textPrimary),
                                       key: _key,
                                       readOnly: widget.readonly,
-                                      contentPadding: const EdgeInsets.symmetric(
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
                                         horizontal: 10,
                                         vertical: 16,
                                       ),
                                       hintText: widget.hint,
-                                     prefixWidget: widget.prefixIcon,
+                                      prefixWidget: widget.prefixIcon,
+                                      prefixIconWidget: widget.prefixIconWidget,
                                       /*   decoration: InputDecoration(
                                         contentPadding: EdgeInsets.symmetric(
                                           horizontal: 16,
