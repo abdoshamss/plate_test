@@ -26,18 +26,16 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController name = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController phone = TextEditingController();
-  TextEditingController password = TextEditingController();
-  TextEditingController confirmPassword = TextEditingController();
-  late final AuthRequest _authRequest;
+  final List<String> names = ["جوجل", "أبل"];
+  final List<String> icons = ["google", "apple"];
+  final AuthRequest _authRequest = AuthRequest();
   final formKey = GlobalKey<FormState>();
+
+  final password = TextEditingController();
   @override
   void dispose() {
-    phone.dispose();
+    // TODO: implement dispose
     password.dispose();
-    _authRequest = AuthRequest();
     super.dispose();
   }
 
@@ -46,7 +44,53 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: BlocConsumer<AuthCubit, AuthStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is RegisterSuccessState) {
+            Navigator.pushNamed(context, Routes.OtpScreen,
+                arguments: OtpArguments(
+                    sendTo: _authRequest.phone ?? "",
+                    onSubmit: (s) async {
+                      final res = await context.read<AuthCubit>().activate(
+                            registerRequestModel: _authRequest..code = s,
+                          );
+                      if (res == true) {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, Routes.LayoutScreen, (route) => false);
+                      }
+                    },
+                    onReSend: () async {
+                      await context
+                          .read<AuthCubit>()
+                          .resendCode(_authRequest.phone ?? '');
+                    }));
+
+            // Navigator.pushNamed(
+            //   context,
+            //   Routes.OtpScreen,
+            //   arguments: OtpArguments(
+            //       sendTo: email.text,
+            //       onSubmit: (s) async {
+            //         registerRequestModel.code = s;
+            //         final res = await cubit.activate(
+            //             registerRequestModel:
+            //                 registerRequestModel);
+
+            //         if (res == true) {
+            //           Navigator.pushNamedAndRemoveUntil(
+            //               context,
+            //               Routes.LayoutScreen,
+            //               (route) => false);
+            //         }
+            //       },
+            //       onReSend: () async {
+            //         await cubit.resendCode(
+            //             registerRequestModel.email ??
+            //                 '');
+            //       },
+            //       init: false),
+            // );
+          }
+        },
         builder: (context, state) {
           final cubit = AuthCubit.get(context);
           return Scaffold(
@@ -89,12 +133,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         contentPadding: const EdgeInsetsDirectional.symmetric(
                             vertical: 20, horizontal: 10),
                         type: TextInputType.name,
-                        prefixIcon: "assets/icons/user.svg",
+                        prefixWidget: const Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Icon(
+                            Icons.person_2_outlined,
+                            color: LightThemeColors.textHint,
+                            size: 26,
+                          ),
+                        ),
                         hintText: 'الإسم',
                         password: false,
-                        onSaved: (e) {},
+                        onSaved: (e) {
+                          _authRequest.name = e;
+                        },
                         validator: (v) => Utils.valid.defaultValidation(v),
-                        controller: name,
                         borderRadius: 16,
                       ),
                       TextFormFieldWidget(
@@ -102,11 +154,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         contentPadding: const EdgeInsetsDirectional.symmetric(
                             vertical: 20, horizontal: 10),
                         type: TextInputType.emailAddress,
-                        prefixIcon: "assets/icons/user.svg",
                         hintText: 'البريد الإلكترونى',
                         password: false,
+                        onSaved: (e) {
+                          _authRequest.email = e;
+                        },
+                        prefixWidget: const Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Icon(
+                            Icons.email_outlined,
+                            color: LightThemeColors.textHint,
+                            size: 26,
+                          ),
+                        ),
                         validator: (v) => Utils.valid.emailValidation(v),
-                        controller: email,
                         borderRadius: 16,
                       ),
                       TextFormFieldWidget(
@@ -127,10 +188,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         hintColor: const Color(0xff94A3B8),
                         password: false,
                         validator: (v) => Utils.valid.defaultValidation(v),
-                        controller: phone,
                         borderRadius: 16,
                       ),
                       CustomAutoCompleteTextField<AreaModel>(
+                        prefixIcon: const Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Icon(
+                            Icons.flag_outlined,
+                            color: LightThemeColors.textHint,
+                            size: 26,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsetsDirectional.symmetric(
+                            vertical: 20, horizontal: 10),
+
                         onChanged: (value) {
                           _authRequest.areaID = value.id;
                         },
@@ -140,8 +211,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         showSufix: true,
                         localData: false,
                         showLabel: false,
-                        hint: "area",
-                        itemAsString: (a) => a.name??'',
+                        hint: "المدينة",
+                        itemAsString: (a) => a.name ?? '',
+
                         // border: InputBorder.none,
                       ),
                       TextFormFieldWidget(
@@ -158,11 +230,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         backgroundColor: const Color(0xffF8FAFC),
                         // padding: const EdgeInsets.symmetric(horizontal: 18),
                         type: TextInputType.visiblePassword,
-
+                        controller: password,
                         hintText: 'كلمة المرور',
                         password: true,
                         validator: (v) => Utils.valid.passwordValidation(v),
-                        controller: password,
+
                         borderRadius: 16,
                       ),
                       TextFormFieldWidget(
@@ -171,14 +243,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         type: TextInputType.visiblePassword,
                         contentPadding: const EdgeInsetsDirectional.symmetric(
                             vertical: 20, horizontal: 10),
-                        prefixIcon: "assets/icons/user.svg",
+
                         hintText: 'تأكيد كلمة المرور',
                         password: true,
+                        prefixWidget: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: SvgPicture.asset(
+                            "lock".svg(),
+                          ),
+                        ),
                         validator: (v) => Utils.valid
                             .confirmPasswordValidation(v, password.text),
-                        controller: confirmPassword,
                         borderRadius: 33,
+                        onSaved: (value) =>
+                            _authRequest.password_confirmation = value,
                       ),
+                      32.ph,
                       ButtonWidget(
                           title: "إنشاء حساب",
                           withBorder: true,
@@ -193,65 +273,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           // padding: const EdgeInsets.symmetric(horizontal: 15),
                           onTap: () async {
                             FocusScope.of(context).unfocus();
-                            AuthRequest registerRequestModel = AuthRequest(
-                              name: name.text.trim(),
-                              email: email.text.trim(),
-                              password: password.text.trim(),
-                            );
+
                             if (formKey.currentState!.validate()) {
+                              formKey.currentState!.save();
                               final response = await cubit.signUp(
-                                registerRequestModel: registerRequestModel,
+                                registerRequestModel: _authRequest,
                               );
-                              if (response == true) {
-                                // Navigator.pushNamedAndRemoveUntil(
-                                //   context,
-                                //   Routes.OtpScreen,
-                                // (route) => false,
-                                //   arguments: OtpArguments(
-                                //     sendTo: phone.text,
-                                //     onSubmit: (s) async {
-                                //       registerRequestModel.code = s;
-                                //       final res = await cubit.activate(
-                                //           registerRequestModel: registerRequestModel,);
-                                //       if (res == true) {
-                                //
-                                //         Navigator.pushNamedAndRemoveUntil(context, Routes.LayoutScreen, (route) => false);
-                                //       }
-                                //
-                                //     }, onReSend: ()async {
-                                //     await cubit.resenCode(
-                                //         mobile: registerRequestModel.mobile ?? '');
-                                //   }
-                                //   )
-                                // );
-                                // ignore: use_build_context_synchronously
 
-                                // Navigator.pushNamed(
-                                //   context,
-                                //   Routes.OtpScreen,
-                                //   arguments: OtpArguments(
-                                //       sendTo: email.text,
-                                //       onSubmit: (s) async {
-                                //         registerRequestModel.code = s;
-                                //         final res = await cubit.activate(
-                                //             registerRequestModel:
-                                //                 registerRequestModel);
-
-                                //         if (res == true) {
-                                //           Navigator.pushNamedAndRemoveUntil(
-                                //               context,
-                                //               Routes.LayoutScreen,
-                                //               (route) => false);
-                                //         }
-                                //       },
-                                //       onReSend: () async {
-                                //         await cubit.resendCode(
-                                //             registerRequestModel.email ??
-                                //                 '');
-                                //       },
-                                //       init: false),
-                                // );
-                              }
                               // if (response['data']['active'] == true) {
                               //   // if (response['data']['type'] == 'client') {
                               //   await FBMessging.subscribeToTopic();
@@ -295,6 +323,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             Routes.LayoutScreen,
                           );
                         },
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "أو",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                      ...List.generate(
+                        2,
+                        (index) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: ButtonWidget(
+                            withBorder: true,
+                            buttonColor: Colors.white,
+                            textColor: Colors.black,
+                            borderColor: const Color(0xffEEF2F6),
+                            width: double.infinity,
+                            onTap: () async {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.LayoutScreen,
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                20.pw,
+                                SvgPicture.asset(icons[index].svg()),
+                                70.pw,
+                                Text("سجل الدخول بواسطة ${names[index]}",
+                                    style:
+                                        const TextStyle(color: Colors.black)),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                       64.ph,
                       Row(

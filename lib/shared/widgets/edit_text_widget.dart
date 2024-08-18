@@ -119,7 +119,7 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
                           )
                         : null),
                 errorText: widget.errorText,
-                helperText: "",
+                // helperText: "",
                 border: borderType(),
                 focusedBorder: borderType(),
                 enabledBorder: borderType(),

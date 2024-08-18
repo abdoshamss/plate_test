@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../../../../core/Router/Router.dart';
 import '../../../../../core/extensions/all_extensions.dart';
 import '../../../../../core/utils/extentions.dart';
@@ -13,9 +14,8 @@ import '../../../cubit/auth_states.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen(
-      {super.key, required this.code, required this.email});
-  final String code;
-  final String email;
+      {super.key, required this.code, required this.phone});
+  final String code, phone;
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
@@ -47,89 +47,85 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           final cubit = AuthCubit.get(context);
 
           return Scaffold(
-            body: SafeArea(
-              child: Form(
-                key: formKey,
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              leadingWidth: 80,
+              leading: const BackWidget(
+                size: 26,
+                color: Colors.black,
+                icon: Icons.arrow_back_sharp,
+              ),
+            ),
+            body: Form(
+              key: formKey,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    16.ph,
-                    AppBar(
-                      centerTitle: true,
-                      elevation: 0,
-                      backgroundColor: Colors.transparent,
-                      leadingWidth: 80,
-                      // toolbarHeight: 80,
-                      leading: const BackWidget(
-                        size: 20,
-                      ),
-                      title: CustomText(
-                        'تغير كلمة المرور',
-                        fontSize: 18,
-                        color: context.primaryColor,
-                        weight: FontWeight.w600,
-                      ),
+                    24.ph,
+                    const CustomText(
+                      "أدخل كلمة المرور الجديدة",
+                      style:
+                          TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
                     ),
-                    Center(
-                      child: CustomText(
-                        'قم بإدخال كلمة المرور الجديدة',
-                        fontSize: 14,
-                        color: context.secondaryColor,
-                        weight: FontWeight.w600,
-                      ),
+                    const CustomText(
+                      "كلمة المرور الجديدة يجب ان تكون محتلفة عن كلمة المرور القديمة",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xff64748B)),
                     ),
-                    64.ph,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: TextFormFieldWidget(
-                        backgroundColor: context.primaryColor.withOpacity(.04),
-                        // padding: const EdgeInsets.symmetric(horizontal: 18),
-                        type: TextInputType.visiblePassword,
-                        controller: passwordController,
-                        prefixIcon: "",
-                        hintText: 'كلمة المرور الجديدة',
-                        password: true,
-                        validator: Utils.valid.passwordValidation,
-                        // controller: password,
-                        borderRadius: 33,
-                      ),
+                    24.ph,
+                    TextFormFieldWidget(
+                      contentPadding: const EdgeInsetsDirectional.symmetric(
+                          vertical: 20, horizontal: 10),
+                      prefixWidget: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: SvgPicture.asset(
+                            "lock".svg(),
+                          )),
+                      backgroundColor: const Color(0xffF8FAFC),
+                      type: TextInputType.visiblePassword,
+                      controller: passwordController,
+                      hintText: 'كلمة المرور الجديدة',
+                      password: true,
+                      validator: Utils.valid.passwordValidation,
+                      borderRadius: 16,
                     ),
-                    20.ph,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: TextFormFieldWidget(
-                        backgroundColor: context.primaryColor.withOpacity(.04),
-                        // padding: const EdgeInsets.symmetric(horizontal: 18),
-                        type: TextInputType.visiblePassword,
-                        prefixIcon: "",
-                        hintText: 'إعادة كلمة المرور الجديدة',
-                        password: true,
-                        validator: (v) => Utils.valid.confirmPasswordValidation(
-                            v, passwordController.text),
-                        // controller: password,
-                        borderRadius: 33,
-                        controller: confirmPasswordController,
-                      ),
+                    TextFormFieldWidget(
+                      contentPadding: const EdgeInsetsDirectional.symmetric(
+                          vertical: 20, horizontal: 10),
+                      prefixWidget: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: SvgPicture.asset(
+                            "lock".svg(),
+                          )),
+                      backgroundColor: const Color(0xffF8FAFC),
+                      type: TextInputType.visiblePassword,
+                      hintText: 'تأكيد كلمة المرور الجديدة',
+                      password: true,
+                      validator: (v) => Utils.valid.confirmPasswordValidation(
+                          v, passwordController.text),
+                      borderRadius: 16,
+                      controller: confirmPasswordController,
                     ),
                     32.ph,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: ButtonWidget(
-                        title: "تغير ",
-                        onTap: () async {
-                          // log(widget.code);
-                          // log(widget.mobile);
-                          if (formKey.currentState!.validate()) {
-                            final res = await cubit.resetPassword(
-                                pass: passwordController.text.trim(),
-                                email: widget.email,
-                                code: widget.code);
-                            if (res == true) {
-                              Navigator.pushNamedAndRemoveUntil(context,
-                                  Routes.LoginScreen, (route) => false);
-                            }
+                    ButtonWidget(
+                      title: "تأكيد",
+                      onTap: () async {
+                        if (formKey.currentState!.validate()) {
+                          final res = await cubit.resetPassword(
+                              pass: passwordController.text.trim(),
+                              phone: widget.phone,
+                              code: widget.code);
+                          if (res == true) {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, Routes.LoginScreen, (route) => false);
                           }
-                        },
-                      ),
+                        }
+                      },
                     ),
                   ],
                 ),

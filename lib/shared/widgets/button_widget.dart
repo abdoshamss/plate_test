@@ -61,7 +61,7 @@ class ButtonWidget extends StatelessWidget {
         ),
         child: child ??
             title.text(
-              fontWeight: fontweight ?? FontWeight.w400,
+              fontWeight: fontweight ?? FontWeight.w700,
               fontSize: fontSize ?? 16,
               fontFamily: fontFamily,
               color: textColor ?? Colors.white,

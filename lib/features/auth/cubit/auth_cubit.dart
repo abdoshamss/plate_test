@@ -12,8 +12,6 @@ class AuthCubit extends Cubit<AuthStates> {
 
   AuthRepository authRepository = AuthRepository(locator<DioService>());
 
-  
-
   login({required AuthRequest loginRequestModel}) async {
     emit(LoginLoadingState());
     final response = await authRepository.loginRequest(loginRequestModel);
@@ -45,9 +43,9 @@ class AuthCubit extends Cubit<AuthStates> {
     }
   }
 
-  resendCode(String email) async {
+  resendCode(String phone) async {
     emit(ResendCodeLoadingState());
-    final response = await authRepository.resendCodeRequest(email);
+    final response = await authRepository.resendCodeRequest(phone);
 
     if (response != null) {
       emit(ResendCodeSuccessState());
@@ -59,26 +57,13 @@ class AuthCubit extends Cubit<AuthStates> {
     }
   }
 
-  forgetPass(String forgetPass) async {
-    emit(ForgetPassLoadingState());
-    var res = await authRepository.forgetPassRequest(forgetPass);
-    if (res != null) {
-      emit(ForgetPassSuccessState());
-      return true;
-    } else {
-      emit(ForgetPassErrorState());
-      return null;
-    }
-  }
-
-  String codeId = "";
-  sendCode({required String email, required String code}) async {
+  activate({required AuthRequest registerRequestModel}) async {
     emit(ActivateCodeLoadingState());
-    final response =
-        await authRepository.sendCodeRequest(email: email, code: code);
+
+    final response = await authRepository.activateRequest(registerRequestModel);
     if (response != null) {
-      codeId = response['code_id'].toString();
       emit(ActivateCodeSuccessState());
+      // emit(ActivateCodeSuccessState(UserModel.fromJson(response)));
       return true;
     } else {
       emit(ActivateCodeErrorState());
@@ -86,16 +71,45 @@ class AuthCubit extends Cubit<AuthStates> {
     }
   }
 
+  String codeId = "";
+  forgetPass(String p) async {
+    emit(ForgetPassLoadingState());
+    var res = await authRepository.forgetPassRequest(p);
+    if (res != null) {
+      emit(ForgetPassSuccessState());
+      codeId = res["code"].toString();
+
+      return true;
+    } else {
+      emit(ForgetPassErrorState());
+      return null;
+    }
+  }
+
+  // sendCode({required String email, required String code}) async {
+  //   emit(ActivateCodeLoadingState());
+  //   final response =
+  //       await authRepository.sendCodeRequest(email: email, code: code);
+  //   if (response != null) {
+  //     codeId = response['code_id'].toString();
+  //     emit(ActivateCodeSuccessState());
+  //     return true;
+  //   } else {
+  //     emit(ActivateCodeErrorState());
+  //     return null;
+  //   }
+  // }
+
   resetPassword({
     required String code,
     required String pass,
-    required String email,
+    required String phone,
   }) async {
     emit(ResetPasswordLoadingState());
     var res = await authRepository.resetPassword(
       code: code,
       pass: pass,
-      email: email,
+      phone: phone,
     );
     if (res != null) {
       emit(ResetPasswordSuccessState());

@@ -1,5 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,17 +13,23 @@ import 'core/Router/Router.dart';
 import 'core/utils/Locator.dart';
 import 'core/utils/responsive_framework_widget.dart';
 import 'core/utils/utils.dart';
+import 'firebase_options.dart';
 
+///  keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   // bloc observer
   Bloc.observer = MyBlocObserver();
   // dotenv.load();
   await setupLocator();
-  // Utils.getToken();
-  await Utils.dataManager.initHive();
 
+  await Utils.dataManager.initHive();
+  Utils.uuid = await Utils.getuuid() ?? "";
+  await Utils.getFCMToken();
   runApp(EasyLocalization(
       startLocale: const Locale('ar', 'EG'),
       supportedLocales: const [

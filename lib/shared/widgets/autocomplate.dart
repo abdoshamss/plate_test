@@ -4,16 +4,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plate_test/core/extensions/all_extensions.dart';
-import 'package:plate_test/core/utils/extentions.dart' hide ContextExtensions;
 
 import '../../core/theme/light_theme.dart';
-import '../../core/utils/utils.dart';
 import 'customtext.dart';
 import 'edit_text_widget.dart';
 
 class CustomAutoCompleteTextField<T> extends StatefulWidget {
   const CustomAutoCompleteTextField({
-    Key? key,
+    super.key,
     this.initialValue,
     this.lable,
     this.showClearIcon = false,
@@ -29,6 +27,7 @@ class CustomAutoCompleteTextField<T> extends StatefulWidget {
     this.flex = 1,
     this.hideOnLoading = false,
     this.controller,
+      
     this.enabled = true,
     this.hint,
     this.validator,
@@ -47,7 +46,7 @@ class CustomAutoCompleteTextField<T> extends StatefulWidget {
     this.contentPadding,
     this.onSaved,
     this.label,
-  }) : super(key: key);
+  });
   final String? label;
   final void Function(String?)? onSaved;
   final Function(T) onChanged;
@@ -77,6 +76,7 @@ class CustomAutoCompleteTextField<T> extends StatefulWidget {
   final bool showAboveField;
   final Widget? emptyWidget;
   final EdgeInsetsGeometry? contentPadding;
+   
   final Widget Function(BuildContext, T)? itemBuilder;
   final bool searchInApi;
   final bool refreshOnTap;
@@ -133,7 +133,7 @@ class _CutomAutoCompleteTextFeildState<T>
                     width: 5,
                   ),
                   if (widget.showRequiredStar)
-                    CustomText(
+                    const CustomText(
                       "*",
                       color: LightThemeColors.error,
                     )
@@ -202,7 +202,6 @@ class _CutomAutoCompleteTextFeildState<T>
                                       color: LightThemeColors.textSecondary,
                                     ),
                                   ),
-                                  10.ph,
                                   TextFormFieldWidget(
                                       // style: context.bodySmall?.copyWith(
                                       //     fontSize: 16,
@@ -210,13 +209,13 @@ class _CutomAutoCompleteTextFeildState<T>
                                       //     color: LightThemeColors.textPrimary),
                                       key: _key,
                                       readOnly: widget.readonly,
-                                      contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                        vertical: 8,
+                                      contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 16,
                                       ),
                                       hintText: widget.hint,
-
-                                    /*   decoration: InputDecoration(
+                                     prefixWidget: widget.prefixIcon,
+                                      /*   decoration: InputDecoration(
                                         contentPadding: EdgeInsets.symmetric(
                                           horizontal: 16,
                                           vertical: 8,
@@ -312,9 +311,9 @@ class _CutomAutoCompleteTextFeildState<T>
                                               )
                                             : null,
                                       ),
-                                      */ controller: controller,
-                                                              backgroundColor: const Color(0xffF8FAFC),
-
+                                      */
+                                      controller: controller,
+                                      backgroundColor: const Color(0xffF8FAFC),
                                       onChanged: (s) {
                                         if (!_hasOpenedOverlay) openOverlay();
                                         if (widget.searchInApi) {

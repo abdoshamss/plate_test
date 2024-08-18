@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import '../../../../core/utils/utils.dart';
 
 class AuthRequest {
   String? name;
@@ -30,21 +33,36 @@ class AuthRequest {
     return <String, dynamic>{
       'name': name,
       'email': email,
-      'phone': "$code$phone",
+      'mobile': "$phone",
       'type': type,
       'password': password,
       'agree': agree,
       'password_confirmation': password_confirmation,
       'fcm_token': fcm_token,
-      "area_id":areaID
+      "area_id": areaID,
+      "lang": "en"
     };
   }
 
   Map<String, dynamic> login() {
     return <String, dynamic>{
-      'fcm_token': fcm_token,
-      'email': email,
+      'fcm_token': Utils.FCMToken,
+      'mobile': phone,
+      'uuid': Utils.uuid,
       'password': password,
+      "device_token": "",
+      "device_type": Platform.operatingSystem
     };
   }
+
+  Map<String, dynamic> activate() {
+    return <String, dynamic>{
+      'code': code,
+      'uuid': Utils.uuid,
+      'mobile': "$phone",
+      // 'mobile': "${code}${phone}",
+      'device_type': Platform.isIOS ? "ios" : "android",
+      'device_token': Utils.FCMToken,
+    };
   }
+}

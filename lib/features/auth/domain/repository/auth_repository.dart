@@ -19,32 +19,42 @@ class AuthRepository {
 
   registerRequest(AuthRequest user) async {
     final response = await dioService.postData(
-        url: AuthEndPoints.register, body: user.register(), loading: true);
-    if (response.isError == false) {
-      return response.response?.data['data'];
-    } else {
-      return null;
-    }
-  }
-
-  resendCodeRequest(String email) async {
-    final response = await dioService.postData(
-        url: AuthEndPoints.resendCode, body: {'email': email}, isForm: true);
-    if (response.isError == false) {
-      // Alerts.snack(text: response.response?.data['message'], state: 1);
-      return response.response?.data['data'];
-    } else {
-      return null;
-    }
-  }
-
-  sendCodeRequest({required String email, required String code}) async {
-    final response = await dioService.postData(
-        url: AuthEndPoints.sendCode,
-        body: {'email': email, 'code': code},
+        url: AuthEndPoints.register,
+        body: user.register(),
         loading: true,
         isForm: true);
     if (response.isError == false) {
+      return response.response?.data['data'];
+    } else {
+      return null;
+    }
+  }
+
+  activateRequest(AuthRequest registerRequestModel) async {
+    // if (Utils.FCMToken.isEmpty) {
+    //   MyLoading.show();
+    // Utils.FCMToken = await Utils.getFCMToken() ?? "";
+    // }
+    final response = await dioService.postData(
+      isForm: true,
+      loading: true,
+      url: AuthEndPoints.activate,
+      body: registerRequestModel.activate(),
+    );
+    if (response.isError == false) {
+      Alerts.snack(
+          text: response.response?.data['message'] ?? "sign_in_success",
+          state: SnackState.success);
+      return response.response?.data['data'];
+    } else {
+      return null;
+    }
+  }
+
+  resendCodeRequest(String phone) async {
+    final response = await dioService.postData(
+        url: AuthEndPoints.resendCode, body: {'mobile': phone}, isForm: true);
+    if (response.isError == false) {
       // Alerts.snack(text: response.response?.data['message'], state: 1);
       return response.response?.data['data'];
     } else {
@@ -52,10 +62,24 @@ class AuthRepository {
     }
   }
 
-  forgetPassRequest(String email) async {
+  // sendCodeRequest({required String email, required String code}) async {
+  //   final response = await dioService.postData(
+  //       url: AuthEndPoints.sendCode,
+  //       body: {'email': email, 'code': code},
+  //       loading: true,
+  //       isForm: true);
+  //   if (response.isError == false) {
+  //     // Alerts.snack(text: response.response?.data['message'], state: 1);
+  //     return response.response?.data['data'];
+  //   } else {
+  //     return null;
+  //   }
+  // }
+
+  forgetPassRequest(String p) async {
     final response = await dioService.postData(
       url: AuthEndPoints.forgetPassword,
-      body: {'email': email},
+      body: {"mobile": p},
       isForm: true,
       loading: true,
     );
@@ -73,14 +97,15 @@ class AuthRepository {
   resetPassword({
     required String code,
     required String pass,
-    required String email,
+    required String phone,
   }) async {
     final response = await dioService.postData(
       url: AuthEndPoints.resetPassword,
       body: {
-        'code_id': code,
+        'code': code,
         'password': pass,
-        'email': email,
+        'mobile': phone,
+        'password_confirmation': pass,
       },
       isForm: true,
       loading: true,

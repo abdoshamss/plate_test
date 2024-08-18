@@ -51,6 +51,9 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_smart_dialog: ^4.8.2
+  device_uuid: ^0.0.4
+  firebase_core: ^3.3.0
+  firebase_messaging: ^15.0.4
 
   bot_toast: ^4.0.3
   responsive_framework: ^1.4.0

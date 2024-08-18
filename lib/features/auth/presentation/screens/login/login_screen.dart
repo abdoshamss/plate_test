@@ -215,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               20.pw,
                               SvgPicture.asset(icons[index].svg()),
                               70.pw,
-                              Text("سجل الدحول بواسطة ${names[index]}",
+                              Text("سجل الدخول بواسطة ${names[index]}",
                                   style: const TextStyle(color: Colors.black)),
                             ],
                           ),
