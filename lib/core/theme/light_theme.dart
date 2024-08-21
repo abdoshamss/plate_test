@@ -83,6 +83,9 @@ class LightThemeColors {
   static const List<Color> gradientPrimary = [
     Color(0xFF2E225E),
     Color(0xFF331E86)
+  ];  static const List<Color> gradientPremium = [
+    Color(0xFFF5BE57),
+    Color(0xFFE6A53B)
   ];
   // shadow
   static const Color shadow = Color(0x07FFFFFF);
@@ -303,9 +306,9 @@ class LightTheme {
       textButtonTheme: const TextButtonThemeData(),
 
       //* dividerTheme
-      dividerTheme: DividerThemeData(
+      dividerTheme: const DividerThemeData(
         thickness: 1,
-        color: LightThemeColors.inputFieldBorder,
+        color: Color(0xffEEF2F6),
       ),
 
       expansionTileTheme: ExpansionTileThemeData(

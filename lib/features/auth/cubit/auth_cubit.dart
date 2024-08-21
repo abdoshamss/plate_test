@@ -15,12 +15,13 @@ class AuthCubit extends Cubit<AuthStates> {
   login({required AuthRequest loginRequestModel}) async {
     emit(LoginLoadingState());
     final response = await authRepository.loginRequest(loginRequestModel);
-
     if (response != null) {
-      if (response['id'] == null) {
+      if (response["user"]['id'] == null) {
         emit(LoginErrorState());
         return false;
       } else {
+        print("response" * 88);
+        print(response);
         await Utils.saveUserInHive(response);
         emit(LoginSuccessState());
         return true;

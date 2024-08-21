@@ -7,7 +7,7 @@ import '../utils/utils.dart';
 
 class DataManager {
   late BoxCollection collection;
-  late Box userData;
+ static late Box userData;
 
   static const USER = "USER";
 
@@ -44,14 +44,15 @@ class DataManager {
     return box.get(key);
   }
 
-  getUserData() async {
+ static getUserData() async {
     // final userData = await Hive.openBox('dataUser');
 
     try {
+      print("Hive"*88);
       final user = (Map<String, dynamic>.from(userData.get(USER)));
-
-      Utils.token = user['token'];
-      log(Utils.token);
+      Utils.token = user['access_token'];
+      print("HiveToken");
+    print(Utils.token.toString());
 
       // Utils.userModel = UserModel.fromJson(Map<String, dynamic>.from(user));
 

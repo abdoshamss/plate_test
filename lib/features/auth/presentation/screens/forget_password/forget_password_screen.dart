@@ -56,39 +56,23 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      48.ph,
-                      Image.asset(
-                        "otp_img".png(),
-                      ),
-                      32.ph,
+
                       const TextWidget(
-                        "تقريبا هناك!",
+                        "Enter your phone no",
                         fontSize: 24,
                         color: Colors.black,
                         fontWeight: FontWeight.w700,
                       ),
-                      8.ph,
-                      const TextWidget(
-                        'تحقق من صندوق الوارد الخاص بك وأدخل رمز التحقق للتحقق من حسابك.',
-                        fontSize: 16,
-                        color: Color(0xff64748B),
-                        fontWeight: FontWeight.w500,
-                      ),
-                      16.ph,
+
                       TextFormFieldWidget(
                         backgroundColor: const Color(0xffF8FAFC),
                         type: TextInputType.phone,
                         contentPadding: const EdgeInsetsDirectional.symmetric(
                             vertical: 20, horizontal: 10),
-                        prefixWidget: Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Transform.rotate(
-                              angle: 3.14 / 2 * 3 - .5,
-                              child: SvgPicture.asset(
-                                "Phone".svg(),
-                              )),
+                 prefixIconWidget:SvgPicture.asset(
+                          "Phone".svg(),fit: BoxFit.scaleDown,
                         ),
-                        hintText: 'رقم الجوال',
+                        hintText: 'Phone Number',
                         hintColor: const Color(0xff94A3B8),
                         password: false,
                         validator: (v) => Utils.valid.defaultValidation(v),

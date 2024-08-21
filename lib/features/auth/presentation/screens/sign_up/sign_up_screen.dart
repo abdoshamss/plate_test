@@ -26,7 +26,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final List<String> names = ["جوجل", "أبل"];
+  final List<String> names = ["Google", "Apple"];
   final List<String> icons = ["google", "apple"];
   final AuthRequest _authRequest = AuthRequest();
   final formKey = GlobalKey<FormState>();
@@ -115,14 +115,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     children: [
                       24.ph,
                       const CustomText(
-                        "قم بإنشاء حساب في بليت",
+                        "Sign in to Plate",
                         fontSize: 32,
                         color: Colors.black,
                         weight: FontWeight.w700,
                       ),
                       8.ph,
                       const CustomText(
-                        'مرحبا من فضلك أدخل بياناتك',
+                        'welcome, Please enter your data',
                         fontSize: 16,
                         color: Color(0xff64748B),
                         weight: FontWeight.w500,
@@ -138,10 +138,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: Icon(
                             Icons.person_2_outlined,
                             color: LightThemeColors.textHint,
-                            size: 26,
+                            size: 20,
                           ),
                         ),
-                        hintText: 'الإسم',
+                        hintText: 'Name',
                         password: false,
                         onSaved: (e) {
                           _authRequest.name = e;
@@ -154,7 +154,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         contentPadding: const EdgeInsetsDirectional.symmetric(
                             vertical: 20, horizontal: 10),
                         type: TextInputType.emailAddress,
-                        hintText: 'البريد الإلكترونى',
+                        hintText: 'Email',
                         password: false,
                         onSaved: (e) {
                           _authRequest.email = e;
@@ -164,7 +164,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: Icon(
                             Icons.email_outlined,
                             color: LightThemeColors.textHint,
-                            size: 26,
+                            size: 20,
                           ),
                         ),
                         validator: (v) => Utils.valid.emailValidation(v),
@@ -178,15 +178,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             vertical: 20, horizontal: 10),
                         prefixIconWidget: Padding(
                           padding: const EdgeInsets.only(left: 10),
-                          child: Transform.rotate(
-                              angle: 3.14 / 2 * 3 - .5,
-                              child: SvgPicture.asset(
-                                "Phone".svg(),
-                                fit: BoxFit.scaleDown,
-                                height: 24,
-                              )),
+                          child: SvgPicture.asset(
+                            "Phone".svg(),
+                            fit: BoxFit.scaleDown,
+                            height: 24,
+                          ),
                         ),
-                        hintText: 'رقم الجوال',
+                        hintText: 'Phone Number',
                         hintColor: const Color(0xff94A3B8),
                         password: false,
                         validator: (v) => Utils.valid.defaultValidation(v),
@@ -198,7 +196,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: Icon(
                             Icons.flag_outlined,
                             color: LightThemeColors.textHint,
-                            size: 26,
+                            size: 20,
                           ),
                         ),
 
@@ -214,7 +212,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         showSufix: true,
                         localData: false,
                         showLabel: false,
-                        hint: "المدينة",
+                        hint: "City",
                         itemAsString: (a) => a.name ?? '',
 
                         // border: InputBorder.none,
@@ -236,7 +234,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         // padding: const EdgeInsets.symmetric(horizontal: 18),
                         type: TextInputType.visiblePassword,
                         controller: password,
-                        hintText: 'كلمة المرور',
+                        hintText: 'Password',
                         password: true,
                         validator: (v) => Utils.valid.passwordValidation(v),
                         borderRadius: 16,
@@ -254,7 +252,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             fit: BoxFit.scaleDown,
                           ),
                         ),
-                        hintText: 'تأكيد كلمة المرور',
+                        hintText: 'Confirm Password',
                         password: true,
 
                         validator: (v) => Utils.valid
@@ -265,7 +263,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       32.ph,
                       ButtonWidget(
-                          title: "إنشاء حساب",
+                          title: "Sign up",
                           withBorder: true,
                           gradient: const LinearGradient(
                             colors: LightThemeColors.gradientPrimary,
@@ -314,7 +312,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           }),
                       20.ph,
                       ButtonWidget(
-                        title: 'الدخول كزائر',
+                        title: 'Enter a visitor',
                         withBorder: true,
                         buttonColor: Colors.white,
                         textColor: context.primaryColor,
@@ -334,7 +332,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: Align(
                           alignment: Alignment.center,
                           child: Text(
-                            "أو",
+                            "Or",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w500),
                           ),
@@ -362,7 +360,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 20.pw,
                                 SvgPicture.asset(icons[index].svg()),
                                 70.pw,
-                                Text("سجل الدخول بواسطة ${names[index]}",
+                                Text("Sign up with ${names[index]}",
                                     style:
                                         const TextStyle(color: Colors.black)),
                               ],
@@ -375,13 +373,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const CustomText(
-                            "لديك حساب ؟",
+                            "Already have an account ?",
                             fontSize: 16,
                             color: Colors.black,
                             weight: FontWeight.w500,
                           ),
                           TextButtonWidget(
-                              text: "سجل الدخول",
+                              text: "Sign in",
                               size: 16,
                               // padding: const EdgeInsets.symmetric(horizontal: 15),
                               color: context.primaryColor,

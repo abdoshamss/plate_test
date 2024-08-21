@@ -27,6 +27,7 @@ class _LayoutScreenState extends State<LayoutScreen> with SingleTickerProviderSt
       child: BlocConsumer<LayoutCubit, LayoutStates>(
         listener: (context, state) {},
         builder: (context, state) {
+
           final cubit = LayoutCubit.get(context);
           return Scaffold(
             body: TabBarView(

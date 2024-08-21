@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController phone = TextEditingController(text: "0512341234");
   TextEditingController password = TextEditingController(text: "12345678");
   late final AuthRequest _authRequest;
-  final List<String> names = ["جوجل", "أبل"];
+  final List<String> names = ["Google", "Apple"];
   final List<String> icons = ["google", "apple"];
   final formKey = GlobalKey<FormState>();
   AuthRequest authRequest = AuthRequest();
@@ -69,14 +69,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     24.ph,
                     const CustomText(
-                      "قم بتسجيل الدخول إلي بليت",
+                      "Sign in to Plate",
                       fontSize: 32,
                       color: Colors.black,
                       weight: FontWeight.w700,
                     ),
                     8.ph,
                     const CustomText(
-                      'مرحبا من فضلك أدخل بياناتك',
+                      'Welcome back! Please enter yout details.',
                       fontSize: 16,
                       color: Color(0xff64748B),
                       weight: FontWeight.w500,
@@ -89,15 +89,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       type: TextInputType.phone,
                       contentPadding: const EdgeInsetsDirectional.symmetric(
                           vertical: 20, horizontal: 10),
-                      prefixIconWidget: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Transform.rotate(
-                            angle: 3.14 / 2 * 3 - .5,
-                            child: SvgPicture.asset(
-                              "Phone".svg(),
-                            )),
+                      prefixIconWidget: SvgPicture.asset(
+                        "Phone".svg(),
+                        fit: BoxFit.scaleDown,
                       ),
-                      hintText: 'رقم الجوال',
+                      hintText: 'Phone Number',
                       hintColor: const Color(0xff94A3B8),
                       password: false,
                       validator: (v) => Utils.valid.defaultValidation(v),
@@ -109,26 +105,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       onSaved: (value) => _authRequest.password = value,
                       contentPadding: const EdgeInsetsDirectional.symmetric(
                           vertical: 20, horizontal: 10),
-                      prefixIconWidget: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: SvgPicture.asset(
-                          "lock".svg(),
-                        ),
+                      prefixIconWidget: SvgPicture.asset(
+                        "lock".svg(),
+                        fit: BoxFit.scaleDown,
                       ),
                       hintColor: const Color(0xff94A3B8),
                       backgroundColor: const Color(0xffF8FAFC),
                       // padding: const EdgeInsets.symmetric(horizontal: 18),
                       type: TextInputType.visiblePassword,
 
-                      hintText: 'كلمة المرور',
+                      hintText: 'Password',
                       password: true,
                       validator: (v) => Utils.valid.passwordValidation(v),
                       controller: password,
                       borderRadius: 16,
                     ),
-
+                    16.ph,
                     TextButtonWidget(
-                        text: 'هل نسيت كلمة المرور ؟',
+                        text: "Forgot password? Reset it",
                         size: 15,
                         color: Colors.black,
                         fontweight: FontWeight.w600,
@@ -138,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         }),
 
                     ButtonWidget(
-                      title: 'تسجيل الدخول',
+                      title: 'Sign in',
                       withBorder: true,
 
                       gradient: const LinearGradient(
@@ -193,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       },
                     ),
-                    8.ph,
+                    16.ph,
                     ...List.generate(
                       2,
                       (index) => Padding(
@@ -216,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               20.pw,
                               SvgPicture.asset(icons[index].svg()),
                               70.pw,
-                              Text("سجل الدخول بواسطة ${names[index]}",
+                              Text("Sign in with ${names[index]}",
                                   style: const TextStyle(color: Colors.black)),
                             ],
                           ),
@@ -234,13 +228,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const CustomText(
-                    "ليس لديك حساب ؟",
+                    "Don’t have and account? ",
                     fontSize: 16,
                     color: Colors.black,
                     weight: FontWeight.w500,
                   ),
                   TextButtonWidget(
-                      text: "إنشاء حساب",
+                      text: "Sign Up",
                       size: 16,
                       // padding: const EdgeInsets.symmetric(horizontal: 15),
                       color: context.primaryColor,

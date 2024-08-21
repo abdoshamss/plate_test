@@ -24,6 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final TextEditingController search = TextEditingController();
+  final List<String> namesSearchItem = ["Price Dropped", "Negotiable"];
+  final List<String> iconsSearchItem = ["fire", "sms"];
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -86,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
 
-                            hintText: 'ابحث عن رقم بليت',
+                            hintText: "Search for plate number",
                             hintColor: const Color(0xff94A3B8),
                             validator: (v) => Utils.valid.defaultValidation(v),
                             controller: search,
@@ -116,44 +119,92 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           const Padding(
                             padding: EdgeInsets.symmetric(vertical: 16.0),
-                            child: CustomRow(),
+                            child: CustomRow(
+                              title: 'Featured',
+                              subTitle: 'View all',
+                            ),
                           ),
                           SizedBox(
-                            height: 220,
+                            height: MediaQuery.of(context).size.height / 3.45,
                             child: ListView.separated(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              separatorBuilder: (context, index) => const SizedBox(
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
                                 width: 8,
                               ),
-                              itemBuilder: (context, index) => Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: const Color(0xffE0EBFF)),
-                                    borderRadius: BorderRadius.circular(16)),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Image.asset("verify_user".png("icons")),
-                                     const   Spacer(),
-                                        Image.asset("share".png("icons")),
-                                        Image.asset("heart".png("icons")),
-                                      ],
-                                    ),
-                                    Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 16),
-                                    child: Image.asset("template".png()),
-                                  )],
-                                ),
-                              ),
+                              itemBuilder: (context, index) =>
+                                  const FeatureItem(),
                               itemCount: 5,
                             ),
-                          )
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16.0),
+                            child: CustomRow(
+                                title: 'Search by Budget',
+                                subTitle: 'View all'),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height / 7,
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                width: 8,
+                              ),
+                              itemBuilder: (context, index) =>
+                                  const SearchItem(),
+                              itemCount: 5,
+                            ),
+                          ),
+                          const VerifyItem(),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16.0),
+                            child: CustomRow(
+                              title: 'Search by Ad type',
+                              subTitle: 'View all',
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height / 7,
+                            width: MediaQuery.of(context).size.width,
+                            child: ListView.separated(
+                              // padding: EdgeInsetsDirectional.only(end: 100),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                width: 8,
+                              ),
+                              itemBuilder: (context, index) => SearchItem(
+                                image: iconsSearchItem[index],
+                                text: namesSearchItem[index],
+                              ),
+                              itemCount: iconsSearchItem.length,
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 16),
+                            child: CustomRow(
+                              title: 'Recently Dropped',
+                              subTitle: 'View all',
+                            ),
+                          ),
+                          ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
+                              height: 8,
+                            ),
+                            itemBuilder: (context, index) =>
+                                const FeatureItemRecentlyDropped(),
+                            itemCount: 5,
+                          ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

@@ -1,0 +1,4 @@
+
+class item_detailsRequest {
+  
+}

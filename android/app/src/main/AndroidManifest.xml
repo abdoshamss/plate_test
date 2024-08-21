@@ -2,9 +2,9 @@
     <application
         android:label="plate_test"
         android:name="${applicationName}"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:enableOnBackInvokedCallback="true"
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"

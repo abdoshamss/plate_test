@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:plate_test/core/data_source/hive_helper.dart';
 import 'core/general/general_cubit.dart';
 import 'core/theme/dark_theme.dart';
 import 'core/theme/light_theme.dart';
@@ -29,9 +30,11 @@ Future<void> main() async {
 
   await Utils.dataManager.initHive();
   Utils.uuid = await Utils.getuuid() ?? "";
+
   await Utils.getFCMToken();
+  await DataManager.getUserData();
   runApp(EasyLocalization(
-      startLocale: const Locale('ar', 'EG'),
+      startLocale: const Locale('en', 'US'),
       supportedLocales: const [
         Locale('ar', 'EG'),
         Locale('en', 'US'),
