@@ -15,7 +15,6 @@ import '../../../../../shared/widgets/customtext.dart';
 import '../../../../../shared/widgets/edit_text_widget.dart';
 import '../../../cubit/auth_cubit.dart';
 import '../../../cubit/auth_states.dart';
-
 import '../../../domain/request/auth_request.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -33,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final List<String> icons = ["google", "apple"];
   final formKey = GlobalKey<FormState>();
   AuthRequest authRequest = AuthRequest();
+
   @override
   void dispose() {
     phone.dispose();
@@ -95,10 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       hintText: 'Phone Number',
                       hintColor: const Color(0xff94A3B8),
-                      password: false,
                       validator: (v) => Utils.valid.defaultValidation(v),
                       controller: phone,
-                      borderRadius: 16,
                     ),
 
                     TextFormFieldWidget(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plate_test/core/utils/extentions.dart';
 import 'package:plate_test/features/home/presentation/widgets/widgets.dart';
 import 'package:plate_test/features/item_details/presentation/widgets/widgets.dart';
@@ -36,8 +35,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     "New Design",
     "28/01/2024",
   ];
-  final List<String> images = ["message", "call", "whatsapp"];
-  final List<String> names = ["CHAT", "CALL", "WHATSAPP"];
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -177,43 +175,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 ),
               ),
             ),
-            bottomNavigationBar: Padding(
-              padding:   const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
-              child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(
-                  3,
-                      (index) => Container(
+            // bottomNavigationBar: UserBottomNavigation(),
 
-                                        margin: const EdgeInsets.symmetric(horizontal: 10),
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: Color(index == 2 ? 0xffF4FBF7 : 0xffF2F0FA),
-                        border: Border.all(
-                            color: Color(
-                                index == 2 ? 0xff22C55E : 0xff2E225E))),
-                                        child: Row(
-
-                      children: [
-                        SvgPicture.asset(
-                          images[index].svg(),
-                          width: 24,fit: BoxFit.fill,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        CustomText(
-                          names[index],
-                          style:   TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w700,color:  index == 2 ? const Color(0xff22C55E) :null),
-                        )
-                      ],
-                                        ),
-                                      ),
-                ),
-              ),
-            ),
           );
         },
       ),

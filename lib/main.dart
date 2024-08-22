@@ -6,11 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:plate_test/core/data_source/hive_helper.dart';
+
+import 'core/Router/Router.dart';
 import 'core/general/general_cubit.dart';
 import 'core/theme/dark_theme.dart';
 import 'core/theme/light_theme.dart';
-
-import 'core/Router/Router.dart';
 import 'core/utils/Locator.dart';
 import 'core/utils/responsive_framework_widget.dart';
 import 'core/utils/utils.dart';
@@ -23,6 +23,12 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: LightThemeColors.primary,
+  ));
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   // bloc observer
   Bloc.observer = MyBlocObserver();
   // dotenv.load();

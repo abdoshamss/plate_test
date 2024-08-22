@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:plate_test/core/theme/light_theme.dart';
 
 import '../../shared/widgets/alert_dialog.dart';
 import '../../shared/widgets/snackbar.dart';
@@ -28,8 +29,6 @@ class Alerts {
             ));
   }
 
-
-
   static Future infoDialog(BuildContext context,
       {required Widget child,
       RouteSettings? routeSettings,
@@ -51,7 +50,6 @@ class Alerts {
               child: child,
             ));
   }
-
 
   static Future yesOrNoDialog(BuildContext context,
       {required String title,
@@ -84,7 +82,7 @@ class Alerts {
         isScrollControlled: true,
         clipBehavior: Clip.hardEdge,
         elevation: 0,
-        backgroundColor: const Color(0xff1D1B20),
+        backgroundColor: LightThemeColors.primary,
         context: context,
         builder: (context) => SafeArea(
               minimum: const EdgeInsets.only(top: 20),
@@ -129,8 +127,7 @@ class Alerts {
             )));
   }
 
-
-    static defaultError() {
+  static defaultError() {
     return SmartDialog.show(
       builder: (context) => SizedBox(
         width: 400,

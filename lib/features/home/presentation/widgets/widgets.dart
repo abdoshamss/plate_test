@@ -59,7 +59,9 @@ class FeatureItem extends StatelessWidget {
                         Image.asset("verify_user".png("icons")),
                         const Spacer(),
                         Image.asset("share".png("icons")),
-                        const SizedBox(width: 4,),
+                        const SizedBox(
+                          width: 4,
+                        ),
                         Image.asset("heart".png("icons"))
                       ],
                     ),
@@ -83,8 +85,12 @@ class FeatureItem extends StatelessWidget {
                         color: Colors.black.withOpacity(.5),
                         borderRadius: BorderRadius.circular(4)),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
+                        Image.asset("image".png("icons")),
+                        const SizedBox(
+                          width: 4,
+                        ),
                         const CustomText(
                           "2",
                           style: TextStyle(
@@ -92,10 +98,6 @@ class FeatureItem extends StatelessWidget {
                               fontSize: 8,
                               fontWeight: FontWeight.w500),
                         ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Image.asset("image".png("icons")),
                       ],
                     ),
                   ),
@@ -349,7 +351,9 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
                       ),
                       const Spacer(),
                       Image.asset("share".png("icons")),
-                      SizedBox(width: isDetails?8:4,),
+                      SizedBox(
+                        width: isDetails ? 8 : 4,
+                      ),
                       Image.asset("heart".png("icons"))
                     ],
                   ),
@@ -377,6 +381,10 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      Image.asset("image".png("icons")),
+                      const SizedBox(
+                        width: 4,
+                      ),
                       const CustomText(
                         "2",
                         style: TextStyle(
@@ -384,10 +392,6 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
                             fontSize: 8,
                             fontWeight: FontWeight.w500),
                       ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Image.asset("image".png("icons")),
                     ],
                   ),
                 ),

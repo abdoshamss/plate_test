@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/extensions/all_extensions.dart';
 
 class TextFormFieldWidget extends StatefulWidget {
@@ -53,7 +54,7 @@ class TextFormFieldWidget extends StatefulWidget {
     this.errorText,
     this.controller,
     this.activeBorderColor = const Color(0x058A8C95),
-    this.borderRadius = 8.0,
+    this.borderRadius = 16,
     this.borderColor = Colors.black,
     this.backgroundColor = Colors.white,
     this.hintColor = const Color(0xffA1A7AD),
@@ -103,6 +104,7 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
               fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
           decoration: widget.inputDecoration ??
               InputDecoration(
+                isDense: true,
                 contentPadding: widget.contentPadding ??
                     const EdgeInsets.symmetric(horizontal: 10),
                 filled: true,

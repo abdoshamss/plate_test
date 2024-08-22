@@ -1,16 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plate_test/core/Router/Router.dart';
+
 import '../../../../core/extensions/all_extensions.dart';
 import '../../../../core/theme/light_theme.dart';
 import '../../../../core/utils/extentions.dart';
-import '../../cubit/layout_cubit.dart';
 import '../../../../shared/widgets/button_widget.dart';
 import '../../../../shared/widgets/customtext.dart';
+import '../../cubit/layout_cubit.dart';
 
 class CustomBottomNavBar extends StatefulWidget {
   const CustomBottomNavBar(
       {super.key, required this.onTap, required this.currentIndex});
+
   final Function(int)? onTap;
   final int currentIndex;
 
@@ -26,13 +29,10 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
       height: 120,
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
-          blurRadius: 30,
-          offset: const Offset(0, -3),
-          spreadRadius: 0,
-          color: const Color(0xff000000).withOpacity(
-            .1,
-          ),
-        ),
+            blurRadius: 30,
+            offset: const Offset(0, -3),
+            spreadRadius: 0,
+            color: const Color(0xff000000).withOpacity(.1)),
       ], color: Colors.transparent),
       child: Stack(
         alignment: Alignment.bottomCenter,
@@ -56,26 +56,26 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
                 children: [
                   navBarItem(
                     "home".png('icons'),
-                  "Home",
+                    "Home",
                     0,
                     "active_home".png('icons'),
                   ),
                   navBarItem(
                     "navigation_heart".png('icons'),
-                   "Favourite",
+                    "Favourite",
                     1,
                     "active_heart".png('icons'),
                   ),
                   80.pw,
                   navBarItem(
                     "chat".png('icons'),
-                  "Messages",
+                    "Messages",
                     2,
                     "active_chat".png('icons'),
                   ),
                   navBarItem(
                     "ticket".png('icons'),
-                   "My Ads",
+                    "My Ads",
                     3,
                     "active_ticket".png('icons'),
                   ),
@@ -110,6 +110,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
               ),
             ).onTap(
               () async {
+                Navigator.pushNamed(context, Routes.AddAdScreen);
                 // if (Utils.userModel.is_verified == true) {
                 // Utils.token.isEmpty
                 //     ? Alerts.bottomSheet(
@@ -171,7 +172,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
                     )
                   : Column(
                       children: [
-                      Image.asset(
+                        Image.asset(
                           path,
                           width: 25,
                           height: 25,
@@ -207,7 +208,6 @@ class BottomNavClipper extends CustomClipper<Path> {
     const double curveHeight = 60;
     const double curveWidth = 70;
 
-
     Path path = Path()
       ..lineTo((size.width - curveWidth) / 2, 0)
       ..relativeQuadraticBezierTo(
@@ -228,6 +228,7 @@ class BottomNavClipper extends CustomClipper<Path> {
 
 class CompleteAdDialog extends StatelessWidget {
   const CompleteAdDialog({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
