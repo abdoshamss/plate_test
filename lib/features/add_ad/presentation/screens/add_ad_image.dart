@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:plate_test/core/Router/Router.dart';
 import 'package:plate_test/core/extensions/all_extensions.dart';
 import 'package:plate_test/core/services/alerts.dart';
 import 'package:plate_test/core/services/media/alert_of_media.dart';
@@ -133,7 +132,6 @@ class _AddAdImageScreenState extends State<AddAdImageScreen> {
           // padding: const EdgeInsets.symmetric(horizontal: 15),
           onTap: () async {
             FocusScope.of(context).unfocus();
-            Navigator.pushNamed(context, Routes.PaymentScreen);
           },
         ),
       ),

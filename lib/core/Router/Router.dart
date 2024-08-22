@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plate_test/features/add_ad/presentation/screens/add_ad_image.dart';
-import 'package:plate_test/features/add_ad/presentation/screens/payment.dart';
 import 'package:plate_test/features/layout/presentation/screens/layout_screen.dart';
 
 import '../../features/add_ad/presentation/screens/add_ad_screen.dart';
@@ -28,7 +27,6 @@ class Routes {
   static const String FavoritesScreen = "FavoritesScreen";
   static const String AddAdScreen = "AddAdScreen";
   static const String AddAdImageScreen = "AddAdImageScreen";
-  static const String PaymentScreen = "PaymentScreen";
 }
 
 class RouteGenerator {
@@ -120,12 +118,7 @@ class RouteGenerator {
             builder: (_) {
               return const AddAdImageScreen();
             });
-      case Routes.PaymentScreen:
-        return CupertinoPageRoute(
-            settings: routeSettings,
-            builder: (_) {
-              return const PaymentScreen();
-            });
+
       default:
         return unDefinedRoute();
     }

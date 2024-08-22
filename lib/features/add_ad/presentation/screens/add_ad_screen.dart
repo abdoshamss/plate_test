@@ -34,6 +34,7 @@ class _AddAdScreenState extends State<AddAdScreen> {
   final number = TextEditingController();
   final code = TextEditingController();
   final location = TextEditingController();
+  final address = TextEditingController();
   final description = TextEditingController();
   final price = TextEditingController();
 
@@ -118,7 +119,6 @@ class _AddAdScreenState extends State<AddAdScreen> {
                         ),
                         TextFormFieldWidget(
                           backgroundColor: const Color(0xffF8FAFC),
-                          type: TextInputType.number,
                           contentPadding: const EdgeInsetsDirectional.symmetric(
                               vertical: 20, horizontal: 10),
                           hintText: 'Location',
@@ -128,14 +128,23 @@ class _AddAdScreenState extends State<AddAdScreen> {
                         ),
                         TextFormFieldWidget(
                           backgroundColor: const Color(0xffF8FAFC),
-                          type: TextInputType.number,
-                          maxLines: 20,
                           contentPadding: const EdgeInsetsDirectional.symmetric(
-                              vertical: 60, horizontal: 10),
+                              vertical: 20, horizontal: 10),
+                          hintText: 'Address',
+                          hintColor: const Color(0xff94A3B8),
+                          validator: (v) => Utils.valid.defaultValidation(v),
+                          controller: address,
+                        ),
+                        TextFormFieldWidget(
+                          backgroundColor: const Color(0xffF8FAFC),
+                          minLines: 5,
+                          maxLines: 5,
+                          contentPadding: const EdgeInsetsDirectional.symmetric(
+                              vertical: 20, horizontal: 10),
                           hintText: 'Description',
                           hintColor: const Color(0xff94A3B8),
                           validator: (v) => Utils.valid.defaultValidation(v),
-                          controller: number,
+                          controller: description,
                         ),
                         TextFormFieldWidget(
                           backgroundColor: const Color(0xffF8FAFC),
