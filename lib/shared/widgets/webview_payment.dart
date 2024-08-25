@@ -36,6 +36,7 @@ class _WebViewPaymentState extends State<WebViewPayment> {
         title: CustomText('pay_now'.tr(), color: LightThemeColors.primary),
         // leading: const BackWidget(),
       ),
+      ////
       body: SafeArea(
           child: WebViewWidget(
               controller: WebViewController()
