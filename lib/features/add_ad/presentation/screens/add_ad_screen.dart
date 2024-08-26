@@ -41,7 +41,7 @@ class _AddAdScreenState extends State<AddAdScreen>
     _tabController = TabController(vsync: this, length: 3);
   }
 
-  File? image;
+  // File? image;
   final formKey = GlobalKey<FormState>();
   final number = TextEditingController();
   final code = TextEditingController();
@@ -49,6 +49,8 @@ class _AddAdScreenState extends State<AddAdScreen>
   final address = TextEditingController();
   final description = TextEditingController();
   final price = TextEditingController();
+  File? image;
+  List<File>? images = [];
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +81,13 @@ class _AddAdScreenState extends State<AddAdScreen>
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.pop(context);
+                              if (_tabController.index == 0) {
+                                Navigator.pop(context);
+                              } else if (_tabController.index == 1 ||
+                                  _tabController.index == 2) {
+                                _tabController
+                                    .animateTo(--_tabController.index);
+                              }
                             },
                             child: const Icon(
                               Icons.arrow_back_outlined,
@@ -249,31 +257,37 @@ class _AddAdScreenState extends State<AddAdScreen>
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        Alerts.bottomSheet(context,
-                                            backgroundColor:
-                                                LightThemeColors.primary,
-                                            child: AlertOfMedia(
-                                              cameraTap: () async {
-                                                image = await MyMedia
-                                                    .pickImageFromCamera();
-                                              },
-                                              galleryTap: () async {
-                                                image = await MyMedia
-                                                    .pickImageFromGallery();
-                                              },
-                                            ));
-                                        setState(() {});
+                                        if (images!.length < 5) {
+                                          Alerts.bottomSheet(context,
+                                              backgroundColor:
+                                                  LightThemeColors.primary,
+                                              child: AlertOfMedia(
+                                                cameraTap: () async {
+                                                  image = await MyMedia
+                                                      .pickImageFromCamera();
+                                                  if (image != null) {
+                                                    images?.add(image!);
+                                                    Navigator.pop(context);
+                                                  }
+                                                },
+                                                galleryTap: () async {
+                                                  image = await MyMedia
+                                                      .pickImageFromGallery();
+                                                  if (image != null) {
+                                                    images?.add(image!);
+                                                    Navigator.pop(context);
+                                                  }
+                                                },
+                                              )).then((v) {
+                                            setState(() {});
+                                          });
+                                        }
                                       },
                                       child: Container(
                                         height: 160,
                                         width:
                                             MediaQuery.of(context).size.width,
                                         decoration: BoxDecoration(
-                                            image: image != null
-                                                ? DecorationImage(
-                                                    image: FileImage(image!),
-                                                    fit: BoxFit.fill)
-                                                : null,
                                             color: const Color(0xffF8FAFC),
                                             borderRadius:
                                                 BorderRadius.circular(16)),
@@ -301,6 +315,61 @@ class _AddAdScreenState extends State<AddAdScreen>
                                   ],
                                 ),
                               ),
+                              if (images!.isNotEmpty)
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height / 5,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: ListView.builder(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: images!.length,
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 8),
+                                            clipBehavior:
+                                                Clip.antiAliasWithSaveLayer,
+                                            height: 100,
+                                            width: 100,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    image: FileImage(
+                                                        images![index]),
+                                                    fit: BoxFit.fill),
+                                                color: const Color(0xffF8FAFC),
+                                                borderRadius:
+                                                    BorderRadius.circular(16)),
+                                          ),
+                                          16.ph,
+                                          GestureDetector(
+                                            onTap: () {
+                                              images!.removeAt(index);
+                                              setState(() {});
+                                            },
+                                            child: Container(
+                                              height: 30,
+                                              width: 30,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              child: const Icon(
+                                                Icons.delete_forever_rounded,
+                                                color: Colors.red,
+                                                size: 24,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
@@ -320,6 +389,7 @@ class _AddAdScreenState extends State<AddAdScreen>
                                   onTap: () async {
                                     FocusScope.of(context).unfocus();
                                     _tabController.animateTo(2);
+                                    // Toast.show("ashreffffffff" * 10, context);
                                   },
                                 ),
                               ),

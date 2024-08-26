@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plate_test/core/services/map.dart';
-import 'package:plate_test/features/add_ad/presentation/screens/add_ad_image.dart';
 import 'package:plate_test/features/layout/presentation/screens/layout_screen.dart';
 import 'package:plate_test/shared/widgets/webview_payment.dart';
 
@@ -28,7 +27,6 @@ class Routes {
   static const String ItemDetailsScreen = "ItemDetailsScreen";
   static const String FavoritesScreen = "FavoritesScreen";
   static const String AddAdScreen = "AddAdScreen";
-  static const String AddAdImageScreen = "AddAdImageScreen";
   static const String mapScreen = "mapScreen";
   static const String WebViewPaymentScreen = "WebViewPaymentScreen";
 }
@@ -116,12 +114,7 @@ class RouteGenerator {
             builder: (_) {
               return const AddAdScreen();
             });
-      case Routes.AddAdImageScreen:
-        return CupertinoPageRoute(
-            settings: routeSettings,
-            builder: (_) {
-              return const AddAdImageScreen();
-            });
+
       case Routes.mapScreen:
         return CupertinoPageRoute(
             settings: routeSettings,
