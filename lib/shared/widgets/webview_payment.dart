@@ -2,14 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plate_test/core/theme/light_theme.dart';
+import 'package:plate_test/shared/widgets/customtext.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../core/services/alerts.dart';
 import '../../core/utils/utils.dart';
 import '../../features/layout/presentation/screens/layout_screen.dart';
-import 'customtext.dart';
-
-// import 'package:shareet/shared/back_widget.dart';
 
 class WebViewPayment extends StatefulWidget {
   final String url;
@@ -36,7 +34,6 @@ class _WebViewPaymentState extends State<WebViewPayment> {
         title: CustomText('pay_now'.tr(), color: LightThemeColors.primary),
         // leading: const BackWidget(),
       ),
-      ////
       body: SafeArea(
           child: WebViewWidget(
               controller: WebViewController()

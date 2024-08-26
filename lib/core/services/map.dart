@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:plate_test/core/extensions/all_extensions.dart';
+import 'package:plate_test/core/theme/light_theme.dart';
+import 'package:plate_test/core/utils/extentions.dart';
 
+import '../../shared/widgets/button_widget.dart';
 import 'alerts.dart';
 
 class MapItem extends StatefulWidget {
@@ -30,9 +34,18 @@ class _State extends State<MapItem> {
     if (widget.lightMode) {
       goToMyLocation(location: LatLng(widget.lat, widget.lng));
     } else {
-      determinePosition();
+      determinePositionAsync();
     }
   }
+
+  Future<void> determinePositionAsync() async {
+    final location = await determinePosition();
+    area = await getLocation(location.latitude, location.longitude);
+    compeleted = true;
+  }
+
+  String? area;
+  bool compeleted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +58,18 @@ class _State extends State<MapItem> {
           markers: markers,
           mapToolbarEnabled: false,
           onTap: (location) async {
-            //   if (!widget.lightMode) {
-            //     await goToMyLocation(location: location);
-            //       await CacheHelper.saveCurrentLocationWithNameMap(locationName);
-            //
-            //       await CacheHelper.saveLatAndLng(location);
-            //   } else {
-            //     await getMaps(widget.lat, widget.lng);
-            //   }
+            if (!widget.lightMode) {
+              await goToMyLocation(location: location);
+              area = await getLocation(location.latitude, location.longitude);
+              print("areaaaa");
+              print(area);
+              // await CacheHelper.saveCurrentLocationWithNameMap(locationName);
+              //
+              // await CacheHelper.saveLatAndLng(location);
+            }
+            // else {
+            // await getMaps(widget.lat, widget.lng);
+            // }
           },
           initialCameraPosition:
               CameraPosition(target: LatLng(widget.lat, widget.lng)),
@@ -61,29 +78,98 @@ class _State extends State<MapItem> {
           },
         ),
         if (!widget.lightMode)
-          GestureDetector(
-            onTap: () async {
-              determinePosition();
-
-              setState(() {});
-            },
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 24,
-              ),
-              child: Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(13)),
-                child: Icon(
-                  Icons.location_on_rounded,
-                  color: Theme.of(context).primaryColor,
-                  size: 32,
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () async {
+                  await determinePosition();
+                  area = await getLocation(widget.lat, widget.lng);
+                  setState(() {});
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 24,
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(13)),
+                    child: const Icon(
+                      Icons.location_on_rounded,
+                      color: LightThemeColors.primary,
+                      size: 32,
+                    ),
+                  ),
                 ),
               ),
-            ),
+              100.pw,
+              SizedBox(
+                width: 100,
+                child: ButtonWidget(
+                  title: 'Pick',
+                  withBorder: true,
+                  gradient: const LinearGradient(
+                    colors: LightThemeColors.gradientPrimary,
+                  ),
+                  textColor: Colors.white,
+                  borderColor: context.primaryColor,
+                  width: double.infinity,
+                  fontSize: 18,
+                  fontweight: FontWeight.bold,
+                  // padding: const EdgeInsets.symmetric(horizontal: 15),
+                  onTap: () async {
+                    if (area != null || compeleted) {
+                      Navigator.pop(context, [area, widget.lat, widget.lng]);
+                      print(area);
+                      print(widget.lat);
+                      print(widget.lng);
+                    }
+                    // AuthRequest registerModel = AuthRequest(
+                    //   password: password.text,
+                    //   phone: phone.text,
+                    // );
+                    // FocusScope.of(context).unfocus();
+                    // if (formKey.currentState!.validate()) {
+                    //   final response = await cubit.login(
+                    //       loginRequestModel: registerModel);
+                    //   if (response == true) {
+                    //     Navigator.pushNamedAndRemoveUntil(
+                    //         context, Routes.LayoutScreen, (route) => false);
+                    //   } else if (response == false) {
+                    //     Alerts.snack(
+                    //         text: 'You have to activate your account'.tr(),
+                    //         state: SnackState.failed);
+                    //     Navigator.pushNamed(
+                    //       context,
+                    //       Routes.OtpScreen,
+                    //       arguments: OtpArguments(
+                    //           sendTo: phone.text,
+                    //           onSubmit: (s) async {
+                    //             registerModel.code = s;
+                    //             final res = await cubit.activate(
+                    //                 registerRequestModel: registerModel);
+                    //
+                    //             if (res == true) {
+                    //               Navigator.pushNamedAndRemoveUntil(
+                    //                   context,
+                    //                   Routes.LayoutScreen,
+                    //                       (route) => false);
+                    //             }
+                    //           },
+                    //           onReSend: () async {
+                    //             await cubit
+                    //                 .resendCode(registerModel.phone ?? '');
+                    //           },
+                    //           init: false),
+                    //     );
+                    //   }
+                    // }
+                  },
+                ),
+              ),
+            ],
           )
       ],
     );
@@ -142,17 +228,19 @@ class _State extends State<MapItem> {
     widget.lng = currentLocation.longitude;
 
     // await CacheHelper.saveCurrentLocation(currentLocation);
-    getLocation(currentLocation.latitude, currentLocation.longitude);
+
     // await CacheHelper.saveLatAndLng(currentLocation);
     return currentLocation;
   }
 }
 
-Future<void> getLocation(double lat, double lng) async {
+Future<String> getLocation(double lat, double lng) async {
   List<Placemark> placeMarks = await placemarkFromCoordinates(lat, lng);
   print(placeMarks.toString());
   print("1" * 80);
   print(placeMarks[0].subAdministrativeArea.toString());
+  print("area");
+  return placeMarks[0].subAdministrativeArea.toString();
   // await CacheHelper.saveCurrentLocationWithNameMap(
   //     placeMarks[0].locality.toString());
 }

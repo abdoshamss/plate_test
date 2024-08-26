@@ -1,6 +1,4 @@
-import 'endpoints.dart';
 
-import '../model/add_ad_model.dart';
 import '../../../../core/data_source/dio_helper.dart';
 
   //put it in locators locator.registerLazySingleton(() => AddAdRepository(locator<DioService>()));

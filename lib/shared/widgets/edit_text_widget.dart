@@ -7,12 +7,14 @@ class TextFormFieldWidget extends StatefulWidget {
   final TextInputType type;
   bool password = false;
   final bool expanded;
-  final Color? filledColor;
-  final Color activeBorderColor, borderColor, backgroundColor, hintColor;
+  final Color? borderColor, backgroundColor, filledColor, activeBorderColor;
+  final Color hintColor;
   final bool floatingHint;
   final int? maxLines;
   final int? minLines;
-  final void Function()? onTap;
+  final GestureTapCallback? onTap;
+
+  // final void Function()? onTap;
   FocusNode? focusNode;
   TextAlign textalign;
   int? maxLengh;
@@ -39,7 +41,7 @@ class TextFormFieldWidget extends StatefulWidget {
     this.isOutline,
     this.readOnly,
     this.hintSize,
-    this.enable,
+    this.enable = true,
     this.validator,
     this.onTap,
     this.prefixWidget,
@@ -47,7 +49,7 @@ class TextFormFieldWidget extends StatefulWidget {
     this.expanded = false,
     this.floatingHint = false,
     this.type = TextInputType.text,
-    this.hintText = "",
+    this.hintText,
     this.label,
     this.textalign = TextAlign.start,
     this.maxLengh,
@@ -55,8 +57,8 @@ class TextFormFieldWidget extends StatefulWidget {
     this.controller,
     this.activeBorderColor = const Color(0x058A8C95),
     this.borderRadius = 16,
-    this.borderColor = Colors.black,
-    this.backgroundColor = Colors.white,
+    this.borderColor,
+    this.backgroundColor,
     this.hintColor = const Color(0xffA1A7AD),
     this.maxLines,
     this.minLines = 1,
@@ -90,8 +92,6 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
         TextFormField(
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
           cursorColor: context.colorScheme.primary,
-          readOnly: widget.readOnly ?? false,
-          enabled: widget.enable ?? true,
           validator: widget.validator,
           maxLength: widget.maxLengh,
           focusNode: widget.focusNode,
@@ -129,10 +129,11 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
                         : null),
                 errorText: widget.errorText,
                 // helperText: "",
-                border: borderType(),
+                border: widget.enable ?? false ? borderType() : null,
                 focusedBorder: borderType(),
                 enabledBorder: borderType(),
                 errorBorder: borderType(),
+
                 hintStyle: TextStyle(
                     color: widget.hintColor,
                     fontSize: widget.hintSize ?? 16,
@@ -144,6 +145,7 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
           onChanged: widget.onChanged,
           onSaved: widget.onSaved,
           onTap: () => widget.onTap?.call(),
+          readOnly: widget.onTap != null,
         ),
       ],
     );
@@ -151,7 +153,8 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
 
   InputBorder borderType() {
     return OutlineInputBorder(
-      borderSide: BorderSide(color: widget.activeBorderColor, width: 1),
+      borderSide: BorderSide(
+          color: widget.activeBorderColor ?? Colors.transparent, width: 1),
       borderRadius: BorderRadius.all(Radius.circular(widget.borderRadius)),
     );
   }
