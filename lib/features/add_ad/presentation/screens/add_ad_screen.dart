@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:plate_test/core/extensions/all_extensions.dart';
+import 'package:plate_test/core/utils/Locator.dart';
 import 'package:plate_test/core/utils/extentions.dart';
+import 'package:plate_test/features/add_ad/domain/model/list_data_model.dart';
+import 'package:plate_test/features/add_ad/domain/repository/repository.dart';
+import 'package:plate_test/features/add_ad/domain/request/add_ad_request.dart';
 
 import '../../../../core/Router/Router.dart';
 import '../../../../core/services/alerts.dart';
@@ -12,9 +16,11 @@ import '../../../../core/services/media/alert_of_media.dart';
 import '../../../../core/services/media/my_media.dart';
 import '../../../../core/theme/light_theme.dart';
 import '../../../../core/utils/utils.dart';
+import '../../../../shared/widgets/autocomplate.dart';
 import '../../../../shared/widgets/button_widget.dart';
 import '../../../../shared/widgets/customtext.dart';
 import '../../../../shared/widgets/edit_text_widget.dart';
+import '../../../../shared/widgets/toast.dart';
 import '../../../item_details/presentation/widgets/widgets.dart';
 import '../../cubit/add_ad_cubit.dart';
 import '../../cubit/add_ad_states.dart';
@@ -41,7 +47,7 @@ class _AddAdScreenState extends State<AddAdScreen>
     _tabController = TabController(vsync: this, length: 3);
   }
 
-  // File? image;
+  AddAdRequest addAdRequest = AddAdRequest();
   final formKey = GlobalKey<FormState>();
   final number = TextEditingController();
   final code = TextEditingController();
@@ -49,8 +55,11 @@ class _AddAdScreenState extends State<AddAdScreen>
   final address = TextEditingController();
   final description = TextEditingController();
   final price = TextEditingController();
+  final coupon = TextEditingController();
   File? image;
   List<File>? images = [];
+  double? lat, lng;
+  bool isFeatured = false, negotiable = false;
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +139,10 @@ class _AddAdScreenState extends State<AddAdScreen>
                                       ),
                                     ),
                                     TextFormFieldWidget(
+                                      onSaved: (v) {
+                                        addAdRequest.plateNumber =
+                                            int.tryParse(v!);
+                                      },
                                       backgroundColor: const Color(0xffF8FAFC),
                                       type: TextInputType.number,
                                       contentPadding:
@@ -137,23 +150,27 @@ class _AddAdScreenState extends State<AddAdScreen>
                                               vertical: 20, horizontal: 10),
                                       hintText: 'Plate Number',
                                       hintColor: const Color(0xff94A3B8),
-                                      validator: (v) =>
-                                          Utils.valid.defaultValidation(v),
+                                      validator: cubit.validatePlateNumber(),
                                       controller: number,
                                     ),
                                     TextFormFieldWidget(
+                                      onSaved: (v) {
+                                        addAdRequest.plateCode = v;
+                                      },
                                       backgroundColor: const Color(0xffF8FAFC),
-                                      type: TextInputType.number,
                                       contentPadding:
                                           const EdgeInsetsDirectional.symmetric(
                                               vertical: 20, horizontal: 10),
                                       hintText: 'Plate Code',
                                       hintColor: const Color(0xff94A3B8),
-                                      validator: (v) =>
-                                          Utils.valid.defaultValidation(v),
+                                      validator: cubit.validateCodeNumber(),
                                       controller: code,
                                     ),
                                     TextFormFieldWidget(
+                                      onSaved: (v) {
+                                        addAdRequest.lat = lat;
+                                        addAdRequest.lng = lng;
+                                      },
                                       onTap: () {
                                         Navigator.pushNamed(
                                                 context, Routes.mapScreen)
@@ -164,6 +181,8 @@ class _AddAdScreenState extends State<AddAdScreen>
                                           print(latAndLng);
                                           location.text = latAndLng;
                                           address.text = data?[0];
+                                          lat = data?[1];
+                                          lng = data?[2];
                                         });
                                       },
                                       borderColor: Colors.transparent,
@@ -179,6 +198,10 @@ class _AddAdScreenState extends State<AddAdScreen>
                                       controller: location,
                                     ),
                                     TextFormFieldWidget(
+                                      onSaved: (v) {
+                                        addAdRequest.location = v;
+                                        print("location is $v");
+                                      },
                                       backgroundColor: const Color(0xffF8FAFC),
                                       contentPadding:
                                           const EdgeInsetsDirectional.symmetric(
@@ -189,7 +212,66 @@ class _AddAdScreenState extends State<AddAdScreen>
                                           Utils.valid.defaultValidation(v),
                                       controller: address,
                                     ),
+                                    CustomAutoCompleteTextField<Categories>(
+                                      contentPadding:
+                                          const EdgeInsetsDirectional.symmetric(
+                                              vertical: 20, horizontal: 10),
+                                      onChanged: (value) {
+                                        addAdRequest.categoryID = value.id;
+                                      },
+                                      function: (s) async {
+                                        // return await locator<GeneralRepo>()
+                                        //         .getAreas() ??
+                                        //     [];
+
+                                        return (await locator<AddAdRepository>()
+                                                    .getListData())
+                                                ?.categories ??
+                                            [];
+                                      },
+
+                                      validator: (v) =>
+                                          Utils.valid.defaultValidation(v),
+                                      showSufix: false,
+                                      localData: false,
+                                      showLabel: false,
+                                      hint: "Category",
+                                      itemAsString: (a) => a.name ?? '',
+
+                                      // border: InputBorder.none,
+                                    ),
+                                    CustomAutoCompleteTextField<PlateStyles>(
+                                      contentPadding:
+                                          const EdgeInsetsDirectional.symmetric(
+                                              vertical: 20, horizontal: 10),
+                                      onChanged: (value) {
+                                        addAdRequest.itemStyleId = value.id;
+                                      },
+                                      function: (s) async {
+                                        // return await locator<GeneralRepo>()
+                                        //         .getAreas() ??
+                                        //     [];
+
+                                        return (await locator<AddAdRepository>()
+                                                    .getListData())
+                                                ?.plateStyles ??
+                                            [];
+                                      },
+
+                                      validator: (v) =>
+                                          Utils.valid.defaultValidation(v),
+                                      showSufix: false,
+                                      localData: false,
+                                      showLabel: false,
+                                      hint: "Plate Style",
+                                      itemAsString: (a) => a.name ?? '',
+
+                                      // border: InputBorder.none,
+                                    ),
                                     TextFormFieldWidget(
+                                      onSaved: (v) {
+                                        addAdRequest.description = v;
+                                      },
                                       backgroundColor: const Color(0xffF8FAFC),
                                       minLines: 5,
                                       maxLines: 5,
@@ -203,6 +285,10 @@ class _AddAdScreenState extends State<AddAdScreen>
                                       controller: description,
                                     ),
                                     TextFormFieldWidget(
+                                      onSaved: (v) {
+                                        addAdRequest.amount =
+                                            double.tryParse(v!);
+                                      },
                                       backgroundColor: const Color(0xffF8FAFC),
                                       type: TextInputType.number,
                                       contentPadding:
@@ -234,8 +320,12 @@ class _AddAdScreenState extends State<AddAdScreen>
                                   fontweight: FontWeight.bold,
                                   // padding: const EdgeInsets.symmetric(horizontal: 15),
                                   onTap: () async {
-                                    FocusScope.of(context).unfocus();
-                                    _tabController.animateTo(1);
+                                    if (formKey.currentState!.validate()) {
+                                      formKey.currentState!.save();
+                                      FocusScope.of(context).unfocus();
+
+                                      _tabController.animateTo(1);
+                                    }
                                   },
                                 ),
                               ),
@@ -329,7 +419,7 @@ class _AddAdScreenState extends State<AddAdScreen>
                                       return Column(
                                         children: [
                                           Container(
-                                            margin: EdgeInsets.symmetric(
+                                            margin: const EdgeInsets.symmetric(
                                                 horizontal: 8),
                                             clipBehavior:
                                                 Clip.antiAliasWithSaveLayer,
@@ -388,8 +478,13 @@ class _AddAdScreenState extends State<AddAdScreen>
                                   // padding: const EdgeInsets.symmetric(horizontal: 15),
                                   onTap: () async {
                                     FocusScope.of(context).unfocus();
-                                    _tabController.animateTo(2);
-                                    // Toast.show("ashreffffffff" * 10, context);
+                                    if (images!.length == 5) {
+                                      cubit.addAdd(addAdRequest: addAdRequest);
+                                      _tabController.animateTo(2);
+                                    } else {
+                                      Toast.show(
+                                          "please upload 5 images", context);
+                                    }
                                   },
                                 ),
                               ),
@@ -453,6 +548,62 @@ class _AddAdScreenState extends State<AddAdScreen>
                                                   ),
                                                 )),
                                       ])),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 24),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const CustomText(
+                                      "Featured",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    Switch(
+                                      value: isFeatured,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          isFeatured = value;
+                                        });
+                                      },
+                                      inactiveTrackColor: Colors.white,
+                                      activeColor: LightThemeColors.primary,
+                                      inactiveThumbColor: Colors.grey,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 24),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const CustomText(
+                                      "Negotiable",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    Switch(
+                                      value: negotiable,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          negotiable = value;
+                                        });
+                                      },
+                                      inactiveTrackColor: Colors.white,
+                                      activeColor: LightThemeColors.primary,
+                                      inactiveThumbColor: Colors.grey,
+                                    ),
+                                  ],
+                                ),
+                              ),
                               Container(
                                   width: MediaQuery.of(context).size.width,
                                   padding: const EdgeInsets.all(16),
@@ -482,7 +633,7 @@ class _AddAdScreenState extends State<AddAdScreen>
                                             hintColor: const Color(0xff94A3B8),
                                             validator: (v) => Utils.valid
                                                 .defaultValidation(v),
-                                            controller: price,
+                                            controller: coupon,
                                           ),
                                           Positioned(
                                             right: 0,
@@ -515,10 +666,12 @@ class _AddAdScreenState extends State<AddAdScreen>
                                   // padding: const EdgeInsets.symmetric(horizontal: 15),
                                   onTap: () async {
                                     FocusScope.of(context).unfocus();
-                                    Navigator.pushNamed(
-                                      context, Routes.WebViewPaymentScreen,
-                                      // arguments:
-                                    );
+                                    cubit.orderCharge();
+                                    if (state is OrderChargeSuccessStates) {
+                                      Navigator.pushNamed(
+                                          context, Routes.WebViewPaymentScreen,
+                                          arguments: state.chargeLink);
+                                    }
                                   },
                                 ),
                               ),

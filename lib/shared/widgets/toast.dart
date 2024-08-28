@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 
 class Toast {
   // ignore: non_constant_identifier_names
-  static final int LENGTH_SHORT = 1;
+  static const int LENGTH_SHORT = 1;
 
   // ignore: non_constant_identifier_names
-  static final int LENGTH_LONG = 2;
+  static const int LENGTH_LONG = 2;
 
   // ignore: non_constant_identifier_names
-  static final int BOTTOM = 0;
+  static const int BOTTOM = 0;
 
   // ignore: non_constant_identifier_names
-  static final int CENTER = 1;
+  static const int CENTER = 1;
 
   // ignore: non_constant_identifier_names
-  static final int TOP = 2;
+  static const int TOP = 2;
 
   static void show(
     String msg,
@@ -61,7 +61,7 @@ class ToastView {
 
     _overlayEntry = OverlayEntry(
       builder: (BuildContext context) => ToastWidget(
-          widget: Container(
+          widget: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Container(
                 alignment: Alignment.center,
@@ -98,11 +98,11 @@ class ToastView {
 }
 
 class ToastWidget extends StatelessWidget {
-  ToastWidget({
-    Key? key,
+  const ToastWidget({
+    super.key,
     @required this.widget,
     @required this.gravity,
-  }) : super(key: key);
+  });
 
   final Widget? widget;
   final int? gravity;

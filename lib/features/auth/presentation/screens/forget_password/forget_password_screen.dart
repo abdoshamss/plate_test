@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+
 import '../../../../../core/Router/Router.dart';
 import '../../../../../core/extensions/all_extensions.dart';
 import '../../../../../core/utils/extentions.dart';
@@ -22,6 +23,7 @@ class ForgetPasswordScreen extends StatefulWidget {
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   TextEditingController phone = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
   @override
   void dispose() {
     phone.dispose();
@@ -56,21 +58,20 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-
                       const TextWidget(
                         "Enter your phone no",
                         fontSize: 24,
                         color: Colors.black,
                         fontWeight: FontWeight.w700,
                       ),
-
                       TextFormFieldWidget(
                         backgroundColor: const Color(0xffF8FAFC),
                         type: TextInputType.phone,
                         contentPadding: const EdgeInsetsDirectional.symmetric(
                             vertical: 20, horizontal: 10),
-                 prefixIconWidget:SvgPicture.asset(
-                          "Phone".svg(),fit: BoxFit.scaleDown,
+                        prefixIconWidget: SvgPicture.asset(
+                          "Phone".svg(),
+                          fit: BoxFit.scaleDown,
                         ),
                         hintText: 'Phone Number',
                         hintColor: const Color(0xff94A3B8),
