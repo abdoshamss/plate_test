@@ -1,18 +1,17 @@
-
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/Router/Router.dart';
+import '../../../../core/theme/light_theme.dart';
+import '../../../../shared/widgets/customtext.dart';
 import '../../cubit/chat_cubit.dart';
 import '../../cubit/chat_states.dart';
-///// put it in routes 
+import '../widgets/widgets.dart';
+
+///// put it in routes
 ///  import '../../features/chat/presentation/screens/Chat.dart';
-/// static const String ChatScreen = "ChatScreen";
-//  case Routes.ChatScreen:
-        // return CupertinoPageRoute(
-        //     settings: routeSettings,
-        //     builder: (_) {
-        //       return const ChatScreen();
-        //     });
+///
+
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
@@ -29,26 +28,56 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create:(context)=>  ChatCubit(),
-    child:  BlocConsumer<ChatCubit, ChatStates>(
+      create: (context) => ChatCubit()..chatRooms(),
+      child: BlocConsumer<ChatCubit, ChatStates>(
         listener: (context, state) {
           // TODO: implement listener
         },
         builder: (context, state) {
           final cubit = ChatCubit.get(context);
-          return const Scaffold(
+          return Scaffold(
             body: SafeArea(
               child: Column(
                 children: [
-                  Text("ChatScreen"),
-      
-                  
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    alignment: Alignment.bottomLeft,
+                    width: MediaQuery.of(context).size.width,
+                    height: 70,
+                    decoration: BoxDecoration(
+                        gradient:
+                            LinearGradient(colors: LightThemeColors.gradient)),
+                    child: const CustomText(
+                      "Message",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  if (state is GetChatRoomsSuccess)
+                    Expanded(
+                      child: ListView.separated(
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, Routes.ChatDetailsScreen);
+                          },
+                          child: ChatItem(
+                            chat: state.chats?[index],
+                          ),
+                        ),
+                        separatorBuilder: (context, index) => const Divider(),
+                        itemCount: state.chats?.length ?? 0,
+                      ),
+                    )
                 ],
               ),
             ),
-            );
+          );
         },
-      ),);
-    
+      ),
+    );
   }
 }

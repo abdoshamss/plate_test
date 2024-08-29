@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-import '../Router/Router.dart';
-import '../services/alerts.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../shared/widgets/myLoading.dart';
+import '../Router/Router.dart';
+import '../services/alerts.dart';
 import '../utils/utils.dart';
 
 class CustomInterceptor extends Interceptor {
@@ -41,8 +41,8 @@ class DioService {
           contentType: "application/x-www-form-urlencoded",
           receiveDataWhenStatusError: true,
           connectTimeout: const Duration(milliseconds: 30000),
-          receiveTimeout: const Duration(milliseconds: 30000),
-          sendTimeout: const Duration(milliseconds: 30000)),
+          receiveTimeout: const Duration(milliseconds: 60000),
+          sendTimeout: const Duration(milliseconds: 60000)),
     )..interceptors.add(PrettyDioLogger(
         requestHeader: true,
         requestBody: true,
@@ -224,6 +224,7 @@ class DioService {
 class ApiResponse {
   bool isError;
   Response? response;
+
   ApiResponse({this.response, required this.isError});
 }
 

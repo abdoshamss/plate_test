@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:plate_test/core/theme/light_theme.dart';
@@ -7,6 +6,8 @@ import 'package:plate_test/core/utils/extentions.dart';
 import 'package:plate_test/core/utils/utils.dart';
 import 'package:plate_test/features/home/presentation/widgets/widgets.dart';
 import 'package:plate_test/shared/widgets/edit_text_widget.dart';
+
+import '../../../../core/Router/Router.dart';
 import '../../cubit/home_cubit.dart';
 import '../../cubit/home_states.dart';
 
@@ -59,8 +60,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   'user'.svg(),
                                 ),
                                 Image.asset("home_logo".png("icons")),
-                                SvgPicture.asset(
-                                  'notifications'.svg(),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, Routes.NotificationsScreen);
+                                  },
+                                  child: SvgPicture.asset(
+                                    'notifications'.svg(),
+                                  ),
                                 )
                               ],
                             ),

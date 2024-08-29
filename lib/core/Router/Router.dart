@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plate_test/core/services/map.dart';
+import 'package:plate_test/features/chat/presentation/screens/chat_details_screen.dart';
 import 'package:plate_test/features/layout/presentation/screens/layout_screen.dart';
 import 'package:plate_test/shared/widgets/webview_payment.dart';
 
@@ -10,9 +11,11 @@ import '../../features/auth/presentation/screens/login/login_screen.dart';
 import '../../features/auth/presentation/screens/otp/otp_screen.dart';
 import '../../features/auth/presentation/screens/reset_password/reset_password_screen.dart';
 import '../../features/auth/presentation/screens/sign_up/sign_up_screen.dart';
+import '../../features/chat/presentation/screens/chat_screen.dart';
 import '../../features/favorites/presentation/screens/favorites_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/item_details/presentation/screens/item_details_screen.dart';
+import '../../features/notifications/presentation/screens/notifications_screen.dart';
 import '../../features/splash/presentation/screens/splash/splash.dart';
 
 class Routes {
@@ -29,6 +32,9 @@ class Routes {
   static const String AddAdScreen = "AddAdScreen";
   static const String mapScreen = "mapScreen";
   static const String WebViewPaymentScreen = "WebViewPaymentScreen";
+  static const String ChatScreen = "ChatScreen";
+  static const String ChatDetailsScreen = "ChatDetailsScreen";
+  static const String NotificationsScreen = "NotificationsScreen";
 }
 
 class RouteGenerator {
@@ -126,6 +132,25 @@ class RouteGenerator {
             settings: routeSettings,
             builder: (_) {
               return WebViewPayment(url: routeSettings.arguments as String);
+            });
+      case Routes.ChatScreen:
+        return CupertinoPageRoute(
+            settings: routeSettings,
+            builder: (_) {
+              return const ChatScreen();
+            });
+      case Routes.ChatDetailsScreen:
+        return CupertinoPageRoute(
+            settings: routeSettings,
+            builder: (_) {
+              return const ChatDetailsScreen();
+            });
+
+      case Routes.NotificationsScreen:
+        return CupertinoPageRoute(
+            settings: routeSettings,
+            builder: (_) {
+              return const NotificationsScreen();
             });
 
       default:

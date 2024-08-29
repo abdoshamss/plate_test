@@ -1,4 +1,1 @@
-
-class chatRequest {
-  
-}
+class ChatRequest {}

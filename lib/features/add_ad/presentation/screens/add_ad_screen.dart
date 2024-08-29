@@ -59,7 +59,7 @@ class _AddAdScreenState extends State<AddAdScreen>
   File? image;
   List<File>? images = [];
   double? lat, lng;
-  bool isFeatured = false, negotiable = false;
+  bool isFeatured = false, isBid = false;
 
   @override
   Widget build(BuildContext context) {
@@ -356,6 +356,7 @@ class _AddAdScreenState extends State<AddAdScreen>
                                                   image = await MyMedia
                                                       .pickImageFromCamera();
                                                   if (image != null) {
+                                                    print("a" * 88);
                                                     images?.add(image!);
                                                     Navigator.pop(context);
                                                   }
@@ -463,6 +464,62 @@ class _AddAdScreenState extends State<AddAdScreen>
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const CustomText(
+                                      "Featured",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    Switch(
+                                      value: isFeatured,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          isFeatured = value;
+                                        });
+                                      },
+                                      inactiveTrackColor: Colors.white,
+                                      activeColor: LightThemeColors.primary,
+                                      inactiveThumbColor: Colors.grey,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const CustomText(
+                                      "Negotiable",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    Switch(
+                                      value: isBid,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          isBid = value;
+                                        });
+                                      },
+                                      inactiveTrackColor: Colors.white,
+                                      activeColor: LightThemeColors.primary,
+                                      inactiveThumbColor: Colors.grey,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 16),
                                 child: ButtonWidget(
                                   title: 'Submit an Ad for 50 SAR',
                                   withBorder: true,
@@ -478,20 +535,23 @@ class _AddAdScreenState extends State<AddAdScreen>
                                   // padding: const EdgeInsets.symmetric(horizontal: 15),
                                   onTap: () async {
                                     FocusScope.of(context).unfocus();
-                                    if (images!.length == 5) {
+                                    if (images!.length == 1) {
+                                      addAdRequest.images = images;
+                                      addAdRequest.isFeatured = isFeatured;
+                                      addAdRequest.isBid = isBid;
                                       cubit.addAdd(addAdRequest: addAdRequest);
                                       _tabController.animateTo(2);
                                     } else {
                                       Toast.show(
-                                          "please upload 5 images", context);
+                                          "please upload 5 images", context,
+                                          backgroundColor: Colors.red);
                                     }
                                   },
                                 ),
                               ),
                             ],
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          ListView(
                             children: [
                               Container(
                                   margin: const EdgeInsets.all(24),
@@ -548,62 +608,6 @@ class _AddAdScreenState extends State<AddAdScreen>
                                                   ),
                                                 )),
                                       ])),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 24),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const CustomText(
-                                      "Featured",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                    ),
-                                    Switch(
-                                      value: isFeatured,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          isFeatured = value;
-                                        });
-                                      },
-                                      inactiveTrackColor: Colors.white,
-                                      activeColor: LightThemeColors.primary,
-                                      inactiveThumbColor: Colors.grey,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 24),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const CustomText(
-                                      "Negotiable",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                    ),
-                                    Switch(
-                                      value: negotiable,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          negotiable = value;
-                                        });
-                                      },
-                                      inactiveTrackColor: Colors.white,
-                                      activeColor: LightThemeColors.primary,
-                                      inactiveThumbColor: Colors.grey,
-                                    ),
-                                  ],
-                                ),
-                              ),
                               Container(
                                   width: MediaQuery.of(context).size.width,
                                   padding: const EdgeInsets.all(16),
