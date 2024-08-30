@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plate_test/core/utils/extentions.dart';
 
 import '../../../../shared/widgets/customtext.dart';
-import '../../domain/model/chat_model.dart';
+import '../../domain/model/chat_rooms_model.dart';
 
 class ChatItem extends StatelessWidget {
   Chats? chat;

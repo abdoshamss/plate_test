@@ -16,6 +16,7 @@ import '../../features/favorites/presentation/screens/favorites_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/item_details/presentation/screens/item_details_screen.dart';
 import '../../features/notifications/presentation/screens/notifications_screen.dart';
+import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/splash/presentation/screens/splash/splash.dart';
 
 class Routes {
@@ -35,6 +36,7 @@ class Routes {
   static const String ChatScreen = "ChatScreen";
   static const String ChatDetailsScreen = "ChatDetailsScreen";
   static const String NotificationsScreen = "NotificationsScreen";
+  static const String ProfileScreen = "ProfileScreen";
 }
 
 class RouteGenerator {
@@ -151,6 +153,12 @@ class RouteGenerator {
             settings: routeSettings,
             builder: (_) {
               return const NotificationsScreen();
+            });
+      case Routes.ProfileScreen:
+        return CupertinoPageRoute(
+            settings: routeSettings,
+            builder: (_) {
+              return const ProfileScreen();
             });
 
       default:

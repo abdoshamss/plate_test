@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/data_source/dio_helper.dart';
 import '../../../core/utils/Locator.dart';
-import '../domain/model/chat_model.dart';
+import '../domain/model/chat_rooms_model.dart';
 import '../domain/repository/repository.dart';
 import 'chat_states.dart';
 

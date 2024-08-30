@@ -1,4 +1,4 @@
-import 'package:plate_test/features/chat/domain/model/chat_model.dart';
+import 'package:plate_test/features/chat/domain/model/chat_rooms_model.dart';
 
 abstract class ChatStates {}
 

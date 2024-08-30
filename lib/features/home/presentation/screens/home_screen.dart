@@ -56,8 +56,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SvgPicture.asset(
-                                  'user'.svg(),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, Routes.ProfileScreen);
+                                  },
+                                  child: SvgPicture.asset(
+                                    'user'.svg(),
+                                  ),
                                 ),
                                 Image.asset("home_logo".png("icons")),
                                 GestureDetector(
