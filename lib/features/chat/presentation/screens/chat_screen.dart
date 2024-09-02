@@ -8,10 +8,6 @@ import '../../cubit/chat_cubit.dart';
 import '../../cubit/chat_states.dart';
 import '../widgets/widgets.dart';
 
-///// put it in routes
-///  import '../../features/chat/presentation/screens/Chat.dart';
-///
-
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
@@ -30,9 +26,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return BlocProvider(
       create: (context) => ChatCubit()..chatRooms(),
       child: BlocConsumer<ChatCubit, ChatStates>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           final cubit = ChatCubit.get(context);
           return Scaffold(
@@ -62,7 +56,11 @@ class _ChatScreenState extends State<ChatScreen> {
                         itemBuilder: (context, index) => GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(
-                                context, Routes.ChatDetailsScreen);
+                              context,
+                              Routes.ChatDetailsScreen,
+                              arguments:
+                                  int.parse(state.chats![index].id.toString()),
+                            );
                           },
                           child: ChatItem(
                             chat: state.chats?[index],

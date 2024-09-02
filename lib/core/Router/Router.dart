@@ -145,7 +145,9 @@ class RouteGenerator {
         return CupertinoPageRoute(
             settings: routeSettings,
             builder: (_) {
-              return const ChatDetailsScreen();
+              return ChatDetailsScreen(
+                id: routeSettings.arguments as int,
+              );
             });
 
       case Routes.NotificationsScreen:

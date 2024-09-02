@@ -34,6 +34,7 @@ class TextFormFieldWidget extends StatefulWidget {
   bool? isOutline;
   bool? enable;
   bool? readOnly;
+  final Future<Null> Function(dynamic value)? onFieldSubmitted;
 
   TextFormFieldWidget({
     this.onChanged,
@@ -72,6 +73,7 @@ class TextFormFieldWidget extends StatefulWidget {
     this.filledColor,
     this.prefixIconWidget,
     this.suffixIconWidget,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -90,6 +92,7 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
             textTheme: context.titleLarge
                 ?.copyWith(fontWeight: FontWeight.w500, fontSize: 16)),
         TextFormField(
+          onFieldSubmitted: widget.onFieldSubmitted,
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
           cursorColor: context.colorScheme.primary,
           validator: widget.validator,

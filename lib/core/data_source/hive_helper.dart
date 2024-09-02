@@ -3,11 +3,12 @@ import 'dart:developer';
 import 'package:hive_flutter/hive_flutter.dart';
 
 // import '../../modules/auth/domain/model/auth_model.dart';
+import '../../features/chat/domain/model/chat_details_model.dart';
 import '../utils/utils.dart';
 
 class DataManager {
   late BoxCollection collection;
- static late Box userData;
+  static late Box userData;
 
   static const USER = "USER";
 
@@ -44,15 +45,15 @@ class DataManager {
     return box.get(key);
   }
 
- static getUserData() async {
+  static getUserData() async {
     // final userData = await Hive.openBox('dataUser');
 
     try {
-      print("Hive"*88);
+      print("Hive" * 88);
       final user = (Map<String, dynamic>.from(userData.get(USER)));
       Utils.token = user['access_token'];
       print("HiveToken");
-    print(Utils.token.toString());
+      print(Utils.token.toString());
 
       // Utils.userModel = UserModel.fromJson(Map<String, dynamic>.from(user));
 
@@ -73,5 +74,37 @@ class DataManager {
     final userData = await Hive.openBox('data');
 
     return userData.delete(USER);
+  }
+
+  late Box localMessage;
+
+  deleteAllMsgs() async => await localMessage.clear();
+
+  addMsg(
+    Message message,
+  ) async =>
+      await localMessage.put(
+        message.createdAt.toString(),
+        await message.msgSave(),
+      );
+
+  deleteMsg(String key) async => await localMessage.delete(key);
+
+  updateMsg(String key, Message msg) async =>
+      await localMessage.put(key, await msg.msgSave());
+
+  // Future<MessageModel> getMessage(String key) async =>
+  //     MessageModel.fromHive(await localMessage.get(key));
+
+  //  ;
+  Future<List<Message>?> getMsgs(String roomId, String FromId) async {
+    List<Message> messages = [];
+    for (Map element in localMessage.values) {
+      final message = Message.fromHive(element);
+      if (message.isSender == true && message.roomId == roomId) {
+        messages.add(message);
+      }
+    }
+    return messages.reversed.toList();
   }
 }

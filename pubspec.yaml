@@ -68,6 +68,11 @@ dependencies:
   dotted_border:
   pinput:
   animate_do:
+  infinite_scroll_pagination: ^4.0.0
+  pusher_client:
+    git:
+      url: https://github.com/eng-sayed/pusher_client.git
+      ref: master
 
   # url_launcher: ^6.2.4
   # whatsapp: ^2.0.0 

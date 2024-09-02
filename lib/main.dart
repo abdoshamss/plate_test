@@ -76,7 +76,6 @@ class MyApp extends StatelessWidget {
               locale: context.locale,
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
-
               builder: (_, child) {
                 final botToastBuilder = BotToastInit();
                 final smartDialog = FlutterSmartDialog.init();

@@ -1,8 +1,10 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:device_uuid/device_uuid.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'dart:math';
+
 import '../../features/auth/domain/model/auth_model.dart';
 import '../data_source/hive_helper.dart';
 import 'Locator.dart';
@@ -13,7 +15,9 @@ class Utils {
   static String lang = '';
   static String FCMToken = '';
   static String userType = "";
+  static String room_id = "";
   static String uuid = "";
+
   static Future<String?> getuuid() async {
     final uuid = await DeviceUuid().getUUID();
     print("uuid" * 88);
@@ -33,11 +37,13 @@ class Utils {
   }
 
   static UserModel userModel = UserModel();
+
   static GlobalKey<NavigatorState> navigatorKey() =>
       locator<GlobalKey<NavigatorState>>();
   static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   static Validation get valid => locator<Validation>();
+
   static DataManager get dataManager => locator<DataManager>();
 
   static saveUserInHive(Map<String, dynamic> response) async {

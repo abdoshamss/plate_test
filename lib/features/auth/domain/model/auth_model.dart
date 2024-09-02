@@ -1,12 +1,13 @@
-
 class UserModel {
+  int? id;
+
   String? name;
   String? email;
   String? type;
   String? createdAt;
   String? token;
   String? password;
-    String? phone;
+  String? phone;
   String? fcm_token;
 
   UserModel(
