@@ -3,9 +3,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:plate_test/core/utils/extentions.dart';
 
 import '../../../../shared/widgets/customtext.dart';
+import '../../domain/model/notifications_model.dart';
 
-class NotificationItem extends StatelessWidget {
-  const NotificationItem({super.key});
+class NotificationItems extends StatelessWidget {
+  final NotificationItemModel item;
+  final String? createdAt;
+
+  const NotificationItems(
+      {super.key, required this.item, required this.createdAt});
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +30,18 @@ class NotificationItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const CustomText(
-                  "Discount Available",
+                CustomText(
+                  item.title!,
                   overflow: TextOverflow.ellipsis,
                   maxLine: 1,
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w700, fontSize: 16),
                 ),
-                const CustomText(
-                  "We recommend a 5% discount for Plate",
+                CustomText(
+                  item.message!,
                   overflow: TextOverflow.ellipsis,
                   maxLine: 2,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xff64748B),
                       fontWeight: FontWeight.w500,
                       fontSize: 14),
@@ -45,11 +51,11 @@ class NotificationItem extends StatelessWidget {
                     SvgPicture.asset("clock_notification".svg(),
                         fit: BoxFit.fill),
                     2.pw,
-                    const CustomText(
-                      "09:00 AM",
+                    CustomText(
+                      createdAt!,
                       overflow: TextOverflow.ellipsis,
                       maxLine: 1,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color(0xff94A3B8),
                           fontWeight: FontWeight.w500,
                           fontSize: 12),

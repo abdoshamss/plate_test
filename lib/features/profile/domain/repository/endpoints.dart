@@ -1,3 +1,3 @@
-class profileEndpoints {
-  static const String baseUrl = "https://jsonplaceholder.typicode.com";
+class ProfileEndpoints {
+  static const String logOut = "logout";
 }

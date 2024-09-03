@@ -8,7 +8,7 @@ import '../cubit/states.dart';
 import '../domain/request/static_page_request.dart';
 
 class ContactUs extends StatefulWidget {
-  const ContactUs({Key? key}) : super(key: key);
+  const ContactUs({super.key});
 
   @override
   State<ContactUs> createState() => _ContactUsState();
@@ -44,18 +44,18 @@ class _ContactUsState extends State<ContactUs> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Form(
                 key: formKey,
-                child: Column(
+                child: const Column(
                   children: <Widget>[
                     CircleAvatar(
                       radius: 50,
                       // backgroundColor: AppColors.primary,
-                      child: const Icon(
+                      child: Icon(
                         Icons.email,
                         size: 50,
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 15,
                     ),
                     // DefaultTextField(
@@ -106,7 +106,7 @@ class _ContactUsState extends State<ContactUs> {
                     //   },
                     //   validate: Validation.defaultValidation,
                     // ),
-                    const SizedBox(
+                    SizedBox(
                       height: 15,
                     ),
 
@@ -137,7 +137,7 @@ class _ContactUsState extends State<ContactUs> {
                     //     }
                     //   },
                     // ),
-                    const SizedBox(
+                    SizedBox(
                       height: 10,
                     ),
                   ],

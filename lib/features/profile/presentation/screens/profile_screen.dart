@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:plate_test/core/Router/Router.dart';
 import 'package:plate_test/core/utils/extentions.dart';
+import 'package:plate_test/core/utils/utils.dart';
 
 import '../../../../core/theme/light_theme.dart';
 import '../../../../shared/widgets/customtext.dart';
@@ -144,8 +146,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           );
                         } else {
                           return GestureDetector(
-                            onTap: () {
-                              print("mod");
+                            onTap: () async {
+                              if (index == 8) {
+                                await cubit.logOut(Utils.uuid);
+                                print(Utils.token);
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    Routes.splashScreen, (route) => false);
+                              }
                             },
                             child: Padding(
                               padding:

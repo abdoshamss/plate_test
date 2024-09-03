@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plate_test/core/utils/extentions.dart';
+import 'package:plate_test/features/chat/domain/model/chat_details_model.dart';
 
 import '../../../../shared/widgets/customtext.dart';
 import '../../domain/model/chat_rooms_model.dart';
@@ -94,7 +95,9 @@ class ChatItem extends StatelessWidget {
 }
 
 class HeaderChatDeatilsScreen extends StatelessWidget {
-  const HeaderChatDeatilsScreen({super.key});
+  final Other? data;
+
+  const HeaderChatDeatilsScreen({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -123,9 +126,10 @@ class HeaderChatDeatilsScreen extends StatelessWidget {
             ),
           ),
           8.pw,
-          const CircleAvatar(
-            backgroundImage: NetworkImage(
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6HZJrBtIyi4XEnkjqQvH98pNq56FLhi600vOwJI1RWBYVFlZhGlf2nu5GiYl3FXdKRjA&usqp=CAU"),
+          CircleAvatar(
+            backgroundImage: NetworkImage(data?.image == ""
+                ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6HZJrBtIyi4XEnkjqQvH98pNq56FLhi600vOwJI1RWBYVFlZhGlf2nu5GiYl3FXdKRjA&usqp=CAU"
+                : data!.image!),
             radius: 25,
           ),
           Expanded(
@@ -133,22 +137,25 @@ class HeaderChatDeatilsScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomText(
-                  "Adel Shakal",
+                CustomText(
+                  data?.name ?? "null",
                   overflow: TextOverflow.ellipsis,
                   maxLine: 1,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w700),
                 ),
                 Row(
                   children: [
-                    const CircleAvatar(
-                      backgroundColor: Color(0xff22C55E),
+                    CircleAvatar(
+                      backgroundColor: data?.online ?? false
+                          ? const Color(0xff22C55E)
+                          : Colors.red,
                       radius: 4,
                     ),
                     4.pw,
-                    const CustomText(
-                      "Online",
-                      style: TextStyle(
+                    CustomText(
+                      data?.online ?? false ? "Online" : "Offline",
+                      style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                           color: Color(0xff64748B)),
@@ -165,7 +172,9 @@ class HeaderChatDeatilsScreen extends StatelessWidget {
 }
 
 class PlateItemInChatDeatilsScreen extends StatelessWidget {
-  const PlateItemInChatDeatilsScreen({super.key});
+  final ItemChat? item;
+
+  const PlateItemInChatDeatilsScreen({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -186,24 +195,24 @@ class PlateItemInChatDeatilsScreen extends StatelessWidget {
                   width: 100,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      image: const DecorationImage(
-                          image: NetworkImage(
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6HZJrBtIyi4XEnkjqQvH98pNq56FLhi600vOwJI1RWBYVFlZhGlf2nu5GiYl3FXdKRjA&usqp=CAU"),
+                      image: DecorationImage(
+                          image: NetworkImage(item?.image ??
+                              "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"),
                           fit: BoxFit.fill)),
                 ),
                 12.pw,
-                const Column(
+                Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        "V8008",
-                        style: TextStyle(
+                        item?.plate ?? "null",
+                        style: const TextStyle(
                             fontSize: 14, fontWeight: FontWeight.w600),
                       ),
                       CustomText(
-                        "SAR 595,000",
-                        style: TextStyle(
+                        "${item?.currency ?? "SAR"}\t${item?.price}",
+                        style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w400,
                         ),

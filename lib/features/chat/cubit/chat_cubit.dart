@@ -42,10 +42,11 @@ class ChatCubit extends Cubit<ChatStates> {
   ScrollController scrollController = ScrollController();
   Directory? appDirectory;
   String? path;
+
   PagingController<int, Message> messagecontroller =
       PagingController<int, Message>(firstPageKey: 1);
 
-  addPageLisnter({String? id}) async {
+  addPageListener({String? id}) async {
     messagecontroller.addPageRequestListener((pageKey) {
       getChatMessages(
         page: pageKey,
@@ -59,8 +60,10 @@ class ChatCubit extends Cubit<ChatStates> {
     if (res != null) {
       emit(MessageSentState());
       send.clear();
-      return true;
-      // return Message.fromMap(res["chat"]);
+      messagecontroller.itemList?.insert(0, Message.fromMap(res["chat"]));
+      // log(messagecontroller.itemList?[0].id!.toString() ?? "ashraf");
+      // return true;
+      return Message.fromMap(res["chat"]);
     } else {
       emit(MessageSentErrorState());
       return null;
@@ -127,6 +130,7 @@ class ChatCubit extends Cubit<ChatStates> {
       final data = event?.data ?? "";
       Message message = Message.fromJson(data);
       log((message.isSender == false).toString(), name: "dddd");
+      log("${message.id}ashraffff");
       if (message.isSender == false) {
         messagecontroller.itemList?.insert(0, message);
 

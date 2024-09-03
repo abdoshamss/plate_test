@@ -1,3 +1,3 @@
-class notificationsEndpoints {
-  static const String baseUrl = "https://jsonplaceholder.typicode.com";
+class NotificationsEndpoints {
+  static const String getNotifications = "notifications";
 }

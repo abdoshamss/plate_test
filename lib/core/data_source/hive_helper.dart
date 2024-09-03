@@ -25,6 +25,7 @@ class DataManager {
     // );
   }
 
+/////
   Future<void> saveData(String key, dynamic value) async {
     final box = await Hive.openBox('data');
     await box.put(key, value);
@@ -66,8 +67,8 @@ class DataManager {
 
   deleteUserData() async {
     // final userData = await Hive.openBox('dataUser');
-
-    return userData.delete(USER);
+    print("Deleeeeeeteee");
+    return await userData.delete(USER);
   }
 
   deleteAllData() async {

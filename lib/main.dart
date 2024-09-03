@@ -8,6 +8,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:plate_test/core/data_source/hive_helper.dart';
 
 import 'core/Router/Router.dart';
+import 'core/fcm/firebase_fcm_handle.dart';
 import 'core/general/general_cubit.dart';
 import 'core/theme/dark_theme.dart';
 import 'core/theme/light_theme.dart';
@@ -20,9 +21,11 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseMessagingService().initialize();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: LightThemeColors.primary,
   ));
@@ -37,7 +40,7 @@ Future<void> main() async {
   await Utils.dataManager.initHive();
   Utils.uuid = await Utils.getuuid() ?? "";
 
-  await Utils.getFCMToken();
+  // await Utils.getFCMToken();
   await DataManager.getUserData();
   runApp(EasyLocalization(
       startLocale: const Locale('en', 'US'),
