@@ -58,7 +58,6 @@ dependencies:
   google_maps_flutter: ^2.9.0
   geolocator: ^12.0.0
   geocoding: ^3.0.0
-
   bot_toast: ^4.0.3
   responsive_framework: ^1.4.0
   pretty_dio_logger:

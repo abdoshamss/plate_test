@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:plate_test/core/utils/extentions.dart';
 
 import '../../../../shared/widgets/customtext.dart';
+import '../../domain/model/item_details_model.dart';
 
 Widget myDivider() {
   return const Padding(
@@ -12,7 +13,9 @@ Widget myDivider() {
 }
 
 class PostedByItem extends StatelessWidget {
-  const PostedByItem({super.key});
+  final User? user;
+
+  const PostedByItem({super.key, this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +24,12 @@ class PostedByItem extends StatelessWidget {
         Container(
           width: 50,
           height: 50,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
                   image: NetworkImage(
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6HZJrBtIyi4XEnkjqQvH98pNq56FLhi600vOwJI1RWBYVFlZhGlf2nu5GiYl3FXdKRjA&usqp=CAU"))),
+                user!.image!,
+              ))),
         ),
         4.pw,
         Column(
@@ -34,12 +38,13 @@ class PostedByItem extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Text(
-                  "Adel Shakal",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                Text(
+                  user!.name!,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w400),
                 ),
                 6.pw,
-                Image.asset("verify_icon".png("icons"))
+                if (user!.userVerified!) Image.asset("verify_icon".png("icons"))
               ],
             ),
             const CustomText(
@@ -55,6 +60,7 @@ class PostedByItem extends StatelessWidget {
     );
   }
 }
+
 class UserBottomNavigation extends StatelessWidget {
   const UserBottomNavigation({super.key});
 
@@ -68,15 +74,14 @@ class UserBottomNavigation extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: List.generate(
           3,
-              (index) => Container(
+          (index) => Container(
             margin: const EdgeInsets.symmetric(horizontal: 10),
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6),
                 color: Color(index == 2 ? 0xffF4FBF7 : 0xffF2F0FA),
                 border: Border.all(
-                    color:
-                    Color(index == 2 ? 0xff22C55E : 0xff2E225E))),
+                    color: Color(index == 2 ? 0xff22C55E : 0xff2E225E))),
             child: Row(
               children: [
                 SvgPicture.asset(
@@ -92,8 +97,7 @@ class UserBottomNavigation extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
-                      color:
-                      index == 2 ? const Color(0xff22C55E) : null),
+                      color: index == 2 ? const Color(0xff22C55E) : null),
                 )
               ],
             ),

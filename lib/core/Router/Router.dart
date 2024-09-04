@@ -108,7 +108,7 @@ class RouteGenerator {
         return CupertinoPageRoute(
             settings: routeSettings,
             builder: (_) {
-              return const ItemDetailsScreen();
+              return ItemDetailsScreen(id: routeSettings.arguments as int);
             });
       case Routes.FavoritesScreen:
         return CupertinoPageRoute(

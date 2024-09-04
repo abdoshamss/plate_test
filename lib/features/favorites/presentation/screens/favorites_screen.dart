@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plate_test/shared/widgets/customtext.dart';
+
 import '../../../../core/theme/light_theme.dart';
-import '../../../home/presentation/widgets/widgets.dart';
 import '../../cubit/favorites_cubit.dart';
 import '../../cubit/favorites_states.dart';
 ///// put it in routes
@@ -51,17 +50,17 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           fontSize: 18),
                     ),
                   ),
-                  Expanded(
-                    child: ListView.separated(
-                      padding: const EdgeInsets.all(16),
-                      separatorBuilder: (context, index) => const SizedBox(
-                        height: 8,
-                      ),
-                      itemBuilder: (context, index) =>
-                          const FeatureItemRecentlyDropped(),
-                      itemCount: 5,
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: ListView.separated(
+                  //     padding: const EdgeInsets.all(16),
+                  //     separatorBuilder: (context, index) => const SizedBox(
+                  //       height: 8,
+                  //     ),
+                  //     itemBuilder: (context, index) =>
+                  //         const FeatureItemRecentlyDropped(),
+                  //     itemCount: 5,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
