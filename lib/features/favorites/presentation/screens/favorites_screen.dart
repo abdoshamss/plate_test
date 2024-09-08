@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plate_test/shared/widgets/customtext.dart';
 
 import '../../../../core/theme/light_theme.dart';
+import '../../../home/presentation/widgets/widgets.dart';
 import '../../cubit/favorites_cubit.dart';
 import '../../cubit/favorites_states.dart';
 ///// put it in routes
@@ -23,7 +24,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => FavoritesCubit(),
+      create: (context) => FavoritesCubit()..getFavoritesData(),
       child: BlocConsumer<FavoritesCubit, FavoritesStates>(
         listener: (context, state) {
           // TODO: implement listener
@@ -50,17 +51,22 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           fontSize: 18),
                     ),
                   ),
-                  // Expanded(
-                  //   child: ListView.separated(
-                  //     padding: const EdgeInsets.all(16),
-                  //     separatorBuilder: (context, index) => const SizedBox(
-                  //       height: 8,
-                  //     ),
-                  //     itemBuilder: (context, index) =>
-                  //         const FeatureItemRecentlyDropped(),
-                  //     itemCount: 5,
-                  //   ),
-                  // ),
+                  if (state is GetFavoritesDataSuccessState &&
+                      state.data!.data!.item!.isNotEmpty)
+                    Expanded(
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(16),
+                        separatorBuilder: (context, index) => const SizedBox(
+                          height: 8,
+                        ),
+                        itemBuilder: (context, index) {
+                          final item = state.data!.data!.item![index];
+                          return FeatureItemRecentlyDropped(
+                              favoritesItem: item);
+                        },
+                        itemCount: state.data!.data!.item!.length,
+                      ),
+                    ),
                 ],
               ),
             ),

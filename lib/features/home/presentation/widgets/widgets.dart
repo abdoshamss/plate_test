@@ -5,6 +5,7 @@ import 'package:plate_test/shared/widgets/customtext.dart';
 
 import '../../../../core/Router/Router.dart';
 import '../../../../core/theme/light_theme.dart';
+import '../../../favorites/domain/model/favorites_model.dart';
 import '../../../item_details/domain/model/item_details_model.dart';
 import '../../domain/model/home_model.dart';
 
@@ -237,79 +238,84 @@ class VerifyItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: Colors.white, boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(.15),
-          offset: const Offset(0, 2),
-          blurRadius: 20,
-        )
-      ]),
-      margin: const EdgeInsets.symmetric(vertical: 16),
-      width: MediaQuery.of(context).size.width,
-      child: Row(
-        children: [
-          Container(
-            width: 50,
-            height: 110,
-            color: const Color(0xffF3F7FE),
-            child: Image.asset("verify".png("icons")),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      "Become a verified user",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
-                    ),
-                    SizedBox(
-                      height: 2,
-                    ),
-                    CustomText(
-                      "Build Trust",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 10,
-                          color: Color(0xff5D5D5D)),
-                    ),
-                    CustomText(
-                      "Get increased visibility",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 10,
-                          color: Color(0xff5D5D5D)),
-                    ),
-                    CustomText(
-                      "Unlock Exclusive Awards",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 10,
-                          color: Color(0xff5D5D5D)),
-                    ),
-                    SizedBox(
-                      height: 2,
-                    ),
-                    CustomText(
-                      "Get Started",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 10,
-                          color: Color(0xff1976D2)),
-                    ),
-                  ],
-                ),
-              ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, Routes.VerifyUserScreen);
+      },
+      child: Container(
+        decoration: BoxDecoration(color: Colors.white, boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(.15),
+            offset: const Offset(0, 2),
+            blurRadius: 20,
+          )
+        ]),
+        margin: const EdgeInsets.symmetric(vertical: 16),
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          children: [
+            Container(
+              width: 50,
+              height: 110,
+              color: const Color(0xffF3F7FE),
+              child: Image.asset("verify".png("icons")),
             ),
-          ),
-          const Spacer(),
-          const Icon(Icons.arrow_forward),
-          const SizedBox(width: 16)
-        ],
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        "Become a verified user",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 12),
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      CustomText(
+                        "Build Trust",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 10,
+                            color: Color(0xff5D5D5D)),
+                      ),
+                      CustomText(
+                        "Get increased visibility",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 10,
+                            color: Color(0xff5D5D5D)),
+                      ),
+                      CustomText(
+                        "Unlock Exclusive Awards",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 10,
+                            color: Color(0xff5D5D5D)),
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      CustomText(
+                        "Get Started",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 10,
+                            color: Color(0xff1976D2)),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+            const Icon(Icons.arrow_forward),
+            const SizedBox(width: 16)
+          ],
+        ),
       ),
     );
   }
@@ -319,9 +325,14 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
   final bool isDetails;
   final NewItem? item;
   final Item? itemDetails;
+  final FavoritesItem? favoritesItem;
 
   const FeatureItemRecentlyDropped(
-      {super.key, this.isDetails = false, this.item, this.itemDetails});
+      {super.key,
+      this.isDetails = false,
+      this.item,
+      this.itemDetails,
+      this.favoritesItem});
 
   @override
   Widget build(BuildContext context) {
@@ -362,14 +373,22 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
                             child: Image.asset("back_arrow".png("icons")),
                           ),
                         if (item?.userVerified == true ||
-                            itemDetails?.user?.userVerified == true)
+                            itemDetails?.user?.userVerified == true ||
+                            favoritesItem!.featured == true)
                           Image.asset("verify_user".png("icons")),
                         const Spacer(),
                         Image.asset("share".png("icons")),
                         SizedBox(
                           width: isDetails ? 8 : 4,
                         ),
-                        Image.asset("heart".png("icons"))
+                        Image.asset(
+                          "heart".png("icons"),
+                          color: item?.isLiked == true ||
+                                  itemDetails?.isLiked == true ||
+                                  favoritesItem?.isLiked == true
+                              ? LightThemeColors.primary
+                              : null,
+                        )
                       ],
                     ),
                   ),
@@ -380,14 +399,14 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
                           width: 300,
                           height: 150,
                           child: Image.network(
-                            item?.image ?? itemDetails!.images![0].image!,
+                            itemDetails?.images![0].image ??
+                                item?.image ??
+                                favoritesItem!.image!,
                             fit: BoxFit.fill,
                           )),
                     ),
                   ),
-                  const SizedBox(
-                    height: 16,
-                  ),
+                  16.ph,
                   Container(
                     padding:
                         const EdgeInsets.symmetric(vertical: 1, horizontal: 2),
@@ -398,12 +417,11 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Image.asset("image".png("icons")),
-                        const SizedBox(
-                          width: 4,
-                        ),
+                        4.pw,
                         CustomText(
                           item?.imagesCount.toString() ??
-                              itemDetails!.images!.length.toString(),
+                              itemDetails?.images!.length.toString() ??
+                              favoritesItem!.imagesCount.toString(),
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 8,
@@ -423,12 +441,11 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(
-                              height: 4,
-                            ),
-
-                            ///
-                            CustomText(item?.plate ?? itemDetails!.plate!,
+                            4.ph,
+                            CustomText(
+                                item?.plate ??
+                                    itemDetails?.plate ??
+                                    favoritesItem!.plate!,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: isDetails ? 16 : 14)),
@@ -436,11 +453,10 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
                               Row(
                                 children: [
                                   Image.asset("location".png("icons")),
-                                  const SizedBox(
-                                    width: 4,
-                                  ),
+                                  4.pw,
                                   CustomText(
-                                    item!.location!.city!,
+                                    item?.location?.city ??
+                                        favoritesItem!.location!.city!,
                                     style: const TextStyle(
                                         fontSize: 10,
                                         fontWeight: FontWeight.w500),
@@ -450,7 +466,8 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
                           ],
                         ),
                         if (item?.featured == true ||
-                            itemDetails?.featured == true)
+                            itemDetails?.featured == true ||
+                            favoritesItem?.featured == true)
                           Container(
                             alignment: AlignmentDirectional.topEnd,
                             padding: const EdgeInsets.all(4),
@@ -478,7 +495,7 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       CustomText(
-                        "${item?.currency ?? itemDetails!.currency}\t${item?.amountString ?? itemDetails!.amountString}",
+                        "${item?.currency ?? itemDetails?.currency ?? favoritesItem?.currency}\t${item?.amountString ?? itemDetails?.amountString ?? favoritesItem?.amountString}",
                         style: TextStyle(
                             fontWeight: FontWeight.w800,
                             fontSize: isDetails ? 16 : 12),

@@ -33,22 +33,27 @@ class _LayoutScreenState extends State<LayoutScreen>
         listener: (context, state) {},
         builder: (context, state) {
           final cubit = LayoutCubit.get(context);
-          return Scaffold(
-            body: TabBarView(
-              controller: cubit.tabController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: const [
-                HomeScreen(),
-                FavoritesScreen(),
-                ChatScreen(),
-                MyAdsScreen()
-              ],
+          return WillPopScope(
+            onWillPop: () async {
+              return false;
+            },
+            child: Scaffold(
+              body: TabBarView(
+                controller: cubit.tabController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: const [
+                  HomeScreen(),
+                  FavoritesScreen(),
+                  ChatScreen(),
+                  MyAdsScreen()
+                ],
+              ),
+              bottomNavigationBar: CustomBottomNavBar(
+                currentIndex: cubit.tabController.index,
+                onTap: cubit.changeTab,
+              ),
+              extendBody: true,
             ),
-            bottomNavigationBar: CustomBottomNavBar(
-              currentIndex: cubit.tabController.index,
-              onTap: cubit.changeTab,
-            ),
-            extendBody: true,
           );
         },
       ),

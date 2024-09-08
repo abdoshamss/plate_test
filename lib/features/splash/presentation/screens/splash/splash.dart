@@ -1,6 +1,5 @@
 import 'package:animated_widgets_flutter/widgets/opacity_animated.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plate_test/core/utils/utils.dart';
 
@@ -50,9 +49,11 @@ class _SplashScreenState extends State<SplashScreen> {
                       enabled: true,
                       animationFinished: (finished) async {
                         if (Utils.token == '') {
-                          Navigator.pushNamed(context, Routes.LoginScreen);
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, Routes.LoginScreen, (route) => false);
                         } else {
-                          Navigator.pushNamed(context, Routes.LayoutScreen);
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, Routes.LayoutScreen, (route) => false);
                         }
                         // Navigator.pushNamedAndRemoveUntil(
                         //     context, await cubit.checkLogin(), (route) => false);

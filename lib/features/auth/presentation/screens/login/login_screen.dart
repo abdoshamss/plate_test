@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     8.ph,
                     const CustomText(
-                      'Welcome back! Please enter yout details.',
+                      'Welcome back! Please enter your details.',
                       fontSize: 16,
                       color: Color(0xff64748B),
                       weight: FontWeight.w500,

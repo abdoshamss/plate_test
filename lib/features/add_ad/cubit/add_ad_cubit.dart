@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plate_test/features/add_ad/domain/model/summary_model.dart';
 import 'package:plate_test/features/add_ad/domain/request/add_ad_request.dart';
 
 import '../../../core/data_source/dio_helper.dart';
@@ -15,39 +18,70 @@ class AddAdCubit extends Cubit<AddAdStates> {
   AddAdRepository addAdRepository = AddAdRepository(locator<DioService>());
 
   addAdd({required AddAdRequest addAdRequest}) async {
-    emit(AddAdLoadingStates());
+    emit(AddAdLoadingState());
     final response = await addAdRepository.addAd(addAdRequest);
     if (response != null) {
       if (response["item"] == null) {
-        emit(AddAdErrorStates());
+        emit(AddAdErrorState());
         return false;
       } else {
         print("response" * 88);
         print(response);
 
-        emit(AddAdSuccessStates());
+        emit(AddAdSuccessState());
         return true;
       }
     } else {
-      emit(AddAdErrorStates());
+      emit(AddAdErrorState());
       return null;
     }
   }
 
   orderCharge() async {
-    emit(OrderChargeLoadingStates());
+    emit(OrderChargeLoadingState());
     final response = await addAdRepository.orderCharge();
 
     if (response != null) {
       if (response["charge_link"] == null) {
-        emit(OrderChargeErrorStates());
+        emit(OrderChargeErrorState());
         return false;
       } else {
-        emit(OrderChargeSuccessStates(chargeLink: response["charge_link"]));
+        emit(OrderChargeSuccessState(chargeLink: response["charge_link"]));
         return true;
       }
     } else {
-      emit(OrderChargeErrorStates());
+      emit(OrderChargeErrorState());
+      return null;
+    }
+  }
+
+  validateCoupon(String coupon) async {
+    emit(ValidateCouponLoadingState());
+    final response = await addAdRepository.validateCouponRepo(coupon);
+
+    if (response != null) {
+      print("log " * 8);
+      log(response);
+      emit(ValidateCouponSuccessState());
+      return true;
+    } else {
+      emit(ValidateCouponErrorState());
+      return null;
+    }
+  }
+
+  getSummaryData(String? coupon, int payWallet) async {
+    emit(GetSummaryLoadingState());
+    final response = await addAdRepository.summaryRepo(coupon, payWallet);
+
+    if (response != null) {
+      print("log " * 8);
+      log(response.toString());
+
+      emit(GetSummarySuccessState(model: SummaryModel.fromJson(response)));
+      return true;
+    } else {
+      emit(GetSummaryErrorState());
       return null;
     }
   }

@@ -24,6 +24,7 @@ import '../../../../shared/widgets/toast.dart';
 import '../../../item_details/presentation/widgets/widgets.dart';
 import '../../cubit/add_ad_cubit.dart';
 import '../../cubit/add_ad_states.dart';
+import '../../domain/model/summary_model.dart';
 
 ///// put it in routes
 ///  import '../../features/add_ad/presentation/screens/AddAd.dart';
@@ -60,6 +61,9 @@ class _AddAdScreenState extends State<AddAdScreen>
   List<File>? images = [];
   double? lat, lng;
   bool isFeatured = false, isBid = false;
+  Details? model = Details();
+
+  // List<String?> itemsList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +71,14 @@ class _AddAdScreenState extends State<AddAdScreen>
         create: (context) => AddAdCubit(),
         child: BlocConsumer<AddAdCubit, AddAdStates>(
           listener: (context, state) {
-            // TODO: implement listener
+            if (state is AddAdSuccessState) {
+              context.read<AddAdCubit>().getSummaryData("", 1);
+            } else if (state is GetSummarySuccessState) {
+              model = state.model?.details;
+              // itemsList.add(state.model?.details?.price);
+              // itemsList.add(state.model?.details?.tax);
+              // itemsList.add(state.model?.details?.total);
+            }
           },
           builder: (context, state) {
             final cubit = AddAdCubit.get(context);
@@ -535,7 +546,7 @@ class _AddAdScreenState extends State<AddAdScreen>
                                   // padding: const EdgeInsets.symmetric(horizontal: 15),
                                   onTap: () async {
                                     FocusScope.of(context).unfocus();
-                                    if (images!.length == 1) {
+                                    if (images!.length == 5) {
                                       addAdRequest.images = images;
                                       addAdRequest.isFeatured = isFeatured;
                                       addAdRequest.isBid = isBid;
@@ -572,41 +583,44 @@ class _AddAdScreenState extends State<AddAdScreen>
                                           ),
                                         ),
                                         myDivider(),
-                                        ...List.generate(
-                                            titles.length,
-                                            (index) => Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 4),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      CustomText(
-                                                        titles[index],
-                                                        style: const TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          color:
-                                                              Color(0xff64748B),
-                                                        ),
-                                                      ),
-                                                      CustomText(
-                                                        "SAR 50",
-                                                        style: TextStyle(
+                                        if (model?.itemsList != null)
+                                          ...List.generate(
+                                              model!.itemsList.length,
+                                              (index) => Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(vertical: 4),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        CustomText(
+                                                          titles[index],
+                                                          style:
+                                                              const TextStyle(
                                                             fontSize: 16,
                                                             fontWeight:
-                                                                FontWeight.w500,
-                                                            color: index == 2
-                                                                ? const Color(
-                                                                    0xff5C44BB)
-                                                                : const Color(
-                                                                    0xff000000)),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )),
+                                                                FontWeight.w700,
+                                                            color: Color(
+                                                                0xff64748B),
+                                                          ),
+                                                        ),
+                                                        CustomText(
+                                                          "SAR ${model?.itemsList[index]}",
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: index == 2
+                                                                  ? const Color(
+                                                                      0xff5C44BB)
+                                                                  : const Color(
+                                                                      0xff000000)),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )),
                                       ])),
                               Container(
                                   width: MediaQuery.of(context).size.width,
@@ -643,7 +657,10 @@ class _AddAdScreenState extends State<AddAdScreen>
                                             right: 0,
                                             bottom: 5,
                                             child: TextButtonWidget(
-                                              function: () {},
+                                              function: () {
+                                                cubit.validateCoupon(
+                                                    coupon.text);
+                                              },
                                               text: "Add",
                                               fontweight: FontWeight.w500,
                                             ),
@@ -671,7 +688,7 @@ class _AddAdScreenState extends State<AddAdScreen>
                                   onTap: () async {
                                     FocusScope.of(context).unfocus();
                                     cubit.orderCharge();
-                                    if (state is OrderChargeSuccessStates) {
+                                    if (state is OrderChargeSuccessState) {
                                       Navigator.pushNamed(
                                           context, Routes.WebViewPaymentScreen,
                                           arguments: state.chargeLink);

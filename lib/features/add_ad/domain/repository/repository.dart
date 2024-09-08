@@ -38,7 +38,29 @@ class AddAdRepository {
 
   Future orderCharge() async {
     final response = await dioService.postData(
-        url: AddAdEndpoints.orderCrharge, loading: true);
+        url: AddAdEndpoints.orderCharge, loading: true);
+    if (response.isError == false) {
+      return response.response?.data['data'];
+    } else {
+      return null;
+    }
+  }
+
+  Future validateCouponRepo(String coupon) async {
+    final response = await dioService.postData(
+        url: AddAdEndpoints.coupon, loading: true, body: {"coupon": coupon});
+    if (response.isError == false) {
+      return response.response?.data['data'];
+    } else {
+      return null;
+    }
+  }
+
+  Future summaryRepo(String? coupon, int payWallet) async {
+    final response = await dioService.getData(
+        url: AddAdEndpoints.summary,
+        loading: true,
+        query: {"pay_wallet": payWallet, "coupon": coupon});
     if (response.isError == false) {
       return response.response?.data['data'];
     } else {
