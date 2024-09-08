@@ -33,7 +33,7 @@ class Item {
   final String? description;
   final User? user;
   final bool? isSolid;
-  final bool? isLiked;
+  bool? isLiked;
   final String? shareLink;
   final String? whatsapp;
   final String? mobile;

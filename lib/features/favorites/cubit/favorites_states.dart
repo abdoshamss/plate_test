@@ -13,3 +13,9 @@ class GetFavoritesDataSuccessState extends FavoritesStates {
 }
 
 class GetFavoritesDataErrorState extends FavoritesStates {}
+
+class ToggleFAVLoadingState extends FavoritesStates {}
+
+class ToggleFAVSuccessState extends FavoritesStates {}
+
+class ToggleFAVErrorState extends FavoritesStates {}

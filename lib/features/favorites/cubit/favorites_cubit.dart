@@ -29,4 +29,16 @@ class FavoritesCubit extends Cubit<FavoritesStates> {
       return null;
     }
   }
+
+  toggleLike({required String id}) async {
+    emit(ToggleFAVLoadingState());
+    final response = await favoritesRepository.toggleFavRepo(id: id);
+    if (response != null) {
+      emit(ToggleFAVSuccessState());
+      return true;
+    } else {
+      emit(ToggleFAVErrorState());
+      return null;
+    }
+  }
 }

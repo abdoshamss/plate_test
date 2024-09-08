@@ -1,3 +1,3 @@
-class my_adsEndpoints {
-  static const String baseUrl = "https://jsonplaceholder.typicode.com";
+class MyAdsEndpoints {
+  static const String myAdsData = "myitems";
 }

@@ -20,4 +20,14 @@ class FavoritesRepository {
       return null;
     }
   }
+
+  toggleFavRepo({required String id}) async {
+    final response =
+        await dioService.getData(url: "item/$id/like", loading: true);
+    if (response.isError == false) {
+      return response.response?.data['data'];
+    } else {
+      return null;
+    }
+  }
 }

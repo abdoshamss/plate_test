@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:plate_test/core/utils/extentions.dart';
+import 'package:plate_test/features/favorites/cubit/favorites_states.dart';
+import 'package:plate_test/features/home/cubit/home_cubit.dart';
 import 'package:plate_test/shared/widgets/customtext.dart';
 
 import '../../../../core/Router/Router.dart';
 import '../../../../core/theme/light_theme.dart';
+import '../../../favorites/cubit/favorites_cubit.dart';
 import '../../../favorites/domain/model/favorites_model.dart';
 import '../../../item_details/domain/model/item_details_model.dart';
 import '../../domain/model/home_model.dart';
@@ -40,7 +44,7 @@ class FeatureItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> images = ["message", "call", "whatsapp"];
-
+    bool isLiked = false;
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, Routes.ItemDetailsScreen,
@@ -338,12 +342,31 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<String> images = ["message", "call", "whatsapp"];
     final List<String> names = ["CHAT", "CALL", "WHATSAPP"];
-
+    bool isLiked = false;
     return GestureDetector(
       onTap: () {
-        if (item != null) {
-          Navigator.pushNamed(context, Routes.ItemDetailsScreen,
-              arguments: item!.id);
+        if (!isDetails) {
+          if (item != null) {
+            Navigator.pushNamed(context, Routes.ItemDetailsScreen,
+                    arguments: item!.id)
+                .then(
+              (value) {
+                if (value == true) {
+                  context.read<HomeCubit>().getHomeData();
+                }
+              },
+            );
+          } else if (favoritesItem != null) {
+            Navigator.pushNamed(context, Routes.ItemDetailsScreen,
+                    arguments: favoritesItem!.id)
+                .then(
+              (value) {
+                if (value == true) {
+                  context.read<FavoritesCubit>().getFavoritesData();
+                }
+              },
+            );
+          }
         }
       },
       child: Container(
@@ -367,7 +390,7 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
                           GestureDetector(
                             onTap: () {
                               if (isDetails) {
-                                Navigator.pop(context);
+                                Navigator.pop(context, isLiked);
                               }
                             },
                             child: Image.asset("back_arrow".png("icons")),
@@ -381,13 +404,70 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
                         SizedBox(
                           width: isDetails ? 8 : 4,
                         ),
-                        Image.asset(
-                          "heart".png("icons"),
-                          color: item?.isLiked == true ||
-                                  itemDetails?.isLiked == true ||
-                                  favoritesItem?.isLiked == true
-                              ? LightThemeColors.primary
-                              : null,
+                        StatefulBuilder(
+                          builder: (context, setState2) {
+                            return BlocProvider(
+                              create: (context) => FavoritesCubit(),
+                              child:
+                                  BlocConsumer<FavoritesCubit, FavoritesStates>(
+                                listener: (context, state) {
+                                  if (state is ToggleFAVSuccessState &&
+                                      item != null) {
+                                    item?.isLiked = !(item!.isLiked!);
+                                    setState2(() {});
+                                    isLiked = true;
+                                  } else if (state is ToggleFAVSuccessState &&
+                                      itemDetails != null) {
+                                    itemDetails?.isLiked =
+                                        !(itemDetails!.isLiked!);
+                                    setState2(() {});
+                                    isLiked = true;
+                                  } else if (state is ToggleFAVSuccessState &&
+                                      favoritesItem != null) {
+                                    favoritesItem?.isLiked =
+                                        !(favoritesItem!.isLiked!);
+                                    isLiked = true;
+                                    setState2(() {});
+                                  }
+                                },
+                                builder: (context, state) {
+                                  final cubit = FavoritesCubit.get(context);
+                                  return GestureDetector(
+                                    onTap: () {
+                                      if (item != null) {
+                                        cubit.toggleLike(
+                                            id: item!.id.toString());
+                                      } else if (itemDetails != null) {
+                                        cubit.toggleLike(
+                                            id: itemDetails!.id.toString());
+                                        if (state is ToggleFAVSuccessState) {
+                                          itemDetails?.isLiked =
+                                              !(itemDetails!.isLiked!);
+                                          setState2(() {});
+                                        }
+                                      } else if (favoritesItem != null) {
+                                        cubit.toggleLike(
+                                            id: favoritesItem!.id.toString());
+                                        if (state is ToggleFAVSuccessState) {
+                                          favoritesItem?.isLiked =
+                                              !(favoritesItem!.isLiked!);
+                                          setState2(() {});
+                                        }
+                                      }
+                                    },
+                                    child: Image.asset(
+                                      "heart".png("icons"),
+                                      color: item?.isLiked == true ||
+                                              itemDetails?.isLiked == true ||
+                                              favoritesItem?.isLiked == true
+                                          ? LightThemeColors.primary
+                                          : null,
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
                         )
                       ],
                     ),

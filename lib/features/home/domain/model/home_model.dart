@@ -138,7 +138,7 @@ class NewItem {
   final int? imagesCount;
   final bool? featured;
   final bool? userVerified;
-  final bool? isLiked;
+  bool? isLiked;
   final bool? isSolid;
   final String? shareLink;
   final String? whatsapp;

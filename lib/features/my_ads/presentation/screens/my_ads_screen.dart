@@ -24,24 +24,25 @@ class MyAdsScreen extends StatefulWidget {
   State<MyAdsScreen> createState() => _MyAdsScreenState();
 }
 
-class _MyAdsScreenState extends State<MyAdsScreen> {
+class _MyAdsScreenState extends State<MyAdsScreen>
+    with TickerProviderStateMixin {
+  late TabController _tabController;
+
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(vsync: this, length: 2);
   }
-
-  final List<String> names = ["Filter", "All Ads", "Sold"];
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MyAdsCubit(),
       child: BlocConsumer<MyAdsCubit, MyAdsStates>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           final cubit = MyAdsCubit.get(context);
+
           return Scaffold(
             body: SafeArea(
               child: Column(
@@ -62,49 +63,50 @@ class _MyAdsScreenState extends State<MyAdsScreen> {
                           fontSize: 18),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: List.generate(
-                            3,
-                            (index) => Container(
-                              padding: const EdgeInsets.all(8),
-                              margin: const EdgeInsetsDirectional.only(
-                                  end: 16, top: 16, bottom: 16),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: const Color(0xffEEF2F6))),
-                              child: Row(
-                                children: [
-                                  if (index == 0)
-                                    Image.asset("filter_grey".png("icons")),
-                                  if (index == 0) 8.pw,
-                                  CustomText(
-                                    names[index],
-                                    style: const TextStyle(
-                                        color: Color(0xff64748B),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ],
-                              ),
+                  TabBar(
+                      automaticIndicatorColorAdjustment: true,
+                      labelStyle: const TextStyle(color: Colors.white),
+                      padding: const EdgeInsets.all(8),
+                      dividerHeight: 0,
+                      indicator: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          gradient: const LinearGradient(
+                              colors: LightThemeColors.gradientPrimary)),
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      controller: _tabController,
+                      onTap: (i) {
+                        print(i);
+                      },
+                      tabs: const [
+                        Tab(
+                          child: Text(
+                            "All Ads",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
+                        Tab(
+                          child: Text(
+                            "Sold",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ]),
                   Expanded(
-                    child: ListView.separated(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      separatorBuilder: (context, index) => const SizedBox(
-                        height: 8,
+                    child:
+                        TabBarView(controller: _tabController, children: const [
+                      AdsItems(
+                        filter: "all",
                       ),
-                      itemBuilder: (context, index) => const AdsItem(),
-                      itemCount: 5,
-                    ),
+                      AdsItems(
+                        filter: "sold",
+                      ),
+                    ]),
                   ),
                   16.ph
                 ],
