@@ -1,7 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:plate_test/core/theme/light_theme.dart';
 
 import '../../shared/widgets/alert_dialog.dart';
 import '../../shared/widgets/snackbar.dart';
@@ -82,7 +81,7 @@ class Alerts {
         isScrollControlled: true,
         clipBehavior: Clip.hardEdge,
         elevation: 0,
-        backgroundColor: LightThemeColors.primary,
+        backgroundColor: backgroundColor,
         context: context,
         builder: (context) => SafeArea(
               minimum: const EdgeInsets.only(top: 20),

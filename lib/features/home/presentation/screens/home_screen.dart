@@ -112,9 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             controller: search,
                             borderRadius: 16,
                           ),
-                          const SizedBox(
-                            height: 16,
-                          ),
+                          16.ph,
                         ],
                       ),
                     ),

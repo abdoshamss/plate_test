@@ -15,7 +15,7 @@ class ProfileRepository {
         body: {"uuid": uuid},
         loading: true);
     if (response.isError == false) {
-      return response.response?.data['data'];
+      return response.response?.data['status'];
     } else {
       return null;
     }

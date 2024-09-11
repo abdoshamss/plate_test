@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:plate_test/core/extensions/all_extensions.dart';
 
 import '../../../../../core/Router/Router.dart';
-import '../../../../../core/extensions/all_extensions.dart';
 import '../../../../../core/utils/extentions.dart';
 import '../../../../../core/utils/utils.dart';
 import '../../../../../shared/back_widget.dart';
@@ -81,69 +81,68 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         controller: phone,
                       ),
                       30.ph,
+                      ButtonWidget(
+                        title: 'Continue',
+                        withBorder: true,
+                        buttonColor: context.primaryColor,
+                        textColor: Colors.white,
+                        borderColor: context.primaryColor,
+                        width: double.infinity,
+                        // padding: const EdgeInsets.symmetric(horizontal: 15),
+                        onTap: () async {
+                          FocusScope.of(context).unfocus();
+                          if (formKey.currentState!.validate()) {
+                            final response = await cubit.forgetPass(phone.text);
+                            if (response != null) {
+                              Navigator.pushNamed(context, Routes.OtpScreen,
+                                  arguments: OtpArguments(
+                                    sendTo: phone.text,
+                                    onSubmit: (code) async {
+                                      if (code == cubit.codeId) {
+                                        Navigator.pushNamed(
+                                          context,
+                                          Routes.ResetPasswordScreen,
+                                          arguments: NewPasswordArgs(
+                                            code: cubit.codeId,
+                                            phone: phone.text,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    onReSend: () async {
+                                      await cubit.resendCode(phone.text);
+                                    },
+                                    init: false,
+                                  ));
+                            }
+                          }
+                        },
+                      ),
+                      16.ph,
+                      ButtonWidget(
+                        title: "Back To Login",
+                        withBorder: true,
+                        buttonColor: Colors.white,
+                        textColor: context.primaryColor,
+                        borderColor: context.primaryColor,
+                        width: double.infinity,
+                        // padding: const EdgeInsets.symmetric(horizontal: 15),
+                        onTap: () async {
+                          Navigator.pop(context);
+                        },
+                      ),
                     ],
                   ),
                 ),
               ),
-              bottomNavigationBar: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ButtonWidget(
-                      title: 'تأكيد',
-                      withBorder: true,
-                      buttonColor: context.primaryColor,
-                      textColor: Colors.white,
-                      borderColor: context.primaryColor,
-                      width: double.infinity,
-                      // padding: const EdgeInsets.symmetric(horizontal: 15),
-                      onTap: () async {
-                        FocusScope.of(context).unfocus();
-                        if (formKey.currentState!.validate()) {
-                          final response = await cubit.forgetPass(phone.text);
-                          if (response != null) {
-                            Navigator.pushNamed(context, Routes.OtpScreen,
-                                arguments: OtpArguments(
-                                  sendTo: phone.text,
-                                  onSubmit: (code) async {
-                                    if (code == cubit.codeId) {
-                                      Navigator.pushNamed(
-                                        context,
-                                        Routes.ResetPasswordScreen,
-                                        arguments: NewPasswordArgs(
-                                          code: cubit.codeId,
-                                          phone: phone.text,
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  onReSend: () async {
-                                    await cubit.resendCode(phone.text);
-                                  },
-                                  init: false,
-                                ));
-                          }
-                        }
-                      },
-                    ),
-                    16.ph,
-                    ButtonWidget(
-                      title: "الرجوع لتسجيل الدخول",
-                      withBorder: true,
-                      buttonColor: Colors.white,
-                      textColor: context.primaryColor,
-                      borderColor: context.primaryColor,
-                      width: double.infinity,
-                      // padding: const EdgeInsets.symmetric(horizontal: 15),
-                      onTap: () async {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ),
-              ),
+              // bottomNavigationBar: Padding(
+              //   padding: const EdgeInsets.all(24),
+              //   child: Column(
+              //     mainAxisAlignment: MainAxisAlignment.end,
+              //     mainAxisSize: MainAxisSize.min,
+              //     children: [],
+              //   ),
+              // ),
             );
           },
         ));

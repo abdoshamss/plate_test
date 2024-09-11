@@ -5,6 +5,7 @@ import 'package:plate_test/core/general/general_cubit.dart';
 import 'package:plate_test/core/general/general_repo.dart';
 import 'package:plate_test/core/utils/Locator.dart';
 import 'package:plate_test/shared/widgets/autocomplate.dart';
+
 import '../../../../../core/Router/Router.dart';
 import '../../../../../core/extensions/all_extensions.dart';
 import '../../../../../core/theme/light_theme.dart';
@@ -32,6 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final formKey = GlobalKey<FormState>();
 
   final password = TextEditingController();
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -293,6 +295,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               //     context,
                               //     Routes.otp,
                               //     arguments: OtpArguments(
+
                               //         sendTo: phone.text,
                               //         onSubmit: (s) async {
                               //           final res = await cubit.activate(

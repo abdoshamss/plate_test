@@ -29,14 +29,12 @@ class DataManager {
   Future<void> saveData(String key, dynamic value) async {
     final box = await Hive.openBox('data');
     await box.put(key, value);
-    box.close();
   }
 
   saveUser(Map<String, dynamic> value) async {
     // await Hive.initFlutter();
-    // final userData = await Hive.openBox('dataUser');
+    final userData = await Hive.openBox('dataUser');
     await userData.put(USER, value);
-    userData.close();
   }
 
   getData(String key) async {

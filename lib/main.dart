@@ -40,7 +40,6 @@ Future<void> main() async {
   await Utils.dataManager.initHive();
   Utils.uuid = await Utils.getuuid() ?? "";
 
-  // await Utils.getFCMToken();
   await DataManager.getUserData();
   runApp(EasyLocalization(
       startLocale: const Locale('en', 'US'),

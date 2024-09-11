@@ -110,7 +110,10 @@ class RouteGenerator {
         return CupertinoPageRoute(
             settings: routeSettings,
             builder: (_) {
-              return ItemDetailsScreen(id: routeSettings.arguments as int);
+              return ItemDetailsScreen(
+                  id: (routeSettings.arguments as ItemDetailsToggle).id,
+                  isMYAd:
+                      (routeSettings.arguments as ItemDetailsToggle).isMYAd);
             });
       case Routes.FavoritesScreen:
         return CupertinoPageRoute(
@@ -213,4 +216,11 @@ class NewPasswordArgs {
   final String phone;
 
   const NewPasswordArgs({required this.code, required this.phone});
+}
+
+class ItemDetailsToggle {
+  final int id;
+  final bool isMYAd;
+
+  ItemDetailsToggle({required this.id, this.isMYAd = false});
 }

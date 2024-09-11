@@ -26,7 +26,7 @@ class UserModel {
     phone = json['phone'];
     type = json['type'];
     createdAt = json['created_at'];
-    token = json['token'];
+    token = json['access_token'];
   }
 
   Map<String, dynamic> toJson() {
@@ -36,7 +36,7 @@ class UserModel {
     data['phone'] = phone;
     data['type'] = type;
     data['created_at'] = createdAt;
-    data['token'] = token;
+    data['access_token'] = token;
     return data;
   }
 }

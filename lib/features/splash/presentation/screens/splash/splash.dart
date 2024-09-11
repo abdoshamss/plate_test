@@ -70,3 +70,6 @@ class _SplashScreenState extends State<SplashScreen> {
         ));
   }
 }
+//{user: {id: 37, name: ادمن 11, mobile: 0512341234, email: admin13@admin.com, image: https://plate.almasader.net/placeholders/user.png, notify: true, lang: ar,
+// banned: false, active: true, is_verified: false, mobile_verified: true, email_verified: false, area_id: 1,
+// area: السعوديه, is_social: false, coaching: pending}, access_token: 445|VAPNK6D9SsuehGol9oXqKAOdQnI1LSX5aAhNfMlP3432ca7b}

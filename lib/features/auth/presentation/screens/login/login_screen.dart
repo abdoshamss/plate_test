@@ -34,12 +34,21 @@ class _LoginScreenState extends State<LoginScreen> {
   AuthRequest authRequest = AuthRequest();
 
   @override
+  void initState() {
+    getFcmToken();
+
+    super.initState();
+  }
+
+  @override
   void dispose() {
     phone.dispose();
     password.dispose();
     _authRequest = AuthRequest();
     super.dispose();
   }
+
+  Future<void> getFcmToken() async => await Utils.getFCMToken();
 
   @override
   Widget build(BuildContext context) {

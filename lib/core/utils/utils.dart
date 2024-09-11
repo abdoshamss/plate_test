@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:device_uuid/device_uuid.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/domain/model/auth_model.dart';
@@ -24,17 +25,16 @@ class Utils {
     return uuid;
   }
 
-  // static Future<String?> getFCMToken() async {
-  //
-  //   return await FirebaseMessaging.instance.getToken().then((value) {
-  //     debugPrint("My FCM tooooooooooooooken");
-  //     debugPrint(value.toString());
-  //     FCMToken = value ?? "";
-  //     debugPrint("FCMToken *88");
-  //     debugPrint(FCMToken);
-  //     return null;
-  //   });
-  // }
+  static Future<String?> getFCMToken() async {
+    return await FirebaseMessaging.instance.getToken().then((value) {
+      debugPrint("My FCM tooooooooooooooken");
+      debugPrint(value.toString());
+      FCMToken = value ?? "";
+      debugPrint("FCMToken *88");
+      debugPrint(FCMToken);
+      return null;
+    });
+  }
 
   static UserModel userModel = UserModel();
 
@@ -48,7 +48,7 @@ class Utils {
 
   static saveUserInHive(Map<String, dynamic> response) async {
     userModel = UserModel.fromJson(response);
-    token = userModel.token ?? '';
+    token = userModel.token ?? "";
     await Utils.dataManager.saveUser(Map<String, dynamic>.from(response));
   }
 
@@ -56,6 +56,8 @@ class Utils {
     userModel = UserModel();
     FCMToken = "";
     token = "";
+    print("tokennnnnnn");
+    print(token);
     await dataManager.deleteUserData();
     print("delete");
   }

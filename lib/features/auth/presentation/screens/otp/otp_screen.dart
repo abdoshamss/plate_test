@@ -1,6 +1,8 @@
-import 'package:pinput/pinput.dart';
 import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:pinput/pinput.dart';
+
 import '../../../../../core/extensions/all_extensions.dart';
 import '../../../../../core/services/alerts.dart';
 import '../../../../../core/theme/light_theme.dart';
@@ -15,6 +17,7 @@ class OtpScreen extends StatefulWidget {
   final Function(String code) onSubmit;
   final bool? init;
   final VoidCallback onReSend;
+
   const OtpScreen({
     super.key,
     required this.sendTo,
@@ -33,6 +36,7 @@ class _OtpScreenState extends State<OtpScreen> {
   DateTime now = DateTime.now();
   Timer? timer;
   String remainigTime = '02:00';
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -59,9 +63,7 @@ class _OtpScreenState extends State<OtpScreen> {
     });
   }
 
-  TextEditingController otpController = TextEditingController(
-    text: "12345"
-  );
+  TextEditingController otpController = TextEditingController(text: "12345");
 
   @override
   void dispose() {
@@ -97,21 +99,21 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
                 32.ph,
                 const TextWidget(
-                  "تقريبا هناك!",
+                  "Almost there!",
                   fontSize: 24,
                   color: Colors.black,
                   fontWeight: FontWeight.w700,
                 ),
                 8.ph,
                 const TextWidget(
-                  'تحقق من صندوق الوارد الخاص بك وأدخل رمز التحقق للتحقق من حسابك.',
+                  'Check your inbox and input the verification code to verify your account.',
                   fontSize: 16,
                   color: Color(0xff64748B),
                   fontWeight: FontWeight.w500,
                 ),
                 24.ph,
                 Directionality(
-                  textDirection: TextDirection.rtl,
+                  textDirection: TextDirection.ltr,
                   child: Pinput(
                     // androidSmsAutofillMethod:
                     //     AndroidSmsAutofillMethod.smsUserConsentApi,
@@ -212,7 +214,7 @@ class _OtpScreenState extends State<OtpScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ButtonWidget(
-              title: 'تأكيد',
+              title: 'Confirm',
               withBorder: true,
               buttonColor: context.primaryColor,
               textColor: Colors.white,
@@ -233,7 +235,7 @@ class _OtpScreenState extends State<OtpScreen> {
             ),
             16.ph,
             ButtonWidget(
-              title: remainigTime.isEmpty ? 'إعادة الإرسال' : remainigTime,
+              title: remainigTime.isEmpty ? 'Resend Code' : remainigTime,
               withBorder: true,
               buttonColor: Colors.white,
               textColor: context.primaryColor,

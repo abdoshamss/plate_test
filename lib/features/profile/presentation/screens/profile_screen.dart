@@ -55,8 +55,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return BlocProvider(
       create: (context) => ProfileCubit(),
       child: BlocConsumer<ProfileCubit, ProfileStates>(
-        listener: (context, state) {
-          // TODO: implement listener
+        listener: (context, state) async {
+          if (state is LogOutSuccess) {
+            await Utils.deleteUserData();
+            print(Utils.token);
+            Navigator.pushNamedAndRemoveUntil(
+                context, Routes.splashScreen, (route) => false);
+          }
         },
         builder: (context, state) {
           final cubit = ProfileCubit.get(context);
@@ -149,9 +154,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             onTap: () async {
                               if (index == 8) {
                                 await cubit.logOut(Utils.uuid);
-                                print(Utils.token);
-                                Navigator.pushNamedAndRemoveUntil(context,
-                                    Routes.splashScreen, (route) => false);
                               }
                             },
                             child: Padding(

@@ -15,6 +15,7 @@ class AuthRequest {
   String? fcm_token;
   String? password_confirmation;
   int? areaID;
+
   AuthRequest({
     this.name,
     this.email,
@@ -46,7 +47,7 @@ class AuthRequest {
 
   Map<String, dynamic> login() {
     return <String, dynamic>{
-      'fcm_token': Utils.FCMToken,
+      // 'fcm_token': Utils.FCMToken,
       'mobile': phone,
       'uuid': Utils.uuid,
       'password': password,

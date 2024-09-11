@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+
 import '../../../../../core/Router/Router.dart';
 import '../../../../../core/utils/extentions.dart';
 import '../../../../../core/utils/utils.dart';
@@ -14,6 +15,7 @@ import '../../../cubit/auth_states.dart';
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen(
       {super.key, required this.code, required this.phone});
+
   final String code, phone;
 
   @override
@@ -65,12 +67,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   children: [
                     24.ph,
                     const CustomText(
-                      "أدخل كلمة المرور الجديدة",
+                      "Create you new password",
                       style:
                           TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
                     ),
                     const CustomText(
-                      "كلمة المرور الجديدة يجب ان تكون محتلفة عن كلمة المرور القديمة",
+                      "Your new password must be different from previous password.",
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -88,7 +90,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       backgroundColor: const Color(0xffF8FAFC),
                       type: TextInputType.visiblePassword,
                       controller: passwordController,
-                      hintText: 'كلمة المرور الجديدة',
+                      hintText: 'New Password',
                       password: true,
                       validator: Utils.valid.passwordValidation,
                       borderRadius: 16,
@@ -103,7 +105,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           )),
                       backgroundColor: const Color(0xffF8FAFC),
                       type: TextInputType.visiblePassword,
-                      hintText: 'تأكيد كلمة المرور الجديدة',
+                      hintText: 'Confirm New Password',
                       password: true,
                       validator: (v) => Utils.valid.confirmPasswordValidation(
                           v, passwordController.text),
@@ -112,7 +114,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                     32.ph,
                     ButtonWidget(
-                      title: "تأكيد",
+                      title: "Confirm",
                       onTap: () async {
                         if (formKey.currentState!.validate()) {
                           final res = await cubit.resetPassword(

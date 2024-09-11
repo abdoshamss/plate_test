@@ -348,7 +348,7 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
         if (!isDetails) {
           if (item != null) {
             Navigator.pushNamed(context, Routes.ItemDetailsScreen,
-                    arguments: item!.id)
+                    arguments: ItemDetailsToggle(id: item!.id!))
                 .then(
               (value) {
                 if (value == true) {
@@ -358,7 +358,7 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
             );
           } else if (favoritesItem != null) {
             Navigator.pushNamed(context, Routes.ItemDetailsScreen,
-                    arguments: favoritesItem!.id)
+                    arguments: ItemDetailsToggle(id: favoritesItem!.id!))
                 .then(
               (value) {
                 if (value == true) {

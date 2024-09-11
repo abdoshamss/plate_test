@@ -30,6 +30,7 @@ class FirebaseMessagingService {
       assert(token != null);
       Utils.FCMToken = token.toString();
       print('Firebase Messaging Token: $token');
+      print(Utils.FCMToken);
     });
   }
 }

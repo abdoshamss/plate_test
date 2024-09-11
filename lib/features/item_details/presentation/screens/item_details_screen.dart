@@ -14,8 +14,9 @@ import '../../cubit/item_details_states.dart';
 
 class ItemDetailsScreen extends StatefulWidget {
   final int id;
+  final bool isMYAd;
 
-  const ItemDetailsScreen({super.key, required this.id});
+  const ItemDetailsScreen({super.key, required this.id, this.isMYAd = false});
 
   @override
   State<ItemDetailsScreen> createState() => _ItemDetailsScreenState();
@@ -56,10 +57,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          FeatureItemRecentlyDropped(
-                            isDetails: true,
-                            itemDetails: state.data.item,
-                          ),
+                          if (!widget.isMYAd)
+                            FeatureItemRecentlyDropped(
+                              isDetails: true,
+                              itemDetails: state.data.item,
+                            ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Column(
@@ -199,7 +201,44 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     ),
                   )
                 : null,
-            bottomNavigationBar: const UserBottomNavigation(),
+            bottomNavigationBar:
+                // widget.isMYAd
+                //     ? Padding(
+                //         padding: const EdgeInsets.symmetric(
+                //             horizontal: 24, vertical: 16),
+                //         child: Column(
+                //           mainAxisSize: MainAxisSize.min,
+                //           mainAxisAlignment: MainAxisAlignment.end,
+                //           children: List.generate(
+                //               2,
+                //               (index) => Padding(
+                //                     padding: const EdgeInsets.only(bottom: 12.0),
+                //                     child: ButtonWidget(
+                //                       onTap: () {
+                //                         if (index == 0) {
+                //                           locator<GeneralRepo>().markAsSold("2");
+                //                         }
+                //                       },
+                //                       width: MediaQuery.of(context).size.width,
+                //                       height: 60,
+                //                       buttonColor: index == 1 ? Colors.white : null,
+                //                       textColor: index == 1
+                //                           ? const Color(0xff5C44BB)
+                //                           : Colors.white,
+                //                       withBorder: index == 1 ? true : false,
+                //                       gradient: index == 0
+                //                           ? const LinearGradient(
+                //                               colors:
+                //                                   LightThemeColors.gradientPrimary)
+                //                           : null,
+                //                       title: index == 0
+                //                           ? "Mark as Sold"
+                //                           : "Deactivate",
+                //                     ),
+                //                   )),
+                //         ),
+                //       ) :
+                const UserBottomNavigation(),
           );
         },
       ),
