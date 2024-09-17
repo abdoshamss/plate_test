@@ -92,7 +92,7 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
             textTheme: context.titleLarge?.copyWith(
                 fontWeight: FontWeight.w700,
                 fontSize: 14,
-                color: Color(0xff94A3B8))),
+                color: const Color(0xff94A3B8))),
         const SizedBox(height: 8),
         TextFormField(
           onFieldSubmitted: widget.onFieldSubmitted,

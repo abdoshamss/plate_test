@@ -114,7 +114,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     24.ph,
                                     CustomText(
                                       state.user.name ?? "User Name",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w700,
                                           fontSize: 20),
@@ -122,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     4.ph,
                                     CustomText(
                                       state.user.mobile ?? "+92 3036349520",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Color(0xffC6C3FF),
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14),

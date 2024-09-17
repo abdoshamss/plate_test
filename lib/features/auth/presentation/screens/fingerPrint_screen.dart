@@ -38,7 +38,7 @@ class _FingerPrintScreenState extends State<FingerPrintScreen> {
             body: SingleChildScrollView(
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +56,7 @@ class _FingerPrintScreenState extends State<FingerPrintScreen> {
                       child: CustomText(
                         "تسجيل الدخول ببصمة الوجه",
                         align: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: LightThemeColors.textPrimary,
                         ).s24.bold,
                       ),
@@ -68,7 +68,7 @@ class _FingerPrintScreenState extends State<FingerPrintScreen> {
                       child: CustomText(
                         align: TextAlign.center,
                         "وصف",
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: LightThemeColors.textSecondary,
                         ).s16.medium,
                       ),
@@ -77,7 +77,7 @@ class _FingerPrintScreenState extends State<FingerPrintScreen> {
                     ButtonWidget(
                       onTap: () async => await cubit.checkBiometric(true),
                       title: "أنشء بصمة",
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: LightThemeColors.gradientPrimary,
                       ),
                       buttonColor: Colors.white,

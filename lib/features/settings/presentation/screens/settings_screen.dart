@@ -14,7 +14,7 @@ import '../../cubit/settings_states.dart';
 ///
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -114,6 +114,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               if (index == 1) {
                                 Navigator.pushNamed(
                                     context, Routes.AccountInformationScreen);
+                              } else if (index == 2) {
+                                // Navigator.pushNamed(
+                                //     context, Routes.PaymentMethodScreen);
+                              } else if (index == 4) {
+                                Navigator.pushNamed(context, Routes.LangScreen);
+                              } else if (index == 5) {
+                                // Navigator.pushNamed(
+                                //     context, Routes.PushNotificationsScreen);
                               }
                             },
                             child: Padding(

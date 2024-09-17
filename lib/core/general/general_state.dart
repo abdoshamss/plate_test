@@ -12,3 +12,5 @@ class MarkAsSoldLoading extends GeneralState {}
 class MarkAsSoldSuccess extends GeneralState {}
 
 class MarkAsSoldError extends GeneralState {}
+
+class LangChangedSuccessfully extends GeneralState {}

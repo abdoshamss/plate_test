@@ -20,6 +20,7 @@ import '../../features/notifications/presentation/screens/notifications_screen.d
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/settings/presentation/screens/account_information.dart';
 import '../../features/settings/presentation/screens/change_password.dart';
+import '../../features/settings/presentation/screens/lang.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../../features/splash/presentation/screens/splash/splash.dart';
 import '../../features/verify_user/presentation/screens/verify_user_screen.dart';
@@ -47,6 +48,7 @@ class Routes {
   static const String AccountInformationScreen = "AccountInformationScreen";
   static const String fingerprintScreen = "FingerprintScreen";
   static const String ChangePasswordScreen = "ChangePasswordScreen";
+  static const String LangScreen = "LangScreen";
 }
 
 class RouteGenerator {
@@ -199,6 +201,12 @@ class RouteGenerator {
             settings: routeSettings,
             builder: (_) {
               return const FingerPrintScreen();
+            });
+      case Routes.LangScreen:
+        return CupertinoPageRoute(
+            settings: routeSettings,
+            builder: (_) {
+              return const LangScreen();
             });
       case Routes.ChangePasswordScreen:
         return CupertinoPageRoute(
