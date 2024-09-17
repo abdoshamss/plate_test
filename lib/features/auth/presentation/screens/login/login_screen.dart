@@ -53,9 +53,60 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(),
+      create: (context) => AuthCubit()..cancheckbio(),
       child: BlocConsumer<AuthCubit, AuthStates>(
-        listener: (context, state) {},
+        listener: (context, state) async {
+          final cubit = AuthCubit.get(context);
+          if (state is LoginSuccessState) {
+            bool isBiometricState =
+                await Utils.dataManager.getbiometric() ?? false;
+            if (isBiometricState == true) {
+              // await cubit.checkBiometric(value)
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.LayoutScreen,
+                (route) => false,
+              );
+            } else if (isBiometricState == false &&
+                cubit.canCheckBiometrics == true) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.fingerprintScreen,
+                (route) => false,
+              );
+            }
+          } else if (state is NeedActivate) {
+            Alerts.snack(
+              text: "need_activate_message".tr(),
+              state: SnackState.success,
+            );
+            Navigator.pushNamed(
+              context,
+              Routes.OtpScreen,
+              arguments: OtpArguments(
+                sendTo: authRequest.phone ?? "",
+                onSubmit: (vaue) async {
+                  await AuthCubit.get(context).activate(
+                    registerRequestModel: authRequest..code = vaue,
+                  );
+                },
+                onReSend: () async {
+                  await AuthCubit.get(context)
+                      .resendCode(authRequest.phone ?? "");
+                },
+              ),
+            );
+          } else if (state is ActivateCodeSuccessState) {
+            // await Utils.saveUserInHive(state.userModel.toJson());
+            // await Utils.saveUserInHive(state.userModel.toJson());
+            Navigator.pushNamedAndRemoveUntil(
+                context, Routes.LayoutScreen, (route) => false);
+          }
+          // else if (state is NeedAddArea) {
+          //   Navigator.pushNamedAndRemoveUntil(
+          //       context, Routes.ChooseCountryScreen, (route) => false);
+          // }
+        },
         builder: (context, state) {
           final cubit = AuthCubit.get(context);
           return Scaffold(
@@ -123,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       hintText: 'Password',
                       password: true,
-                      validator: (v) => Utils.valid.passwordValidation(v),
+                      // validator: (v) => Utils.valid.passwordValidation(v),
                       controller: password,
                       borderRadius: 16,
                     ),
@@ -176,7 +227,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     registerModel.code = s;
                                     final res = await cubit.activate(
                                         registerRequestModel: registerModel);
-
                                     if (res == true) {
                                       Navigator.pushNamedAndRemoveUntil(
                                           context,
@@ -206,10 +256,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderColor: const Color(0xffEEF2F6),
                           width: double.infinity,
                           onTap: () async {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.LayoutScreen,
-                            );
+                            if (index == 0) {
+                              await cubit.googleLogin();
+                            } else {
+                              await cubit.googleRegister();
+                            }
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,

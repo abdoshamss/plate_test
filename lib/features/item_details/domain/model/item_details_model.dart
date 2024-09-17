@@ -196,7 +196,7 @@ class User {
       id: json['id'],
       image: json['image'],
       name: json['name'],
-      userVerified: json['user_verified'],
+      userVerified: json['user_verified'] ?? false,
     );
   }
 }

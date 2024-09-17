@@ -1,16 +1,23 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:plate_test/core/utils/Utils.dart';
+
 import '../../../../core/data_source/dio_helper.dart';
 import '../../../../core/services/alerts.dart';
+import '../../../../shared/widgets/myLoading.dart';
 import '../request/auth_request.dart';
 import 'end_points.dart';
 
 class AuthRepository {
   final DioService dioService;
+
   AuthRepository(this.dioService);
 
   loginRequest(AuthRequest user) async {
     final response = await dioService.postData(
-      isForm: true,
-        url: AuthEndPoints.login, body: user.login(), loading: true);
+        isForm: true,
+        url: AuthEndPoints.login,
+        body: user.login(),
+        loading: true);
     if (response.isError == false) {
       return response.response?.data['data'];
     } else {
@@ -58,6 +65,98 @@ class AuthRepository {
     if (response.isError == false) {
       // Alerts.snack(text: response.response?.data['message'], state: 1);
       return response.response?.data['data'];
+    } else {
+      return null;
+    }
+  }
+
+  googleRegisterRequest(AuthRequest user) async {
+    if (Utils.FCMToken.isEmpty) {
+      MyLoading.show();
+      await Utils.getFCMToken();
+    }
+    final response = await dioService.postData(
+        isForm: true,
+        url: "signup/google",
+        body: user.gooleRegister(),
+        loading: true);
+    if (response.isError == false) {
+      Alerts.snack(text: "sign_in_success".tr(), state: SnackState.success);
+      // Alerts.snack(
+      //     text: response.response?.data['message'], state: SnackState.success);
+      return response.response?.data['data'];
+    } else {
+      return null;
+    }
+  }
+
+  googleSignInRequest(AuthRequest user) async {
+    if (Utils.FCMToken.isEmpty) {
+      MyLoading.show();
+      await Utils.getFCMToken();
+    }
+    final response = await dioService.postData(
+        isForm: true,
+        url: "signin/google",
+        body: user.gooleRegister(),
+        loading: true);
+    if (response.isError == false) {
+      Alerts.snack(text: "sign_in_success".tr(), state: SnackState.success);
+      // Alerts.snack(
+      //     text: response.response?.data['message'], state: SnackState.success);
+      return response.response?.data['data'];
+    } else {
+      return null;
+    }
+  }
+
+  appleRegisterRequest(AuthRequest user) async {
+    if (Utils.FCMToken.isEmpty) {
+      MyLoading.show();
+      await Utils.getFCMToken();
+    }
+    final response = await dioService.postData(
+        isForm: true,
+        url: "signup/apple",
+        body: user.gooleRegister(),
+        loading: true);
+    if (response.isError == false) {
+      Alerts.snack(text: "sign_in_success".tr(), state: SnackState.success);
+
+      // Alerts.snack(
+      //     text: response.response?.data['message'], state: SnackState.success);
+      return response.response?.data['data'];
+    } else {
+      return null;
+    }
+  }
+
+  appleSignInRequest(AuthRequest user) async {
+    if (Utils.FCMToken.isEmpty) {
+      MyLoading.show();
+      await Utils.getFCMToken();
+    }
+    final response = await dioService.postData(
+        isForm: true,
+        url: "signin/apple",
+        body: user.gooleRegister(),
+        loading: true);
+    if (response.isError == false) {
+      Alerts.snack(text: "sign_in_success".tr(), state: SnackState.success);
+
+      // Alerts.snack(
+      //     text: response.response?.data['message'], state: SnackState.success);
+      return response.response?.data['data'];
+    } else {
+      return null;
+    }
+  }
+
+  selectArea(id) async {
+    final response = await dioService.postData(
+        url: "save_area", body: {"area_id": id}, isForm: true, loading: true);
+    if (response.isError == false) {
+      return true;
     } else {
       return null;
     }

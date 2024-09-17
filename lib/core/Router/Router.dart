@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plate_test/core/services/map.dart';
+import 'package:plate_test/features/auth/presentation/screens/fingerPrint_screen.dart';
 import 'package:plate_test/features/chat/presentation/screens/chat_details_screen.dart';
 import 'package:plate_test/features/layout/presentation/screens/layout_screen.dart';
 import 'package:plate_test/shared/widgets/webview_payment.dart';
@@ -17,6 +18,9 @@ import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/item_details/presentation/screens/item_details_screen.dart';
 import '../../features/notifications/presentation/screens/notifications_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
+import '../../features/settings/presentation/screens/account_information.dart';
+import '../../features/settings/presentation/screens/change_password.dart';
+import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../../features/splash/presentation/screens/splash/splash.dart';
 import '../../features/verify_user/presentation/screens/verify_user_screen.dart';
 
@@ -39,6 +43,10 @@ class Routes {
   static const String NotificationsScreen = "NotificationsScreen";
   static const String ProfileScreen = "ProfileScreen";
   static const String VerifyUserScreen = "VerifyUserScreen";
+  static const String SettingsScreen = "SettingsScreen";
+  static const String AccountInformationScreen = "AccountInformationScreen";
+  static const String fingerprintScreen = "FingerprintScreen";
+  static const String ChangePasswordScreen = "ChangePasswordScreen";
 }
 
 class RouteGenerator {
@@ -173,6 +181,36 @@ class RouteGenerator {
             builder: (_) {
               return const VerifyUserScreen();
             });
+      case Routes.SettingsScreen:
+        return CupertinoPageRoute(
+            settings: routeSettings,
+            builder: (_) {
+              return const SettingsScreen();
+            });
+
+      case Routes.AccountInformationScreen:
+        return CupertinoPageRoute(
+            settings: routeSettings,
+            builder: (_) {
+              return const AccountInformationScreen();
+            });
+      case Routes.fingerprintScreen:
+        return CupertinoPageRoute(
+            settings: routeSettings,
+            builder: (_) {
+              return const FingerPrintScreen();
+            });
+      case Routes.ChangePasswordScreen:
+        return CupertinoPageRoute(
+            settings: routeSettings,
+            builder: (_) {
+              return ChangePasswordScreen(
+                  onSubmit: routeSettings.arguments as dynamic Function(
+                String,
+                String,
+              )?);
+            });
+
       default:
         return unDefinedRoute();
     }

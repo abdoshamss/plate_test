@@ -9,13 +9,16 @@ import '../utils/utils.dart';
 class DataManager {
   late BoxCollection collection;
   static late Box userData;
-
+  late Box biometric;
   static const USER = "USER";
+  static const Biometric = "Biometric";
+  late Box localMessage;
 
   Future initHive() async {
     await Hive.initFlutter();
     userData = await Hive.openBox('dataUser');
-
+    localMessage = await Hive.openBox("dataMessages");
+    biometric = await Hive.openBox("biometric");
     // final directory = await getApplicationDocumentsDirectory();
     // collection = await BoxCollection.open(
     //   'dataManager', // Name of your database
@@ -75,8 +78,6 @@ class DataManager {
     return userData.delete(USER);
   }
 
-  late Box localMessage;
-
   deleteAllMsgs() async => await localMessage.clear();
 
   addMsg(
@@ -91,6 +92,14 @@ class DataManager {
 
   updateMsg(String key, Message msg) async =>
       await localMessage.put(key, await msg.msgSave());
+
+  Future saveBiometric({bool? value}) async {
+    await biometric.put(Biometric, value ?? false);
+  }
+
+  Future<bool?> getbiometric() async {
+    return (await biometric.get(Biometric) as bool?);
+  }
 
   // Future<MessageModel> getMessage(String key) async =>
   //     MessageModel.fromHive(await localMessage.get(key));

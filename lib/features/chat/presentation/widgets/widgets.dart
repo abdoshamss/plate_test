@@ -20,10 +20,11 @@ class ChatItem extends StatelessWidget {
               alignment: Alignment.bottomRight,
               width: 50,
               height: 50,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  image: DecorationImage(
-                      fit: BoxFit.fill, image: NetworkImage(chat!.image!))),
+                  image: DecorationImage(fit: BoxFit.fill, image: NetworkImage(
+                      // chat!.image ??
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg433spHM5uOwh3TSp0gt0uA59czhStXx8sg&s"))),
               child: Container(
                 height: 16,
                 width: 16,
@@ -127,9 +128,8 @@ class HeaderChatDeatilsScreen extends StatelessWidget {
           ),
           8.pw,
           CircleAvatar(
-            backgroundImage: NetworkImage(data?.image == ""
-                ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6HZJrBtIyi4XEnkjqQvH98pNq56FLhi600vOwJI1RWBYVFlZhGlf2nu5GiYl3FXdKRjA&usqp=CAU"
-                : data!.image!),
+            backgroundImage: NetworkImage(data!.image ??
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6HZJrBtIyi4XEnkjqQvH98pNq56FLhi600vOwJI1RWBYVFlZhGlf2nu5GiYl3FXdKRjA&usqp=CAU"),
             radius: 25,
           ),
           Expanded(
@@ -195,8 +195,9 @@ class PlateItemInChatDeatilsScreen extends StatelessWidget {
                   width: 100,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                          image: NetworkImage(item?.image ??
+                      image: const DecorationImage(
+                          image: NetworkImage(
+                              // item?.image ??
                               "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"),
                           fit: BoxFit.fill)),
                 ),

@@ -68,6 +68,9 @@ dependencies:
   pinput:
   animate_do:
   infinite_scroll_pagination: ^4.0.0
+  sign_in_with_apple: ^6.1.1
+  google_sign_in: ^6.2.1
+  local_auth: ^2.2.0
   pusher_client:
     git:
       url: https://github.com/eng-sayed/pusher_client.git

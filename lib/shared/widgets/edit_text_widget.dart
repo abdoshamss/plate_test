@@ -89,8 +89,11 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         widget.label.text(
-            textTheme: context.titleLarge
-                ?.copyWith(fontWeight: FontWeight.w500, fontSize: 16)),
+            textTheme: context.titleLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
+                color: Color(0xff94A3B8))),
+        const SizedBox(height: 8),
         TextFormField(
           onFieldSubmitted: widget.onFieldSubmitted,
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
@@ -124,8 +127,8 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
                                 setState(() => passHidden = !passHidden),
                             icon: Icon(
                               passHidden
-                                  ? Icons.remove_red_eye_outlined
-                                  : Icons.visibility_off,
+                                  ? Icons.visibility_off
+                                  : Icons.remove_red_eye_outlined,
                               color: widget.hintColor,
                             ),
                           )

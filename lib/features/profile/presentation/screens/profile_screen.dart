@@ -53,7 +53,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileCubit(),
+      create: (context) => ProfileCubit()..getProfileData(),
       child: BlocConsumer<ProfileCubit, ProfileStates>(
         listener: (context, state) async {
           if (state is LogOutSuccess) {
@@ -67,140 +67,150 @@ class _ProfileScreenState extends State<ProfileScreen> {
           final cubit = ProfileCubit.get(context);
           return Scaffold(
             body: SafeArea(
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        gradient:
-                            LinearGradient(colors: LightThemeColors.gradient)),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              child: state is GetProfileDataSuccess
+                  ? Column(
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(
-                            Icons.arrow_back_outlined,
-                            size: 24,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: LightThemeColors.gradient)),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const CustomText("Profile",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 18)),
-                              42.ph,
-                              Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        color: Colors.white, width: 4),
-                                    image: const DecorationImage(
-                                        image: NetworkImage(
-                                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6HZJrBtIyi4XEnkjqQvH98pNq56FLhi600vOwJI1RWBYVFlZhGlf2nu5GiYl3FXdKRjA&usqp=CAU"),
-                                        fit: BoxFit.fill)),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Icon(
+                                  Icons.arrow_back_outlined,
+                                  size: 24,
+                                  color: Colors.white,
+                                ),
                               ),
-                              24.ph,
-                              const CustomText(
-                                "Saski Ropokova",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 20),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const CustomText("Profile",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 18)),
+                                    42.ph,
+                                    Container(
+                                      width: 80,
+                                      height: 80,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: Colors.white, width: 4),
+                                          image: DecorationImage(
+                                              image: NetworkImage(state
+                                                      .user.image ??
+                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6HZJrBtIyi4XEnkjqQvH98pNq56FLhi600vOwJI1RWBYVFlZhGlf2nu5GiYl3FXdKRjA&usqp=CAU"),
+                                              fit: BoxFit.fill)),
+                                    ),
+                                    24.ph,
+                                    CustomText(
+                                      state.user.name ?? "User Name",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 20),
+                                    ),
+                                    4.ph,
+                                    CustomText(
+                                      state.user.mobile ?? "+92 3036349520",
+                                      style: TextStyle(
+                                          color: Color(0xffC6C3FF),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14),
+                                    ),
+                                    8.ph,
+                                  ],
+                                ),
                               ),
-                              4.ph,
-                              const CustomText(
-                                "+92 3036349520",
-                                style: TextStyle(
-                                    color: Color(0xffC6C3FF),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14),
-                              ),
-                              8.ph,
                             ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: List.generate(9, (index) {
-                        if (index == 0 || index == 4) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Text(
-                              types[index == 0 ? 0 : 1],
-                              style: const TextStyle(
-                                  color: Color(0xff94A3B8),
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 14),
-                            ),
-                          );
-                        } else {
-                          return GestureDetector(
-                            onTap: () async {
-                              if (index == 8) {
-                                await cubit.logOut(Utils.uuid);
-                              }
-                            },
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: List.generate(9, (index) {
+                              if (index == 0 || index == 4) {
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Text(
+                                    types[index == 0 ? 0 : 1],
+                                    style: const TextStyle(
+                                        color: Color(0xff94A3B8),
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 14),
+                                  ),
+                                );
+                              } else {
+                                return GestureDetector(
+                                  onTap: () async {
+                                    if (index == 8) {
+                                      await cubit.logOut(Utils.uuid);
+                                    } else if (index == 1) {
+                                      Navigator.pushNamed(
+                                          context, Routes.SettingsScreen);
+                                    }
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
                                     child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        SvgPicture.asset(typesIcons[index < 5
-                                                ? index - 1
-                                                : index - 2]
-                                            .svg()),
-                                        16.pw,
                                         Expanded(
-                                          child: CustomText(
-                                            typesNames[index < 5
-                                                ? index - 1
-                                                : index - 2],
-                                            style: TextStyle(
-                                                color: index == 8
-                                                    ? const Color(0xffFF4747)
-                                                    : null,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w700),
+                                          child: Row(
+                                            children: [
+                                              SvgPicture.asset(typesIcons[
+                                                      index < 5
+                                                          ? index - 1
+                                                          : index - 2]
+                                                  .svg()),
+                                              16.pw,
+                                              Expanded(
+                                                child: CustomText(
+                                                  typesNames[index < 5
+                                                      ? index - 1
+                                                      : index - 2],
+                                                  style: TextStyle(
+                                                      color: index == 8
+                                                          ? const Color(
+                                                              0xffFF4747)
+                                                          : null,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
+                                        const Icon(
+                                          Icons.arrow_forward_ios_outlined,
+                                          color: Color(0xff94A3B8),
+                                        )
                                       ],
                                     ),
                                   ),
-                                  const Icon(
-                                    Icons.arrow_forward_ios_outlined,
-                                    color: Color(0xff94A3B8),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        }
-                      }),
-                    ),
-                  )
-                ],
-              ),
+                                );
+                              }
+                            }),
+                          ),
+                        )
+                      ],
+                    )
+                  : const SizedBox.shrink(),
             ),
           );
         },

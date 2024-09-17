@@ -1,22 +1,215 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+
 import '../../../core/data_source/dio_helper.dart';
-import '../../auth/domain/request/auth_request.dart';
 import '../../../core/utils/Locator.dart';
 import '../../../core/utils/utils.dart';
+import '../../../shared/widgets/myLoading.dart';
+import '../../auth/domain/request/auth_request.dart';
 import '../domain/repository/auth_repository.dart';
 import 'auth_states.dart';
 
 class AuthCubit extends Cubit<AuthStates> {
   AuthCubit() : super(AuthInitial());
+
   static AuthCubit get(context) => BlocProvider.of(context);
 
   AuthRepository authRepository = AuthRepository(locator<DioService>());
+  bool? canCheckBiometrics;
+  LocalAuthentication auth = LocalAuthentication();
+  List<BiometricType>? availableBiometrics;
+
+  Future<bool?> cancheckbio() async {
+    canCheckBiometrics = await auth.canCheckBiometrics;
+    return canCheckBiometrics;
+  }
+
+  Future<void> checkBiometric(bool value) async {
+    // bool? canCheckBiometrics;
+    bool isLoading = true;
+
+    try {
+      if (isLoading == true) MyLoading.show();
+      canCheckBiometrics = await auth.canCheckBiometrics;
+      if (canCheckBiometrics == true) {
+        availableBiometrics = await auth.getAvailableBiometrics();
+        if (availableBiometrics!.contains(BiometricType.face)) {
+          await Utils.dataManager.saveBiometric(value: value);
+
+          emit(FaceIdSuccessState());
+          // MyLoading.dismis();
+          isLoading = false;
+        } else {
+          await Utils.dataManager.saveBiometric(value: value);
+          isLoading = false;
+          emit(FaceIdSuccessState());
+          // Future.delayed(
+          //   Duration(seconds: 1),
+          //   () {
+          //     MyLoading.dismis();
+          //   },
+          // );
+          // MyLoading.dismis();
+        }
+        // else if (availableBiometrics!.contains(BiometricType.fingerprint)) {
+        //             Utils.dataManager.saveBiometric(value: value);
+        // MyLoading.dismis();
+        //   print("Strong");
+        // }
+      }
+      if (isLoading == false) {
+        Future.delayed(
+          const Duration(seconds: 1),
+          () {
+            MyLoading.dismis();
+          },
+        );
+      }
+    } on PlatformException catch (e) {
+      print(e);
+    }
+  }
+
+  googleRegister() async {
+    emit(LoginLoadingState());
+    final res = await googleSignIn();
+    if (res == null) {
+      emit(LoginErrorState());
+      return;
+    }
+    AuthRequest authRequest = AuthRequest(
+      email: res.email,
+      name: res.displayName,
+      social_id: res.id,
+      image: res.photoUrl,
+    );
+    final response = await authRepository.googleRegisterRequest(authRequest);
+    if (response != null) {
+      await Utils.saveUserInHive(response);
+      emit(RegisterSocialDone());
+    } else {
+      await Utils.googleSignIn.disconnect();
+      emit(RegisterSocialError());
+    }
+  }
+
+  googleLogin() async {
+    emit(LoginLoadingState());
+    final res = await googleSignIn();
+    if (res == null) {
+      emit(LoginErrorState());
+      return;
+    }
+    AuthRequest authRequest = AuthRequest(
+      email: res.email,
+      name: res.displayName,
+      social_id: res.id,
+      image: res.photoUrl,
+    );
+    final response = await authRepository.googleSignInRequest(authRequest);
+    if (response != null) {
+      await Utils.saveUserInHive(response);
+      if (response['user']['area']?.toString().isEmpty == true) {
+        emit(NeedAddArea());
+        return;
+      } else {
+        emit(LoginSuccessState());
+        return;
+      }
+    } else {
+      await Utils.googleSignIn.disconnect();
+      emit(LoginErrorState());
+      return null;
+    }
+  }
+
+  appleRegister() async {
+    emit(LoginLoadingState());
+    final res = await appleSignIn();
+    if (res == null) {
+      emit(LoginErrorState());
+      return;
+    }
+    AuthRequest authRequest = AuthRequest(
+      email: res.email,
+      name: res.givenName,
+      social_id: res.userIdentifier,
+    );
+    final response = await authRepository.appleRegisterRequest(authRequest);
+    if (response != null) {
+      await Utils.saveUserInHive(response);
+      emit(RegisterSocialDone());
+    } else {
+      await Utils.googleSignIn.disconnect();
+      emit(RegisterSocialError());
+    }
+  }
+
+  appleLoginIn() async {
+    emit(LoginLoadingState());
+    final res = await appleSignIn();
+    if (res == null) {
+      emit(LoginErrorState());
+      return;
+    }
+    AuthRequest authRequest = AuthRequest(
+      email: res.email,
+      name: res.givenName,
+      social_id: res.userIdentifier,
+    );
+    final response = await authRepository.appleSignInRequest(authRequest);
+    if (response != null) {
+      await Utils.saveUserInHive(response);
+      if (response['user']['area']?.toString().isEmpty == true) {
+        emit(NeedAddArea());
+        return;
+      } else {
+        emit(LoginSuccessState());
+        return;
+      }
+    } else {
+      await Utils.googleSignIn.disconnect();
+      emit(LoginErrorState());
+      return null;
+    }
+  }
+
+  Future<GoogleSignInAccount?> googleSignIn() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      // final GoogleSignInAuthentication googleAuth =
+      //     await googleUser!.authentication;
+      return googleUser;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<AuthorizationCredentialAppleID?> appleSignIn() async {
+    try {
+      AuthorizationCredentialAppleID credential =
+          await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+      return credential;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
   login({required AuthRequest loginRequestModel}) async {
     emit(LoginLoadingState());
     final response = await authRepository.loginRequest(loginRequestModel);
     if (response != null) {
-      if (response["user"]['id'] == null) {
+      if (response["active"] == false) {
         emit(LoginErrorState());
         return false;
       } else {
@@ -73,6 +266,7 @@ class AuthCubit extends Cubit<AuthStates> {
   }
 
   String codeId = "";
+
   forgetPass(String p) async {
     emit(ForgetPassLoadingState());
     var res = await authRepository.forgetPassRequest(p);

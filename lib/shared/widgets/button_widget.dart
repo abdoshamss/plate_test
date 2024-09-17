@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../shared/widgets/text_widget.dart';
+
 import '../../core/extensions/all_extensions.dart';
+import '../../shared/widgets/text_widget.dart';
 
 class ButtonWidget extends StatelessWidget {
   final String title;
@@ -81,6 +82,7 @@ class TextButtonWidget extends StatelessWidget {
     this.size,
     this.fontFamily,
   });
+
   final Function function;
   final String text;
   final double? size;

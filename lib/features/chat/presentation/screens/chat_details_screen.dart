@@ -55,24 +55,19 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           body: SafeArea(
             child: Column(children: [
               /// Headerrrrr
-              HeaderChatDeatilsScreen(
-                data: paginationMessagesModel!.other,
-              ),
+              if (state is MessagesLoadedState)
+                HeaderChatDeatilsScreen(
+                  data: paginationMessagesModel?.other,
+                ),
 
               /// Plate Itemmmmmmmmmm
-              PlateItemInChatDeatilsScreen(
-                item: paginationMessagesModel!.item,
-              ),
+              if (state is MessagesLoadedState)
+                PlateItemInChatDeatilsScreen(
+                  item: paginationMessagesModel?.item,
+                ),
 
               /// chattttt
 
-              // const CustomText(
-              //   "paginationMessagesModel!.map!.keys.elementAt(item)",
-              //   style: TextStyle(
-              //       color: Color(0xff94A3B8),
-              //       fontSize: 12,
-              //       fontWeight: FontWeight.w700),
-              // ),
               Expanded(
                 child: NotificationListener<OverscrollIndicatorNotification>(
                   onNotification:

@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+
 import '../../../../core/utils/utils.dart';
 
 class AuthRequest {
@@ -15,6 +17,9 @@ class AuthRequest {
   String? fcm_token;
   String? password_confirmation;
   int? areaID;
+  String? image;
+
+  String? social_id;
 
   AuthRequest({
     this.name,
@@ -26,8 +31,10 @@ class AuthRequest {
     this.token,
     this.password,
     this.agree,
+    this.social_id,
     this.password_confirmation,
     this.areaID,
+    this.image,
   });
 
   Map<String, dynamic> register() {
@@ -53,6 +60,41 @@ class AuthRequest {
       'password': password,
       "device_token": Utils.FCMToken,
       "device_type": Platform.operatingSystem
+    };
+  }
+
+  Map<String, dynamic> editProfile() {
+    MultipartFile? file;
+    if (image != null) {
+      file = MultipartFile.fromFileSync(image!);
+    }
+    return <String, dynamic>{
+      'name': name,
+      'email': email,
+      'mobile': phone,
+      'image': file,
+      if (areaID != null) 'area_id': areaID,
+    };
+  }
+
+  Map<String, dynamic> editPassword() {
+    return <String, dynamic>{
+      'password': password,
+      'password_confirmation': password_confirmation,
+      'mobile': phone,
+      'code': code,
+    };
+  }
+
+  Map<String, dynamic> gooleRegister() {
+    return <String, dynamic>{
+      'device_type': Platform.isIOS ? "ios" : "android",
+      'device_token': Utils.FCMToken,
+      'uuid': Utils.uuid,
+      'social_id': social_id,
+      'image': image,
+      'name': name,
+      'email': email,
     };
   }
 

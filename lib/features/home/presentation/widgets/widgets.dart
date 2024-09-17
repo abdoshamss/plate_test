@@ -317,7 +317,7 @@ class VerifyItem extends StatelessWidget {
             ),
             const Spacer(),
             const Icon(Icons.arrow_forward),
-            const SizedBox(width: 16)
+            16.pw
           ],
         ),
       ),
@@ -395,9 +395,10 @@ class FeatureItemRecentlyDropped extends StatelessWidget {
                             },
                             child: Image.asset("back_arrow".png("icons")),
                           ),
-                        if (item?.userVerified == true ||
-                            itemDetails?.user?.userVerified == true ||
-                            favoritesItem!.featured == true)
+                        if (item?.userVerified ??
+                            false ||
+                                itemDetails?.user?.userVerified == true ||
+                                favoritesItem!.featured == true)
                           Image.asset("verify_user".png("icons")),
                         const Spacer(),
                         Image.asset("share".png("icons")),

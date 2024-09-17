@@ -1,4 +1,3 @@
-
 abstract class AuthStates {}
 
 class AuthInitial extends AuthStates {}
@@ -8,6 +7,8 @@ class GetAreasLoadingState extends AuthStates {}
 class GetAreasSuccessState extends AuthStates {}
 
 class GetAreasErrorState extends AuthStates {}
+
+class NeedActivate extends AuthStates {}
 
 class LoginLoadingState extends AuthStates {}
 
@@ -44,3 +45,15 @@ class ResetPasswordLoadingState extends AuthStates {}
 class ResetPasswordSuccessState extends AuthStates {}
 
 class ResetPasswordErrorState extends AuthStates {}
+
+class FaceIdSuccessState extends AuthStates {}
+
+class FaceIdFailedState extends AuthStates {}
+
+class FinishSelectArea extends AuthStates {}
+
+class RegisterSocialDone extends AuthStates {}
+
+class RegisterSocialError extends AuthStates {}
+
+class NeedAddArea extends AuthStates {}

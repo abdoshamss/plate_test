@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:device_uuid/device_uuid.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../features/auth/domain/model/auth_model.dart';
 import '../data_source/hive_helper.dart';
@@ -16,6 +17,8 @@ class Utils {
   static String FCMToken = '';
   static String userType = "";
   static String room_id = "";
+  static GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
+
   static String uuid = "";
 
   static Future<String?> getuuid() async {
