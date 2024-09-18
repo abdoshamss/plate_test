@@ -57,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       create: (context) => ProfileCubit()..getProfileData(),
       child: BlocConsumer<ProfileCubit, ProfileStates>(
         listener: (context, state) async {
-          if (state is LogOutSuccess) {
+          if (state is LogOutSuccess || state is DeleteAccountSuccess) {
             await Utils.deleteUserData();
             print(Utils.token);
             Navigator.pushNamedAndRemoveUntil(
@@ -159,11 +159,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               } else {
                                 return GestureDetector(
                                   onTap: () async {
-                                    if (index == 8) {
-                                      await cubit.logOut(Utils.uuid);
-                                    } else if (index == 1) {
+                                    if (index == 1) {
                                       Navigator.pushNamed(
                                           context, Routes.SettingsScreen);
+                                    } else if (index == 8) {
+                                      await cubit.logOut(Utils.uuid);
+                                    } else if (index == 9) {
+                                      await cubit.deleteAccount();
+                                      print("Account Deleted");
                                     }
                                   },
                                   child: Padding(
@@ -183,11 +186,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                             : index - 2]
                                                     .svg()),
                                               if (index == 9)
-                                                const Icon(
-                                                  Icons.delete_forever,
-                                                  size: 20,
-                                                  color: Color(0xffFF4747),
-                                                ),
+                                                Container(
+                                                    width: 40,
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                        color: const Color(
+                                                            0xffFFF0F0)),
+                                                    child: const Icon(
+                                                        Icons.delete_forever,
+                                                        size: 20,
+                                                        color:
+                                                            Color(0xffFF4747))),
                                               16.pw,
                                               Expanded(
                                                 child: CustomText(
@@ -195,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       ? index - 1
                                                       : index - 2],
                                                   style: TextStyle(
-                                                      color: index == 8
+                                                      color: index > 7
                                                           ? const Color(
                                                               0xffFF4747)
                                                           : null,

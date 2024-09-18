@@ -24,6 +24,16 @@ class ProfileRepository {
     }
   }
 
+  deleteAccountRepo() async {
+    final response = await dioService.deleteData(
+        url: ProfileEndpoints.deleteAccount, loading: true);
+    if (response.isError == false) {
+      return response.response?.data['status'];
+    } else {
+      return null;
+    }
+  }
+
   getProfileRequest() async {
     final response = await dioService.getData(
         url: ProfileEndpoints.getProfileData, loading: true);

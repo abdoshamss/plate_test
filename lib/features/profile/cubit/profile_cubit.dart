@@ -28,6 +28,18 @@ class ProfileCubit extends Cubit<ProfileStates> {
     }
   }
 
+  deleteAccount() async {
+    emit(DeleteAccountLoading());
+    final response = await profileRepository.deleteAccountRepo();
+    if (response == true) {
+      emit(DeleteAccountSuccess());
+      return true;
+    } else {
+      emit(DeleteAccountError());
+      return null;
+    }
+  }
+
   getProfileData() async {
     emit(GetProfileDataLoading());
     final response = await profileRepository.getProfileRequest();

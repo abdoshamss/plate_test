@@ -11,6 +11,12 @@ class LogOutSuccess extends ProfileStates {}
 
 class LogOutError extends ProfileStates {}
 
+class DeleteAccountLoading extends ProfileStates {}
+
+class DeleteAccountSuccess extends ProfileStates {}
+
+class DeleteAccountError extends ProfileStates {}
+
 class GetProfileDataLoading extends ProfileStates {}
 
 class GetProfileDataSuccess extends ProfileStates {

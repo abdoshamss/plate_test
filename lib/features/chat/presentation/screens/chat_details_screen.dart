@@ -55,13 +55,13 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
           body: SafeArea(
             child: Column(children: [
               /// Headerrrrr
-              if (state is MessagesLoadedState)
+              if (paginationMessagesModel != null)
                 HeaderChatDeatilsScreen(
                   data: paginationMessagesModel?.other,
                 ),
 
               /// Plate Itemmmmmmmmmm
-              if (state is MessagesLoadedState)
+              if (paginationMessagesModel != null)
                 PlateItemInChatDeatilsScreen(
                   item: paginationMessagesModel?.item,
                 ),
@@ -136,7 +136,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
             padding: const EdgeInsets.all(16.0),
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: 75,
+              height: MediaQuery.of(context).size.height / 11,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -171,13 +171,16 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                         //     createdAt: DateTime.now().toString(),
                         //   ),
                         // );
-                        await cubit.sendMessage(
-                          messageModel
-                            ..roomId = widget.id.toString()
-                            ..message = cubit.send.text,
-                        );
-                        cubit.scrollController
-                            .jumpTo(cubit.scrollController.initialScrollOffset);
+                        if (cubit.send.text.isNotEmpty) {
+                          await cubit.sendMessage(
+                            messageModel
+                              ..roomId = widget.id.toString()
+                              ..message = cubit.send.text,
+                          );
+                          cubit.scrollController.jumpTo(
+                              cubit.scrollController.initialScrollOffset);
+                          cubit.send.clear();
+                        }
                       },
                       child: Container(
                         margin: const EdgeInsets.only(top: 20),

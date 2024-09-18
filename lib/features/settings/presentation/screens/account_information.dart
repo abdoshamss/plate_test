@@ -171,9 +171,11 @@ class _AccountInformationScreenState extends State<AccountInformationScreen> {
                                           border: Border.all(
                                               color: Colors.white, width: 4),
                                           image: DecorationImage(
-                                              image: NetworkImage(userData
-                                                      ?.image ??
-                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6HZJrBtIyi4XEnkjqQvH98pNq56FLhi600vOwJI1RWBYVFlZhGlf2nu5GiYl3FXdKRjA&usqp=CAU"),
+                                              image: image != null
+                                                  ? FileImage(image!)
+                                                  : NetworkImage(userData
+                                                          ?.image ??
+                                                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6HZJrBtIyi4XEnkjqQvH98pNq56FLhi600vOwJI1RWBYVFlZhGlf2nu5GiYl3FXdKRjA&usqp=CAU"),
                                               fit: BoxFit.fill))),
                                   GestureDetector(
                                     onTap: () {
