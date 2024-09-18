@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -341,9 +343,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                       ),
-                      ...List.generate(
-                        2,
-                        (index) => Padding(
+                      if (Platform.isAndroid)
+                        Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: ButtonWidget(
                             withBorder: true,
@@ -352,25 +353,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             borderColor: const Color(0xffEEF2F6),
                             width: double.infinity,
                             onTap: () async {
-                              Navigator.pushNamed(
-                                context,
-                                Routes.LayoutScreen,
-                              );
+                              cubit.googleRegister();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 20.pw,
-                                SvgPicture.asset(icons[index].svg()),
+                                SvgPicture.asset(icons[0].svg()),
                                 70.pw,
-                                Text("Sign up with ${names[index]}",
+                                Text("Sign up with ${names[0]}",
                                     style:
                                         const TextStyle(color: Colors.black)),
                               ],
                             ),
                           ),
                         ),
-                      ),
+                      if (Platform.isIOS)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: ButtonWidget(
+                            withBorder: true,
+                            buttonColor: Colors.white,
+                            textColor: Colors.black,
+                            borderColor: const Color(0xffEEF2F6),
+                            width: double.infinity,
+                            onTap: () async {
+                              cubit.googleRegister();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                20.pw,
+                                SvgPicture.asset(icons[1].svg()),
+                                70.pw,
+                                Text("Sign up with ${names[1]}",
+                                    style:
+                                        const TextStyle(color: Colors.black)),
+                              ],
+                            ),
+                          ),
+                        ),
                       64.ph,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

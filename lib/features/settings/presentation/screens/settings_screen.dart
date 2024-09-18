@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:plate_test/core/Router/Router.dart';
 import 'package:plate_test/core/utils/extentions.dart';
+import 'package:plate_test/core/utils/utils.dart';
 
 import '../../../../core/theme/light_theme.dart';
 import '../../../../shared/widgets/customtext.dart';
@@ -26,7 +27,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.initState();
   }
 
-  bool isSelected = false;
+  bool isNotify = Utils.isNotify;
+
   final List<String> types = [
     "Account Settings",
     "App Settings",
@@ -160,17 +162,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   if (index == 5)
                                     GestureDetector(
                                       onTap: () {
-                                        isSelected = !isSelected;
+                                        isNotify = !isNotify;
+                                        Utils.isNotify = isNotify;
+                                        cubit.notificationToggle();
+
                                         setState(() {});
                                       },
                                       child: Container(
-                                        alignment: isSelected
+                                        alignment: isNotify
                                             ? Alignment.centerRight
                                             : Alignment.centerLeft,
                                         width: 50,
                                         height: 25,
                                         decoration: BoxDecoration(
-                                            color: isSelected
+                                            color: isNotify
                                                 ? LightThemeColors.primary
                                                 : Colors.white,
                                             border: Border.all(),
@@ -184,7 +189,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                               horizontal: 1),
                                           child: CircleAvatar(
                                             radius: 10,
-                                            backgroundColor: isSelected
+                                            backgroundColor: isNotify
                                                 ? Colors.white
                                                 : LightThemeColors.primary,
                                           ),

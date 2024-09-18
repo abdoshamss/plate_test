@@ -12,11 +12,13 @@ import 'Locator.dart';
 import 'validations.dart';
 
 class Utils {
-  static String token = '';
+  static String? token;
+
   static String lang = '';
   static String FCMToken = '';
   static String userType = "";
   static String room_id = "";
+  static bool isNotify = false;
   static GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
 
   static String uuid = "";

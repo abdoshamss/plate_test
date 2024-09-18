@@ -3,34 +3,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plate_test/core/extensions/all_extensions.dart';
 import 'package:plate_test/core/utils/extentions.dart';
 
-import '../../../../../core/Router/Router.dart';
-import '../../../../../core/theme/light_theme.dart';
-import '../../../../../shared/widgets/button_widget.dart';
-import '../../../../../shared/widgets/customtext.dart';
+import '../../../../core/theme/light_theme.dart';
+import '../../../../shared/widgets/button_widget.dart';
+import '../../../../shared/widgets/customtext.dart';
 import '../../cubit/auth_cubit.dart';
 import '../../cubit/auth_states.dart';
 
-class FingerPrintScreen extends StatefulWidget {
-  const FingerPrintScreen({super.key});
+class FaceidScreen extends StatefulWidget {
+  const FaceidScreen({super.key});
 
   @override
-  State<FingerPrintScreen> createState() => _FingerPrintScreenState();
+  State<FaceidScreen> createState() => _FaceidScreenState();
 }
 
-class _FingerPrintScreenState extends State<FingerPrintScreen> {
+class _FaceidScreenState extends State<FaceidScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthCubit(),
+      // ..getAvailableBiometric(),
       child: BlocConsumer<AuthCubit, AuthStates>(
         listener: (context, state) {
           // TODO: implement listener
-          if (state is FaceIdSuccessState) {
-            Navigator.pushNamed(
-              context,
-              Routes.LayoutScreen,
-            );
-          }
         },
         builder: (context, state) {
           final cubit = AuthCubit.get(context);
@@ -47,14 +41,14 @@ class _FingerPrintScreenState extends State<FingerPrintScreen> {
                     Image.asset(
                       width: 136,
                       height: 136,
-                      "finger_print".png(),
+                      "face_id".png(),
                     ),
                     40.ph,
                     SizedBox(
                       width: 311,
                       height: 31,
                       child: CustomText(
-                        "Enable Fingerprint",
+                        "Use Face ID to login?",
                         align: TextAlign.center,
                         style: const TextStyle(
                           color: LightThemeColors.textPrimary,
@@ -67,7 +61,7 @@ class _FingerPrintScreenState extends State<FingerPrintScreen> {
                       height: 78,
                       child: CustomText(
                         align: TextAlign.center,
-                        "You can use Fingerprint to access your account, so you won’t need to type your password each time.",
+                        "You can use Face ID to access your account, so you won’t need to type your password each time.",
                         style: const TextStyle(
                           color: LightThemeColors.textSecondary,
                         ).s16.medium,
@@ -76,7 +70,7 @@ class _FingerPrintScreenState extends State<FingerPrintScreen> {
                     165.ph,
                     ButtonWidget(
                       onTap: () async => await cubit.checkBiometric(true),
-                      title: "Use Fingerprint",
+                      title: "Use Face ID",
                       gradient: const LinearGradient(
                         colors: LightThemeColors.gradientPrimary,
                       ),

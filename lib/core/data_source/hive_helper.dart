@@ -55,13 +55,14 @@ class DataManager {
       final user = (Map<String, dynamic>.from(userData.get(USER)));
       Utils.token = user['access_token'];
       print("HiveToken");
+      print(user['access_token']);
       print(Utils.token.toString());
 
       // Utils.userModel = UserModel.fromJson(Map<String, dynamic>.from(user));
 
       return userData.get(USER);
     } catch (e) {
-      log(e.toString());
+      log("exwce$e");
       //  userData.clear();
     }
   }

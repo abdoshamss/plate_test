@@ -1,3 +1,3 @@
-class settingsEndpoints {
-  static const String baseUrl = "https://jsonplaceholder.typicode.com";
+class SettingsEndpoints {
+  static const String toggleNotifications = "notify-status";
 }

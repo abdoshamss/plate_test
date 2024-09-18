@@ -1,9 +1,7 @@
 import 'package:animated_widgets_flutter/widgets/opacity_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:plate_test/core/utils/utils.dart';
 
-import '../../../../../core/Router/Router.dart';
 import '../../../../../core/theme/light_theme.dart';
 import '../../../../../core/utils/extentions.dart';
 import '../../../cubit/splash_cubit.dart';
@@ -37,6 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
               // TODO: implement listener
             },
             builder: (context, state) {
+              final cubit = SplashCubit.get(context);
               return Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -48,15 +47,15 @@ class _SplashScreenState extends State<SplashScreen> {
                       duration: const Duration(milliseconds: 3000),
                       enabled: true,
                       animationFinished: (finished) async {
-                        if (Utils.token == '') {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, Routes.LoginScreen, (route) => false);
-                        } else {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, Routes.LayoutScreen, (route) => false);
-                        }
-                        // Navigator.pushNamedAndRemoveUntil(
-                        //     context, await cubit.checkLogin(), (route) => false);
+                        // if (Utils.token == '') {
+                        //   Navigator.pushNamedAndRemoveUntil(
+                        //       context, Routes.LoginScreen, (route) => false);
+                        // } else {
+                        //   Navigator.pushNamedAndRemoveUntil(
+                        //       context, Routes.LayoutScreen, (route) => false);
+                        // }
+                        Navigator.pushNamedAndRemoveUntil(context,
+                            await cubit.checkLogin(), (route) => false);
                       },
                       child: Image.asset(
                         "splash".png(),

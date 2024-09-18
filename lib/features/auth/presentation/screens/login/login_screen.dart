@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +28,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController phone = TextEditingController(text: "0512341234");
-  TextEditingController password = TextEditingController(text: "12345678");
+  TextEditingController password = TextEditingController(text: "123456");
   late final AuthRequest _authRequest;
   final List<String> names = ["Google", "Apple"];
   final List<String> icons = ["google", "apple"];
@@ -244,10 +246,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       },
                     ),
-                    16.ph,
-                    ...List.generate(
-                      2,
-                      (index) => Padding(
+                    if (Platform.isAndroid) 16.ph,
+                    if (Platform.isAndroid)
+                      Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: ButtonWidget(
                           withBorder: true,
@@ -256,25 +257,45 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderColor: const Color(0xffEEF2F6),
                           width: double.infinity,
                           onTap: () async {
-                            if (index == 0) {
-                              await cubit.googleLogin();
-                            } else {
-                              await cubit.googleRegister();
-                            }
+                            await cubit.googleLogin();
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               20.pw,
-                              SvgPicture.asset(icons[index].svg()),
+                              SvgPicture.asset(icons[0].svg()),
                               70.pw,
-                              Text("Sign in with ${names[index]}",
+                              Text("Sign in with ${names[0]}",
                                   style: const TextStyle(color: Colors.black)),
                             ],
                           ),
                         ),
                       ),
-                    ),
+                    16.ph,
+                    if (Platform.isIOS)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: ButtonWidget(
+                          withBorder: true,
+                          buttonColor: Colors.white,
+                          textColor: Colors.black,
+                          borderColor: const Color(0xffEEF2F6),
+                          width: double.infinity,
+                          onTap: () async {
+                            await cubit.appleLoginIn();
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              20.pw,
+                              SvgPicture.asset(icons[1].svg()),
+                              70.pw,
+                              Text("Sign in with ${names[1]}",
+                                  style: const TextStyle(color: Colors.black)),
+                            ],
+                          ),
+                        ),
+                      ),
                     // signupBtn(context),
                   ],
                 ),

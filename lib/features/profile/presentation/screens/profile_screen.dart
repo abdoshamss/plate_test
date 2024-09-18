@@ -39,6 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     "Get help",
     "Privacy policy",
     "Sign out",
+    "Delete account",
   ];
   final List<String> typesIcons = [
     "settinges_profile",
@@ -61,6 +62,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             print(Utils.token);
             Navigator.pushNamedAndRemoveUntil(
                 context, Routes.splashScreen, (route) => false);
+          }
+          if (state is GetProfileDataSuccess) {
+            Utils.isNotify = state.user.notify ?? false;
           }
         },
         builder: (context, state) {
@@ -139,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               horizontal: 24, vertical: 16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: List.generate(9, (index) {
+                            children: List.generate(10, (index) {
                               if (index == 0 || index == 4) {
                                 return Padding(
                                   padding:
@@ -172,11 +176,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         Expanded(
                                           child: Row(
                                             children: [
-                                              SvgPicture.asset(typesIcons[
-                                                      index < 5
-                                                          ? index - 1
-                                                          : index - 2]
-                                                  .svg()),
+                                              if (index != 9)
+                                                SvgPicture.asset(typesIcons[
+                                                        index < 5
+                                                            ? index - 1
+                                                            : index - 2]
+                                                    .svg()),
+                                              if (index == 9)
+                                                const Icon(
+                                                  Icons.delete_forever,
+                                                  size: 20,
+                                                  color: Color(0xffFF4747),
+                                                ),
                                               16.pw,
                                               Expanded(
                                                 child: CustomText(
