@@ -48,7 +48,7 @@ class FeatureItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, Routes.ItemDetailsScreen,
-            arguments: item!.id);
+            arguments: item?.id);
       },
       child: Container(
         padding: const EdgeInsets.all(8),

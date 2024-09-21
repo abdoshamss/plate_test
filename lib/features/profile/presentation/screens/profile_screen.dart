@@ -162,11 +162,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     if (index == 1) {
                                       Navigator.pushNamed(
                                           context, Routes.SettingsScreen);
+                                    } else if (index == 5) {
+                                      Navigator.pushNamed(
+                                          context, Routes.AboutUsScreen);
                                     } else if (index == 8) {
                                       await cubit.logOut(Utils.uuid);
                                     } else if (index == 9) {
                                       await cubit.deleteAccount();
-                                      print("Account Deleted");
+                                      debugPrint("Account Deleted");
                                     }
                                   },
                                   child: Padding(

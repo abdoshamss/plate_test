@@ -44,73 +44,71 @@ class _MyAdsScreenState extends State<MyAdsScreen>
           final cubit = MyAdsCubit.get(context);
 
           return Scaffold(
-            body: SafeArea(
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    alignment: Alignment.bottomLeft,
-                    width: MediaQuery.of(context).size.width,
-                    height: 70,
-                    decoration: BoxDecoration(
-                        gradient:
-                            LinearGradient(colors: LightThemeColors.gradient)),
-                    child: const CustomText(
-                      "My Ads",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18),
-                    ),
+            body: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  alignment: Alignment.bottomLeft,
+                  width: MediaQuery.of(context).size.width,
+                  height: 100,
+                  decoration: BoxDecoration(
+                      gradient:
+                          LinearGradient(colors: LightThemeColors.gradient)),
+                  child: const CustomText(
+                    "My Ads",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18),
                   ),
-                  TabBar(
-                      automaticIndicatorColorAdjustment: true,
-                      labelStyle: const TextStyle(color: Colors.white),
-                      padding: const EdgeInsets.all(8),
-                      dividerHeight: 0,
-                      indicator: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          gradient: const LinearGradient(
-                              colors: LightThemeColors.gradientPrimary)),
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      controller: _tabController,
-                      onTap: (i) {
-                        print(i);
-                      },
-                      tabs: const [
-                        Tab(
-                          child: Text(
-                            "All Ads",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
+                ),
+                TabBar(
+                    automaticIndicatorColorAdjustment: true,
+                    labelStyle: const TextStyle(color: Colors.white),
+                    padding: const EdgeInsets.all(8),
+                    dividerHeight: 0,
+                    indicator: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        gradient: const LinearGradient(
+                            colors: LightThemeColors.gradientPrimary)),
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    controller: _tabController,
+                    onTap: (i) {
+                      print(i);
+                    },
+                    tabs: const [
+                      Tab(
+                        child: Text(
+                          "All Ads",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
                           ),
                         ),
-                        Tab(
-                          child: Text(
-                            "Sold",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                      ]),
-                  Expanded(
-                    child:
-                        TabBarView(controller: _tabController, children: const [
-                      AdsItems(
-                        filter: "all",
                       ),
-                      AdsItems(
-                        filter: "sold",
+                      Tab(
+                        child: Text(
+                          "Sold",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
                     ]),
-                  ),
-                  16.ph
-                ],
-              ),
+                Expanded(
+                  child:
+                      TabBarView(controller: _tabController, children: const [
+                    AdsItems(
+                      filter: "all",
+                    ),
+                    AdsItems(
+                      filter: "sold",
+                    ),
+                  ]),
+                ),
+                16.ph
+              ],
             ),
           );
         },

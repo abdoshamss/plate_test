@@ -67,7 +67,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   children: [
                     24.ph,
                     const CustomText(
-                      "Create you new password",
+                      "Create your new password",
                       style:
                           TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
                     ),
@@ -82,33 +82,36 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     TextFormFieldWidget(
                       contentPadding: const EdgeInsetsDirectional.symmetric(
                           vertical: 20, horizontal: 10),
-                      prefixWidget: Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: SvgPicture.asset(
-                            "lock".svg(),
-                          )),
+                      prefixIconWidget: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: SvgPicture.asset(
+                          "lock".svg(),
+                          fit: BoxFit.scaleDown,
+                        ),
+                      ),
                       backgroundColor: const Color(0xffF8FAFC),
                       type: TextInputType.visiblePassword,
                       controller: passwordController,
                       hintText: 'New Password',
                       password: true,
-                      validator: Utils.valid.passwordValidation,
+                      validator: (v) => Utils.valid.defaultValidation(v),
                       borderRadius: 16,
                     ),
                     TextFormFieldWidget(
                       contentPadding: const EdgeInsetsDirectional.symmetric(
                           vertical: 20, horizontal: 10),
-                      prefixWidget: Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: SvgPicture.asset(
-                            "lock".svg(),
-                          )),
+                      prefixIconWidget: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: SvgPicture.asset(
+                          "lock".svg(),
+                          fit: BoxFit.scaleDown,
+                        ),
+                      ),
                       backgroundColor: const Color(0xffF8FAFC),
                       type: TextInputType.visiblePassword,
                       hintText: 'Confirm New Password',
                       password: true,
-                      validator: (v) => Utils.valid.confirmPasswordValidation(
-                          v, passwordController.text),
+                      validator: (v) => Utils.valid.defaultValidation(v),
                       borderRadius: 16,
                       controller: confirmPasswordController,
                     ),

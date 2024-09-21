@@ -63,6 +63,8 @@ class MyAdsItem {
   final bool? status;
   final Location? location;
 
+  get stringAmount => amount!.replaceAll(".00", "");
+
   MyAdsItem({
     required this.id,
     required this.image,

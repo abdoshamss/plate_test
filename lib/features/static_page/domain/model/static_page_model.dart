@@ -1,66 +1,80 @@
-import '../../../../core/utils/Utils.dart';
-import '../../../../shared/models/translations.dart';
-
-class StaticPageModel {
-  int lastPage = 1;
-  List<StaticPage>? staticPages;
-
-  //from json
-  StaticPageModel.fromJson(Map<String, dynamic> json) {
-    lastPage = json['meta'] != null ? json['meta']['last_page'] : 1;
-    staticPages = json['data'] != null
-        ? List<StaticPage>.from(json['data'].map((x) => StaticPage.fromJson(x)))
-        : null;
-  }
-}
-
-class StaticPage {
-  int? id;
-  TranslationModel? translation;
-  String? nameApi;
-  String? phone;
-  String? taxNumber;
-  String? address;
-
-  StaticPage(
-      {this.id,
-      this.nameApi,
-      this.phone,
-      this.taxNumber,
-      this.address,
-      this.translation});
-  String get name {
-    return Utils.local == "ar"
-        ? translation?.ar ?? nameApi ?? ""
-        : translation?.en ?? nameApi ?? "";
-  }
-
-  StaticPage.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    nameApi = json['name'];
-    translation = json['name_json'] != null
-        ? TranslationModel.fromJson(json['name_json'])
-        : null;
-    phone = json['phone'];
-    taxNumber = json['tax_number'];
-    address = json['address'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = {
-      "en": translation?.en,
-      "ar": translation?.ar,
-    };
-    data['phone'] = phone;
-    data['tax_number'] = taxNumber;
-    data['address'] = address;
-    return data;
-  }
-
-  @override
-  String toString() {
-    return name ?? "";
-  }
-}
+// import 'dart:convert';
+//
+// // ignore_for_file: public_member_api_docs, sort_constructors_first
+// class StaticPageModel {
+//   int? id;
+//   String? title;
+//   String? content;
+//
+//   StaticPageModel({
+//     this.id,
+//     this.title,
+//     this.content,
+//   });
+//
+//   StaticPageModel.fromMap(Map<String, dynamic> map) {
+//     id = map['id'] != null ? map['id'] as int : null;
+//     title = map['title'] != null ? map['title'] as String : null;
+//     content = map['content'] != null ? map['content'] as String : null;
+//   }
+//
+//   factory StaticPageModel.fromJson(String source) =>
+//       StaticPageModel.fromMap(json.decode(source) as Map<String, dynamic>);
+// }
+//
+// // Map<String, dynamic> toMap() {
+// //   return <String, dynamic>{
+// //     'id': id,
+// //     'question': question,
+// //     'like_count': like_count,
+// //     'comment_count': comment_count,
+// //   };
+//
+// class Question {
+//   String? id;
+//   String? question;
+//   String? answer;
+//   Question({
+//   String? likeCount;
+//   String? comment_coun;
+//   QuestionModel({
+//   this.id,
+//   this.question,
+//   this.answer,
+//   });
+//
+//   factory Question.fromMap(Map<String, dynamic> map) {
+//   return Question(
+//   id: map['id'] != null ? (map['id'] as int).toString() : null,
+//   question: map['question'] != null ? map['question'] as String : null,
+//   answer: map['answer'] != null ? map['answer'] as String : null,
+//   like_count:
+//   map['like_count'] != null ? map['like_count']?.toString() : null,
+//   comment_count: map['comment_count'] != null
+//   ? map['comment_count']?.toString()
+//       : null,
+//   );
+//   }
+//
+//   factory Question.fromJson(String source) =>
+//   Question.fromMap(json.decode(source) as Map<String, dynamic>);
+// }
+// }
+// class Questions {
+//   List<Question>? questions;
+//   Questions({
+//     this.questions,
+//   });
+//
+//   Questions.fromMap(Map<String, dynamic> map) {
+//     questions = <Question>[];
+//     if (map['questions'] != null) {
+//       (map['questions'] as List).forEach((v) {
+//         questions?.add(Question.fromMap(v));
+//       });
+//     }
+//   }
+//
+//   factory Questions.fromJson(String source) =>
+//       Questions.fromMap(json.decode(source) as Map<String, dynamic>);
+// }

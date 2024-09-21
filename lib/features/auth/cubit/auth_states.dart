@@ -1,3 +1,5 @@
+import '../../../core/utils/Utils.dart';
+
 abstract class AuthStates {}
 
 class AuthInitial extends AuthStates {}
@@ -36,7 +38,17 @@ class ForgetPassErrorState extends AuthStates {}
 
 class ActivateCodeLoadingState extends AuthStates {}
 
-class ActivateCodeSuccessState extends AuthStates {}
+class ActivateCodeSuccessState extends AuthStates {
+  final Map<String, dynamic> response;
+
+  ActivateCodeSuccessState(this.response) {
+    saveData();
+  }
+
+  Future<void> saveData() async {
+    await Utils.saveUserInHive(response);
+  }
+}
 
 class ActivateCodeErrorState extends AuthStates {}
 

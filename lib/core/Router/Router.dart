@@ -23,6 +23,7 @@ import '../../features/settings/presentation/screens/change_password.dart';
 import '../../features/settings/presentation/screens/lang.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../../features/splash/presentation/screens/splash/splash.dart';
+import '../../features/static_page/presentation/about_us.dart';
 import '../../features/verify_user/presentation/screens/verify_user_screen.dart';
 
 class Routes {
@@ -49,6 +50,7 @@ class Routes {
   static const String fingerprintScreen = "FingerprintScreen";
   static const String ChangePasswordScreen = "ChangePasswordScreen";
   static const String LangScreen = "LangScreen";
+  static const String AboutUsScreen = "AboutUsScreen";
 }
 
 class RouteGenerator {
@@ -218,7 +220,12 @@ class RouteGenerator {
                 String,
               )?);
             });
-
+      case Routes.AboutUsScreen:
+        return CupertinoPageRoute(
+            settings: routeSettings,
+            builder: (_) {
+              return const AboutUS();
+            });
       default:
         return unDefinedRoute();
     }

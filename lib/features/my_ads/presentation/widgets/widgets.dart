@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:plate_test/core/data_source/hive_helper.dart';
 import 'package:plate_test/core/general/general_repo.dart';
 import 'package:plate_test/core/services/alerts.dart';
 import 'package:plate_test/core/utils/Locator.dart';
@@ -21,11 +22,19 @@ class AdsItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int? userId;
+
     List<MyAdsItem>? list;
     return BlocProvider(
       create: (context) => MyAdsCubit()..getMyAdsData(filter),
       child: BlocConsumer<MyAdsCubit, MyAdsStates>(
-        listener: (context, state) {},
+        listener: (context, state) async {
+          if (state is GetMyAdsDataSuccess) {
+            final data = await DataManager.getUserData();
+            userId = data["user"]["id"];
+            print("User Id is $userId");
+          }
+        },
         builder: (context, state) {
           if (state is GetMyAdsDataSuccess) {
             list = state.date?.data?.items;
@@ -39,7 +48,8 @@ class AdsItems extends StatelessWidget {
                     onTap: () {
                       Navigator.pushNamed(context, Routes.ItemDetailsScreen,
                           arguments: ItemDetailsToggle(
-                              id: list![index].id!, isMYAd: true));
+                              id: list![index].id!,
+                              isMYAd: (list![index].id!) == userId));
                     },
                     child: AdsItem(item: list![index]));
               },
@@ -247,7 +257,7 @@ class AdsItem extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     CustomText(
-                      "${item!.currency}\t${item!.amount}",
+                      "${item!.currency}\t${item!.stringAmount}",
                       style: const TextStyle(
                           fontWeight: FontWeight.w800, fontSize: 12),
                     ),

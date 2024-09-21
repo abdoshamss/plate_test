@@ -28,7 +28,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController phone = TextEditingController(text: "0512341234");
-  TextEditingController password = TextEditingController(text: "123456");
+  TextEditingController password = TextEditingController(text: "12345678");
   late final AuthRequest _authRequest;
   final List<String> names = ["Google", "Apple"];
   final List<String> icons = ["google", "apple"];

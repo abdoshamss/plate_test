@@ -83,7 +83,7 @@ class _FingerPrintScreenState extends State<FingerPrintScreen> {
                       buttonColor: Colors.white,
                       fontSize: 16,
                       fontweight: FontWeight.w700,
-                      textColor: Colors.white,
+                      textColor: Colors.black,
                     ),
                     12.ph,
                     ButtonWidget(

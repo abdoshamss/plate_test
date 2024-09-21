@@ -71,6 +71,7 @@ dependencies:
   sign_in_with_apple: ^6.1.1
   google_sign_in: ^6.2.1
   local_auth: ^2.2.0
+  flutter_widget_from_html: ^0.15.1
   pusher_client:
     git:
       url: https://github.com/eng-sayed/pusher_client.git

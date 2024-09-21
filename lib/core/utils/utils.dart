@@ -53,14 +53,14 @@ class Utils {
 
   static saveUserInHive(Map<String, dynamic> response) async {
     userModel = UserModel.fromJson(response);
-    token = userModel.token ?? "";
+    token = userModel.token ?? null;
     await Utils.dataManager.saveUser(Map<String, dynamic>.from(response));
   }
 
   static deleteUserData() async {
     userModel = UserModel();
     FCMToken = "";
-    token = "";
+    token = null;
     print("tokennnnnnn");
     print(token);
     await dataManager.deleteUserData();

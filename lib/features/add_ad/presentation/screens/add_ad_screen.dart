@@ -79,6 +79,10 @@ class _AddAdScreenState extends State<AddAdScreen>
               // itemsList.add(state.model?.details?.tax);
               // itemsList.add(state.model?.details?.total);
             }
+            if (state is OrderChargeSuccessState) {
+              Navigator.pushNamed(context, Routes.WebViewPaymentScreen,
+                  arguments: state.chargeLink);
+            }
           },
           builder: (context, state) {
             final cubit = AddAdCubit.get(context);
@@ -688,11 +692,6 @@ class _AddAdScreenState extends State<AddAdScreen>
                                   onTap: () async {
                                     FocusScope.of(context).unfocus();
                                     cubit.orderCharge();
-                                    if (state is OrderChargeSuccessState) {
-                                      Navigator.pushNamed(
-                                          context, Routes.WebViewPaymentScreen,
-                                          arguments: state.chargeLink);
-                                    }
                                   },
                                 ),
                               ),

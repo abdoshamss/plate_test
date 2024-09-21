@@ -256,8 +256,8 @@ class AuthCubit extends Cubit<AuthStates> {
 
     final response = await authRepository.activateRequest(registerRequestModel);
     if (response != null) {
-      emit(ActivateCodeSuccessState());
-      // emit(ActivateCodeSuccessState(UserModel.fromJson(response)));
+      // emit(ActivateCodeSuccessState());
+      emit(ActivateCodeSuccessState(response));
       return true;
     } else {
       emit(ActivateCodeErrorState());

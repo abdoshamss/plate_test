@@ -35,10 +35,12 @@ class SplashCubit extends Cubit<SplashStates> {
     print("cancheck\t$res");
     bool isbiometricAuth = await Utils.dataManager.getbiometric() ?? false;
     print("fffff\t$isbiometricAuth");
-    await DataManager.getUserData();
+    var user = await DataManager.getUserData();
+    String? token = user?['access_token'];
 
     /// show the user the biometric screen if the user has enabled biometric authentication
-    if (Utils.token != "") {
+    // if (Utils.token != null) {
+    if (token != null) {
       if (isbiometricAuth) {
         try {
           print(0);

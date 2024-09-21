@@ -30,48 +30,46 @@ class _ChatScreenState extends State<ChatScreen> {
         builder: (context, state) {
           final cubit = ChatCubit.get(context);
           return Scaffold(
-            body: SafeArea(
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    alignment: Alignment.bottomLeft,
-                    width: MediaQuery.of(context).size.width,
-                    height: 70,
-                    decoration: BoxDecoration(
-                        gradient:
-                            LinearGradient(colors: LightThemeColors.gradient)),
-                    child: const CustomText(
-                      "Message",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                      ),
+            body: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  alignment: Alignment.bottomLeft,
+                  width: MediaQuery.of(context).size.width,
+                  height: 100,
+                  decoration: BoxDecoration(
+                      gradient:
+                          LinearGradient(colors: LightThemeColors.gradient)),
+                  child: const CustomText(
+                    "Message",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18,
                     ),
                   ),
-                  if (state is GetChatRoomsSuccess)
-                    Expanded(
-                      child: ListView.separated(
-                        itemBuilder: (context, index) => GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.ChatDetailsScreen,
-                              arguments:
-                                  int.parse(state.chats![index].id.toString()),
-                            );
-                          },
-                          child: ChatItem(
-                            chat: state.chats?[index],
-                          ),
+                ),
+                if (state is GetChatRoomsSuccess)
+                  Expanded(
+                    child: ListView.separated(
+                      itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            Routes.ChatDetailsScreen,
+                            arguments:
+                                int.parse(state.chats![index].id.toString()),
+                          );
+                        },
+                        child: ChatItem(
+                          chat: state.chats?[index],
                         ),
-                        separatorBuilder: (context, index) => const Divider(),
-                        itemCount: state.chats?.length ?? 0,
                       ),
-                    )
-                ],
-              ),
+                      separatorBuilder: (context, index) => const Divider(),
+                      itemCount: state.chats?.length ?? 0,
+                    ),
+                  )
+              ],
             ),
           );
         },

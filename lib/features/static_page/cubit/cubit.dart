@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/data_source/dio_helper.dart';
 import '../../../core/utils/Locator.dart';
 import '../domain/repository/repository.dart';
-import '../domain/request/static_page_request.dart';
 import 'states.dart';
 
 class StaticPageCubit extends Cubit<StaticPageStates> {
@@ -14,29 +13,46 @@ class StaticPageCubit extends Cubit<StaticPageStates> {
   StaticPageRepository staticPageRepository =
       StaticPageRepository(locator<DioService>());
 
-  //contact us
-  contactUs({required ContactUsRequest contactUsRequest}) async {
-    final response = await staticPageRepository.contactUs(
-        contactUsRequest: contactUsRequest);
-    if (response != null) {
-      emit(ContactUsSendSuccess(
-        message: response["message"],
-      ));
-    } else {}
+  getaboutPage() async {
+    emit(StaticpagesAboutLoading());
+    final resposn = await staticPageRepository.getAbout();
+    if (resposn != null) {
+      emit(
+        StaticpagesAboutLoaded(
+          content: resposn["content"],
+          // StaticPageModel.fromMap(resposn),
+        ),
+      );
+    } else {
+      emit(StaticpagesAboutFailed());
+    }
   }
 
-  // about us
-  aboutUs() async {
-    final response = await staticPageRepository.aboutUs();
-    if (response != null) {
-      return response;
-    } else {}
+  getPolicyPage() async {
+    emit(StaticpagesPolicyLoading());
+    final resposn = await staticPageRepository.getPolicy();
+    if (resposn != null) {
+      emit(
+        StaticpagesPolicyLoaded(
+            // StaticPageModel.fromMap(resposn),
+            ),
+      );
+    } else {
+      emit(StaticpagesPolicyFailed());
+    }
   }
 
-  @override
-  void emit(StaticPageStates state) {
-    if (isClosed) return;
-
-    super.emit(state);
+  getFaqs() async {
+    emit(FaqsLoading());
+    final resposn = await staticPageRepository.getFaqs();
+    if (resposn != null) {
+      emit(
+        FaqLaodedState(
+            // Questions.fromMap(resposn),
+            ),
+      );
+    } else {
+      emit(FaqsFailed());
+    }
   }
 }

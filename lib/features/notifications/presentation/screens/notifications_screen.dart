@@ -72,7 +72,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     builderDelegate:
                         PagedChildBuilderDelegate<NotificationModel>(
                       noItemsFoundIndicatorBuilder: (context) {
-                        return const EmPtyWidget();
+                        return const EmptyWidget();
                       },
                       itemBuilder: (context, item, index) {
                         return NotificationItems(
@@ -108,8 +108,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 }
 
-class EmPtyWidget extends StatelessWidget {
-  const EmPtyWidget({
+class EmptyWidget extends StatelessWidget {
+  const EmptyWidget({
     super.key,
     this.function,
   });
@@ -123,7 +123,7 @@ class EmPtyWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const CustomText(
-            "no_notifications",
+            "No Notifications",
             fontSize: 18,
             color: LightThemeColors.primary,
           ),

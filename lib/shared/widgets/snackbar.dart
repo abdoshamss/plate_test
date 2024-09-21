@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import '../../core/extensions/all_extensions.dart';
 
+import '../../core/extensions/all_extensions.dart';
 import '../../core/services/alerts.dart';
 
 class SnackDesgin extends StatelessWidget {
@@ -20,6 +20,7 @@ class SnackDesgin extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
+        // mainAxisSize: MainAxisSize.min,
         children: [
           state == SnackState.success
               ? Lottie.asset(
