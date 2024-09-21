@@ -65,7 +65,7 @@ class StaticPageRepository {
             // loading: true,
             );
     if (response.isError == false) {
-      return response.response?.data["data"];
+      return response.response?.data;
     } else {
       return null;
     }

@@ -35,7 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   ];
   final List<String> typesNames = [
     "Account information",
-    "Payment method",
+    "Wallet",
     // "Link Account",
     "Language",
     "Push notifications",
@@ -117,8 +117,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 Navigator.pushNamed(
                                     context, Routes.AccountInformationScreen);
                               } else if (index == 2) {
-                                // Navigator.pushNamed(
-                                //     context, Routes.PaymentMethodScreen);
+                                Navigator.pushNamed(
+                                    context, Routes.WalletScreen);
                               } else if (index == 4) {
                                 Navigator.pushNamed(context, Routes.LangScreen);
                               } else if (index == 5) {

@@ -23,6 +23,7 @@ import '../../features/settings/presentation/screens/account_information.dart';
 import '../../features/settings/presentation/screens/change_password.dart';
 import '../../features/settings/presentation/screens/lang.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
+import '../../features/settings/presentation/screens/wallet.dart';
 import '../../features/splash/presentation/screens/splash/splash.dart';
 import '../../features/static_page/presentation/about_us.dart';
 import '../../features/static_page/presentation/contact_us.dart';
@@ -55,6 +56,7 @@ class Routes {
   static const String AboutUsScreen = "AboutUsScreen";
   static const String PolicyScreen = "PolicyScreen";
   static const String ContactUs = "ContactUs";
+  static const String WalletScreen = "WalletScreen";
 }
 
 class RouteGenerator {
@@ -241,6 +243,12 @@ class RouteGenerator {
             settings: routeSettings,
             builder: (_) {
               return const ContactUs();
+            });
+      case Routes.WalletScreen:
+        return CupertinoPageRoute(
+            settings: routeSettings,
+            builder: (_) {
+              return const WalletScreen();
             });
       default:
         return unDefinedRoute();

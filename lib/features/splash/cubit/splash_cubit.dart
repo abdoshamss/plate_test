@@ -61,7 +61,7 @@ class SplashCubit extends Cubit<SplashStates> {
           } else {
             print(2);
             return Routes.LoginScreen;
-            await Utils.deleteUserData();
+            // await Utils.deleteUserData();
           }
         } catch (e) {
           print("exc$e");

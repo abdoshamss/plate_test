@@ -115,7 +115,7 @@ class _ContactUsState extends State<ContactUs> {
                       ),
                       16.ph,
                       TextFormFieldWidget(
-                        controller: email,
+                        controller: message,
                         backgroundColor: context.primaryColor.withOpacity(.04),
                         contentPadding: const EdgeInsetsDirectional.symmetric(
                             vertical: 20, horizontal: 10),

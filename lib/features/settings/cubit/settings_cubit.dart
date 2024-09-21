@@ -27,4 +27,26 @@ class SettingsCubit extends Cubit<SettingsStates> {
       return null;
     }
   }
+
+  getWalletData() async {
+    emit(GetWalletDataLoading());
+    final response = await settingsRepository.notificationToggleRepo();
+    if (response != null) {
+      emit(GetWalletDataSuccess(balance: response["balance"]));
+      // Alerts.snack(text: response, state: SnackState.success);
+      return true;
+    } else {
+      emit(GetWalletDataError());
+      // Alerts.snack(text: response ?? "failed", state: SnackState.failed);
+      return null;
+    }
+  }
+
+  Future<String?>? chargeWallet(String? amount) async {
+    final res = await settingsRepository.chargeWallet(amount);
+    if (res != null) {
+      return res["charge_link"] as String;
+    }
+    return null;
+  }
 }

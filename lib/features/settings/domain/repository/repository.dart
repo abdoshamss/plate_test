@@ -19,4 +19,20 @@ class SettingsRepository {
       return null;
     }
   }
+
+  chargeWallet(String? amount) async {
+    final ApiResponse respons = await dioService.postData(
+      url: "/charge",
+      loading: true,
+      isForm: true,
+      body: {
+        "amount": amount,
+      },
+    );
+    if (respons.isError == false) {
+      return respons.response?.data["data"];
+    } else {
+      return null;
+    }
+  }
 }

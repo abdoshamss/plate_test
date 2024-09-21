@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plate_test/core/services/alerts.dart';
 import 'package:plate_test/features/auth/domain/request/auth_request.dart';
 
 import '../../../core/data_source/dio_helper.dart';
@@ -48,12 +49,14 @@ class StaticPageCubit extends Cubit<StaticPageStates> {
     final resposn =
         await staticPageRepository.postContactus(authRequest: authRequest);
     if (resposn != null) {
+      Alerts.snack(text: resposn["message"], state: SnackState.success);
       emit(
-        FaqLaodedState(
-            // Questions.fromMap(resposn),
-            ),
+        FaqLaodedState(),
       );
     } else {
+      Alerts.snack(
+          text: resposn["message"] ?? "failed", state: SnackState.failed);
+
       emit(FaqsFailed());
     }
   }
