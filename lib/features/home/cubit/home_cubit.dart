@@ -13,9 +13,10 @@ class HomeCubit extends Cubit<HomeStates> {
 
   HomeRepository homeRepository = HomeRepository(locator<DioService>());
 
-  getHomeData() async {
+  getHomeData({String? keyWord, int? budgetId}) async {
     emit(GetHomeDataLoading());
-    final response = await homeRepository.homeRequest();
+    final response =
+        await homeRepository.homeRequest(keyWord: keyWord, budgetId: budgetId);
     if (response != null) {
       emit(GetHomeDataSuccess(HomeModel.fromJson(response)));
       return true;

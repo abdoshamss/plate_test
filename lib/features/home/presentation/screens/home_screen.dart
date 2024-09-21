@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<String> iconsSearchItem = ["fire", "sms"];
   int sliderIndex = 0;
 
-// Timer? timer;
+  Timer? timer;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -81,7 +84,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           TextFormFieldWidget(
                             onChanged: (value) {
-                              // cubit.search(value);
+                              if (timer?.isActive == true) {
+                                timer?.cancel();
+                              }
+                              timer = Timer(const Duration(seconds: 1), () {
+                                cubit.getHomeData(keyWord: value);
+                              });
+                              // cubit.getHomeData(keyWord: value);
                             },
                             // onSaved: (value) => _authRequest.phone = value,
                             backgroundColor: const Color(0xff5237C0),
@@ -240,8 +249,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                       const SizedBox(
                                     width: 8,
                                   ),
-                                  itemBuilder: (context, index) => SearchItem(
-                                    budget: state.data.budgets![index],
+                                  itemBuilder: (context, index) =>
+                                      GestureDetector(
+                                    onTap: () {
+                                      cubit.getHomeData(
+                                          budgetId:
+                                              state.data.budgets![index].id,
+                                          keyWord: search.text);
+                                    },
+                                    child: SearchItem(
+                                      budget: state.data.budgets![index],
+                                    ),
                                   ),
                                   itemCount: state.data.budgets!.length,
                                 ),
@@ -284,6 +302,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   subTitle: 'View all',
                                 ),
                               ),
+                            if (state.data.newItems!.isEmpty) 24.ph,
+                            if (state.data.newItems!.isEmpty)
+                              const Center(child: Text("No Items Found")),
+
+                            if (state.data.newItems!.isEmpty) 108.ph,
+
                             if (state.data.newItems!.isNotEmpty)
                               ListView.separated(
                                 physics: const NeverScrollableScrollPhysics(),

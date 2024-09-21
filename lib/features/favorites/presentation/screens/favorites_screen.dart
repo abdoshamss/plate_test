@@ -51,6 +51,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   ),
                 ),
                 if (state is GetFavoritesDataSuccessState &&
+                    state.data!.data!.item!.isEmpty)
+                  Center(child: Text("No Favorite Ads")),
+                if (state is GetFavoritesDataSuccessState &&
                     state.data!.data!.item!.isNotEmpty)
                   Expanded(
                     child: ListView.separated(

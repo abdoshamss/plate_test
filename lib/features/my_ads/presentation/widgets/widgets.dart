@@ -39,21 +39,26 @@ class AdsItems extends StatelessWidget {
           if (state is GetMyAdsDataSuccess) {
             list = state.date?.data?.items;
 
-            return ListView.separated(
-              itemCount: list!.length,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              separatorBuilder: (context, index) => 8.ph,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.ItemDetailsScreen,
-                          arguments: ItemDetailsToggle(
-                              id: list![index].id!,
-                              isMYAd: (list![index].id!) == userId));
+            return list!.isEmpty
+                ? const Center(
+                    child: Text("No Ads"),
+                  )
+                : ListView.separated(
+                    itemCount: list!.length,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    separatorBuilder: (context, index) => 8.ph,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, Routes.ItemDetailsScreen,
+                                arguments: ItemDetailsToggle(
+                                    id: list![index].id!,
+                                    isMYAd: (list![index].id!) == userId));
+                          },
+                          child: AdsItem(item: list![index]));
                     },
-                    child: AdsItem(item: list![index]));
-              },
-            );
+                  );
           } else {
             return const SizedBox.shrink();
           }

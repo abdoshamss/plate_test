@@ -53,7 +53,7 @@ class Utils {
 
   static saveUserInHive(Map<String, dynamic> response) async {
     userModel = UserModel.fromJson(response);
-    token = userModel.token ?? null;
+    token = userModel.token;
     await Utils.dataManager.saveUser(Map<String, dynamic>.from(response));
   }
 

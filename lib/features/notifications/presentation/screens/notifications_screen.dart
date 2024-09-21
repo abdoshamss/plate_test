@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:plate_test/core/utils/extentions.dart';
 import 'package:plate_test/features/notifications/presentation/widgets/widgets.dart';
 
 import '../../../../core/theme/light_theme.dart';
@@ -118,16 +117,15 @@ class EmptyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const CustomText(
+          CustomText(
             "No Notifications",
             fontSize: 18,
             color: LightThemeColors.primary,
           ),
-          24.ph,
         ],
       ),
     );

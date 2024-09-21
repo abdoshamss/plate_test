@@ -49,6 +49,19 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                 ),
+                if (state is GetChatRoomsSuccess && state.chats!.isEmpty)
+                  const Expanded(
+                    child: Center(
+                      child: CustomText(
+                        "No Chats",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
                 if (state is GetChatRoomsSuccess)
                   Expanded(
                     child: ListView.separated(

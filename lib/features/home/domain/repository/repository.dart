@@ -9,9 +9,13 @@ class HomeRepository {
 
   HomeRepository(this.dioService);
 
-  homeRequest() async {
-    final response =
-        await dioService.getData(url: HomeEndpoints.homeData, loading: true);
+  homeRequest({String? keyWord, int? budgetId}) async {
+    final response = await dioService
+        .getData(url: HomeEndpoints.homeData, loading: true, query: {
+      'keyword': keyWord,
+      "budget_id": budgetId,
+      "price_type": "",
+    });
     if (response.isError == false) {
       return response.response?.data['data'];
     } else {

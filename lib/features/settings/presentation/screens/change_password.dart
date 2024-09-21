@@ -88,7 +88,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     hintText: 'Password',
                     password: true,
                     // validator: (v) => Utils.valid.passwordValidation(v),
-                    validator: (v) => Utils.valid.defaultValidation(v),
+                    validator: (v) => Utils.valid.passwordValidation(v),
                     borderRadius: 16,
                   ),
                   24.ph,
@@ -109,7 +109,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     hintText: 'Confirm Password',
                     password: true,
                     controller: newPassword,
-                    validator: (v) => Utils.valid.defaultValidation(v),
+                    validator: (v) => Utils.valid.passwordValidation(v),
                     borderRadius: 33,
                     onSaved: (value) =>
                         _authRequest.password_confirmation = value,
