@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plate_test/features/auth/domain/request/auth_request.dart';
 
 import '../../../core/data_source/dio_helper.dart';
 import '../../../core/utils/Locator.dart';
@@ -34,17 +35,18 @@ class StaticPageCubit extends Cubit<StaticPageStates> {
     if (resposn != null) {
       emit(
         StaticpagesPolicyLoaded(
-            // StaticPageModel.fromMap(resposn),
-            ),
+          content: resposn["content"],
+        ),
       );
     } else {
       emit(StaticpagesPolicyFailed());
     }
   }
 
-  getFaqs() async {
+  postFaqs({AuthRequest? authRequest}) async {
     emit(FaqsLoading());
-    final resposn = await staticPageRepository.getFaqs();
+    final resposn =
+        await staticPageRepository.postContactus(authRequest: authRequest);
     if (resposn != null) {
       emit(
         FaqLaodedState(

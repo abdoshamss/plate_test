@@ -165,6 +165,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     } else if (index == 5) {
                                       Navigator.pushNamed(
                                           context, Routes.AboutUsScreen);
+                                    } else if (index == 6) {
+                                      Navigator.pushNamed(
+                                          context, Routes.ContactUs);
+                                    } else if (index == 7) {
+                                      Navigator.pushNamed(
+                                          context, Routes.PolicyScreen);
                                     } else if (index == 8) {
                                       await cubit.logOut(Utils.uuid);
                                     } else if (index == 9) {

@@ -18,6 +18,7 @@ class AuthRequest {
   String? password_confirmation;
   int? areaID;
   String? image;
+  String? message;
 
   String? social_id;
 
@@ -35,6 +36,7 @@ class AuthRequest {
     this.password_confirmation,
     this.areaID,
     this.image,
+    this.message,
   });
 
   Map<String, dynamic> register() {

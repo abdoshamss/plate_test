@@ -1,11 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plate_test/core/extensions/all_extensions.dart';
+import 'package:plate_test/core/theme/light_theme.dart';
+import 'package:plate_test/core/utils/extentions.dart';
+import 'package:plate_test/features/auth/domain/request/auth_request.dart';
+import 'package:plate_test/features/static_page/cubit/cubit.dart';
+import 'package:plate_test/features/static_page/cubit/states.dart';
 
-import '../../../core/services/alerts.dart';
-import '../cubit/cubit.dart';
-import '../cubit/states.dart';
-import '../domain/request/static_page_request.dart';
+import '../../../core/utils/Utils.dart';
+import '../../../shared/widgets/button_widget.dart';
+import '../../../shared/widgets/customtext.dart';
+import '../../../shared/widgets/edit_text_widget.dart';
+import '../../../shared/widgets/loadinganderror.dart';
 
 class ContactUs extends StatefulWidget {
   const ContactUs({super.key});
@@ -15,138 +22,156 @@ class ContactUs extends StatefulWidget {
 }
 
 class _ContactUsState extends State<ContactUs> {
-  ContactUsRequest contactUsRequest = ContactUsRequest();
-  final TextEditingController imageController = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final AuthRequest _authRequest = AuthRequest();
+  TextEditingController phone = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController message = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => StaticPageCubit(),
       child: BlocConsumer<StaticPageCubit, StaticPageStates>(
-          listener: (context, state) {
-        if (state is ContactUsSendSuccess) {
-          Alerts.snack(text: state.message, state: SnackState.success).then(
-            (value) => Navigator.pop(context),
-          );
-        }
-      }, builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            title: Text(
-              "contuctUs".tr(),
-            ),
-          ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Form(
-                key: formKey,
-                child: const Column(
-                  children: <Widget>[
-                    CircleAvatar(
-                      radius: 50,
-                      // backgroundColor: AppColors.primary,
-                      child: Icon(
-                        Icons.email,
-                        size: 50,
+        listener: (context, state) {
+          if (state is FaqLaodedState) {
+            phone.clear();
+            name.clear();
+            email.clear();
+            message.clear();
+          }
+        },
+        builder: (context, state) {
+          return LoadingAndError(
+              isError: state is StaticpagesPolicyFailed,
+              isLoading: state is StaticpagesPolicyLoading,
+              child: Scaffold(
+                appBar: AppBar(
+                  leading: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back,
                         color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    // DefaultTextField(
-                    //   showLabel: true,
-                    //   flex: 1,
-                    //   label: "name".tr(),
-                    //   onChange: (s) {
-                    //     contactUsRequest.name = s;
-                    //     return null;
-                    //   },
-                    //   validate: Utils.valid.defaultValidation,
-                    // ),
-                    // const SizedBox(
-                    //   height: 15,
-                    // ),
-                    // DefaultTextField(
-                    //   showLabel: true,
-                    //   flex: 1,
-                    //   label: "emailHint".tr(),
-                    //   onChange: (s) {
-                    //     contactUsRequest.email = s;
-                    //     return null;
-                    //   },
-                    //   validate: Utils.valid.emailValidation,
-                    // ),
-                    // const SizedBox(
-                    //   height: 15,
-                    // ),
-                    // DefaultTextField(
-                    //   showLabel: true,
-                    //   flex: 1,
-                    //   label: "phone".tr(),
-                    //   inputFormatter: [
-                    //     FilteringTextInputFormatter.digitsOnly,
-                    //   ],
-                    //   type: TextInputType.phone,
-                    //   validate: (s) => Utils.valid.phoneValidation(s),
-                    //   onChange: (s) {
-                    //     contactUsRequest.phone = s;
-                    //     return null;
-                    //   },
-                    // ),
-                    // DefaultDropDown(
-                    //   items: ["1", "2", "3"],
-                    //   lable: "سبب الرساله",
-                    //   onChanged: (s) {
-                    //     contactUsRequest.reason = s;
-                    //   },
-                    //   validate: Validation.defaultValidation,
-                    // ),
-                    SizedBox(
-                      height: 15,
-                    ),
-
-                    // DefaultTextField(
-                    //   contentPadding: const EdgeInsets.symmetric(
-                    //       horizontal: 10, vertical: 10),
-                    //   showLabel: true,
-                    //   flex: 1,
-                    //   label: "message".tr(),
-                    //   maxlines: 5,
-                    //   onChange: (s) {
-                    //     contactUsRequest.message = s;
-                    //     return null;
-                    //   },
-                    //   validate: Utils.valid.defaultValidation,
-                    // ),
-                    // const SizedBox(
-                    //   height: 10,
-                    // ),
-                    // DefaultButton(
-                    //   text: "send".tr(),
-                    //   onTap: () {
-                    //     if (formKey.currentState!.validate()) {
-                    //       formKey.currentState!.save();
-                    //       BlocProvider.of<StaticPageCubit>(context)
-                    //           .contactUs(contactUsRequest: contactUsRequest);
-                    //       print(contactUsRequest.toJson());
-                    //     }
-                    //   },
-                    // ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                  ],
+                      )),
+                  backgroundColor: LightThemeColors.primary,
+                  elevation: 0,
+                  title: CustomText(
+                    "ContactUs".tr(),
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-            ),
-          ),
-        );
-      }),
+                body: Form(
+                  key: formKey,
+                  child: ListView(
+                    padding: const EdgeInsets.all(24),
+                    children: [
+                      32.ph,
+                      TextFormFieldWidget(
+                        controller: name,
+                        backgroundColor: context.primaryColor.withOpacity(.04),
+                        contentPadding: const EdgeInsetsDirectional.symmetric(
+                            vertical: 20, horizontal: 10),
+                        type: TextInputType.name,
+                        hintText: 'Name',
+                        password: false,
+                        onSaved: (e) {
+                          _authRequest.name = e;
+                        },
+                        validator: (v) => Utils.valid.defaultValidation(v),
+                        borderRadius: 16,
+                      ),
+                      16.ph,
+                      TextFormFieldWidget(
+                        onSaved: (value) => _authRequest.phone = value,
+                        backgroundColor: const Color(0xffF8FAFC),
+                        type: TextInputType.phone,
+                        contentPadding: const EdgeInsetsDirectional.symmetric(
+                            vertical: 20, horizontal: 10),
+                        hintText: 'Phone Number',
+                        hintColor: const Color(0xff94A3B8),
+                        validator: (v) => Utils.valid.defaultValidation(v),
+                        controller: phone,
+                      ),
+                      16.ph,
+                      TextFormFieldWidget(
+                        controller: email,
+                        backgroundColor: context.primaryColor.withOpacity(.04),
+                        contentPadding: const EdgeInsetsDirectional.symmetric(
+                            vertical: 20, horizontal: 10),
+                        type: TextInputType.emailAddress,
+                        hintText: 'Email',
+                        password: false,
+                        onSaved: (e) {
+                          _authRequest.email = e;
+                        },
+                        validator: (v) => Utils.valid.emailValidation(v),
+                        borderRadius: 16,
+                      ),
+                      16.ph,
+                      TextFormFieldWidget(
+                        controller: email,
+                        backgroundColor: context.primaryColor.withOpacity(.04),
+                        contentPadding: const EdgeInsetsDirectional.symmetric(
+                            vertical: 20, horizontal: 10),
+                        type: TextInputType.emailAddress,
+                        hintText: 'Message',
+                        password: false,
+                        onSaved: (e) {
+                          _authRequest.message = e;
+                        },
+                        maxLines: 9,
+                        minLines: 9,
+                        validator: (v) => Utils.valid.defaultValidation(v),
+                        borderRadius: 16,
+                      ),
+                      64.ph,
+                      ButtonWidget(
+                        title: 'Sign in',
+                        withBorder: true,
+
+                        gradient: const LinearGradient(
+                          colors: LightThemeColors.gradientPrimary,
+                        ),
+                        textColor: Colors.white,
+                        borderColor: context.primaryColor,
+                        width: double.infinity,
+                        fontSize: 18,
+                        fontweight: FontWeight.bold,
+                        // padding: const EdgeInsets.symmetric(horizontal: 15),
+                        onTap: () async {
+                          FocusScope.of(context).unfocus();
+                          if (formKey.currentState!.validate()) {
+                            formKey.currentState!.save();
+                            StaticPageCubit.get(context)
+                                .postFaqs(authRequest: _authRequest);
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                // body: FutureBuilder(
+                //     future: StaticPagesRepo.aboutUs(context),
+                //     builder: (context, snapshot) {
+                //       return snapshot.connectionState == ConnectionState.waiting
+                //           ? Center(
+                //               child: MyLoading.loadingWidget(),
+                //             )
+                //           : Padding(
+                //               padding: const EdgeInsets.symmetric(
+                //                   horizontal: 16, vertical: 10),
+                //               child: HtmlWidget(snapshot.data.toString()),
+                //             );
+                //     }),
+              ));
+        },
+      ),
     );
   }
 }

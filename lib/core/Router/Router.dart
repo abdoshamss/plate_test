@@ -4,6 +4,7 @@ import 'package:plate_test/core/services/map.dart';
 import 'package:plate_test/features/auth/presentation/screens/fingerPrint_screen.dart';
 import 'package:plate_test/features/chat/presentation/screens/chat_details_screen.dart';
 import 'package:plate_test/features/layout/presentation/screens/layout_screen.dart';
+import 'package:plate_test/features/static_page/presentation/policy.dart';
 import 'package:plate_test/shared/widgets/webview_payment.dart';
 
 import '../../features/add_ad/presentation/screens/add_ad_screen.dart';
@@ -24,6 +25,7 @@ import '../../features/settings/presentation/screens/lang.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../../features/splash/presentation/screens/splash/splash.dart';
 import '../../features/static_page/presentation/about_us.dart';
+import '../../features/static_page/presentation/contact_us.dart';
 import '../../features/verify_user/presentation/screens/verify_user_screen.dart';
 
 class Routes {
@@ -51,6 +53,8 @@ class Routes {
   static const String ChangePasswordScreen = "ChangePasswordScreen";
   static const String LangScreen = "LangScreen";
   static const String AboutUsScreen = "AboutUsScreen";
+  static const String PolicyScreen = "PolicyScreen";
+  static const String ContactUs = "ContactUs";
 }
 
 class RouteGenerator {
@@ -225,6 +229,18 @@ class RouteGenerator {
             settings: routeSettings,
             builder: (_) {
               return const AboutUS();
+            });
+      case Routes.PolicyScreen:
+        return CupertinoPageRoute(
+            settings: routeSettings,
+            builder: (_) {
+              return const PolicyScreen();
+            });
+      case Routes.ContactUs:
+        return CupertinoPageRoute(
+            settings: routeSettings,
+            builder: (_) {
+              return const ContactUs();
             });
       default:
         return unDefinedRoute();

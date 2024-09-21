@@ -26,9 +26,9 @@ final class StaticpagesPolicyFailed extends StaticPageStates {}
 final class StaticpagesPolicyLoading extends StaticPageStates {}
 
 final class StaticpagesPolicyLoaded extends StaticPageStates {
-  // final StaticPageModel page;
-  //
-  // StaticpagesPolicyLoaded(this.page);
+  String? content;
+
+  StaticpagesPolicyLoaded({this.content});
 }
 
 final class FaqLaodedState extends StaticPageStates {
